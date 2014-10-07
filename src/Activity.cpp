@@ -114,7 +114,7 @@ namespace audrey
             {
                 float frameTime = window->getFrameTime();
 
-                // TODO: Render
+                game.render();
 
                 window->swapBuffers();
             }

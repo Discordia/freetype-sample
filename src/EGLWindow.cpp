@@ -1,6 +1,7 @@
 // -*- C++ -*-
 #include <EGLWindow.h>
 #include <Log.h>
+#include <OpenGL.h>
 
 #include <android_native_app_glue.h>
 #include <unistd.h>

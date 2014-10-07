@@ -16,7 +16,14 @@ if(ANDROID)
   include_directories($ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue)
 endif()
 
-set(SOURCE_FILES src/Main.cpp src/Dimension.h src/Time.h src/Log.h )
+set(SOURCE_FILES
+    src/Main.cpp
+    src/Game.cpp
+    src/OpenGL.h
+    src/Game.h
+    src/Dimension.h
+    src/Time.h
+    src/Log.h)
 
 if(ANDROID)
   list(APPEND SOURCE_FILES

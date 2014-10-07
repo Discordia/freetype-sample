@@ -10,13 +10,12 @@
 
 #include <EGLWindow.h>
 #include <Dimension.h>
+#include <Game.h>
 
 using std::unique_ptr;
 
 struct android_app;
 struct AInputEvent;
-
-class AndroidInputListener;
 
 class Game;
 
@@ -50,8 +49,11 @@ private:
     android_app *app;
 
     //!
+    Dimension viewportSize;
+
+    //!
     unique_ptr<EGLWindow> window;
 
     //!
-    Dimension viewportSize;
+    Game game;
 };

@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <Dimension.h>
+#include <Game.h>
 
 using std::string;
 using std::unique_ptr;
@@ -34,4 +35,7 @@ private:
 
     //!
     unique_ptr<GLWindow> window;
+
+    //!
+    Game game;
 };

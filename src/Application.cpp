@@ -23,7 +23,7 @@ int Application::run()
 
         window->processEvents();
 
-        // TODO: render
+        game.render();
 
         window->swapBuffers();
     }

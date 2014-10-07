@@ -2,7 +2,6 @@
 #pragma once
 
 #include <EGL/egl.h>
-#include <GLES/gl.h>
 
 #include <Time.h>
 #include <Dimension.h>
