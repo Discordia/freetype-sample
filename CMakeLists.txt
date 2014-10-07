@@ -16,7 +16,7 @@ if(ANDROID)
   include_directories($ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue)
 endif()
 
-set(SOURCE_FILES src/Main.cpp)
+set(SOURCE_FILES src/Main.cpp src/Log.h src/Time.h)
 
 # if defined $desktop
 if(ANDROID)

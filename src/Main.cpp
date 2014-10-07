@@ -6,8 +6,6 @@ void android_main(android_app* app)
     app_dummy();
 
     const Dimension viewportSize(480, 320);
-
-    
 }
 
 #else
