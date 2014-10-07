@@ -16,13 +16,13 @@ if(ANDROID)
   include_directories($ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue)
 endif()
 
-set(SOURCE_FILES src/Main.cpp src/Log.h src/Time.h)
+set(SOURCE_FILES src/Main.cpp src/Dimension.h src/Time.h src/Log.h )
 
 if(ANDROID)
   list(APPEND SOURCE_FILES
-    "src/EGLWindow.cpp"
-    "src/Activity.h"
-    "src/ACtivity.cpp"
+    src/EGLWindow.cpp
+    src/Activity.h
+    src/Activity.cpp
     $ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue/android_native_app_glue.c)
 
   add_library(freetype_sample SHARED ${SOURCE_FILES})
@@ -30,7 +30,10 @@ if(ANDROID)
 
   android_create_apk(freetype_sample "org.discordia.prototype.freetype" "${CMAKE_BINARY_DIR}/apk" "${CMAKE_SOURCE_DIR}/libs" "${CMAKE_SOURCE_DIR}/android" "${CMAKE_SOURCE_DIR}/assets")
 else()
-  list(APPEND SOURCE_FILES "src/GLWindow.cpp" "src/Application.cpp" "src/Application.h")
+  list(APPEND SOURCE_FILES
+    src/GLWindow.cpp
+    src/Application.cpp
+    src/Application.h)
 
   # GLFW
   find_package(PkgConfig REQUIRED)
