@@ -1,4 +1,4 @@
-#include "GLWindow.h"
+#include <GLWindow.h>
 
 int main()
 {

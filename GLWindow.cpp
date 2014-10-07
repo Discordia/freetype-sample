@@ -1,6 +1,6 @@
 // -*- C++ -*-
-#include "GLWindow.h"
-#include "Log.h"
+#include <GLWindow.h>
+#include <Log.h>
 
 #include <thread>
 #include <cstdlib>
