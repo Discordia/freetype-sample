@@ -3,6 +3,8 @@
 #include <Log.h>
 #include <OpenGL.h>
 
+#include <thread>
+
 #include <android_native_app_glue.h>
 #include <unistd.h>
 
@@ -150,7 +152,7 @@ void EGLWindow::swapBuffers()
         if (elapsedTime < defaultFrameTime)
         {
             milliseconds remainingFrameTime = defaultFrameTime - elapsedTime;
-            this_thread::sleep_for(remainingFrameTime);
+            std::this_thread::sleep_for(remainingFrameTime);
         }
     }
 
@@ -167,7 +169,7 @@ float EGLWindow::getFrameTime() const
 
 void EGLWindow::setFramerateLimit(const int32_t fpsLimit)
 {
-    this->fpsLimit = fpsLimit;
+    this->frameLimit = fpsLimit;
 }
 
 Dimension EGLWindow::getSize()

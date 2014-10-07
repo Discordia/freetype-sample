@@ -3,7 +3,7 @@
 struct Dimension
 {
     Dimension(int w, int h)
-            : width(width), height(h)
+            : width(w), height(h)
     {
     }
 
