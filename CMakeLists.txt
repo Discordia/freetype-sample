@@ -9,22 +9,22 @@ endif()
 set(CMAKE_CXX_FLAGS
   "-std=c++11 -ffor-scope -fno-exceptions -pipe -ffunction-sections -fdata-sections -ffast-math -pedantic -Werror -Wnon-virtual-dtor -Wsign-promo -fvisibility=hidden -fvisibility-inlines-hidden -Wstrict-null-sentinel -Os -funroll-all-loops -fpeel-loops -ftree-vectorize")
 
-include_directories(.)
+include_directories(src)
 
 # for android include native_app_glue
 if(ANDROID)
   include_directories($ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue)
 endif()
 
-set(SOURCE_FILES Main.cpp)
+set(SOURCE_FILES src/Main.cpp)
 
 # if defined $desktop
 if(ANDROID)
   list(APPEND SOURCE_FILES
-    "EGLWindow.cpp"
+    "src/EGLWindow.cpp"
     $ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue/android_native_app_glue.c)
 else()
-  list(APPEND SOURCE_FILES "GLWindow.cpp")
+  list(APPEND SOURCE_FILES "src/GLWindow.cpp")
 endif()
 
 if(ANDROID)
