@@ -76,11 +76,6 @@ void EGLWindow::init()
 
     LOGD("EGLWindow", "width: %i, height: %i", scrWidth, scrHeight);
 
-    // Hints
-    glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST);
-
-    // Shading and color
-    glShadeModel(GL_FLAT);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     // Enable
@@ -90,16 +85,9 @@ void EGLWindow::init()
     // Disable
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_DITHER);
-    glDisable(GL_LIGHTING);
 
     // Perspective
     glViewport(0, 0, scrWidth, scrHeight);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrthof(0.0f, width, 0.0f, height, 0.0f, 1.0f);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
 }
 
 void EGLWindow::destroy()
