@@ -1,3 +1,23 @@
+#if defined(__ANDROID__)
+#include <EGLWindow.h>
+
+void android_main(android_app* app)
+{
+    app_dummy();
+
+    const Dimension viewportSize(480, 320);
+
+    shared_ptr<SceneSystem> sceneSystem = shared_ptr<SceneSystem>(new SceneSystem());
+    shared_ptr<ControlsFactory> controlsFactory(new DPadControlsFactory(viewportSize));
+
+    shared_ptr<Scene> gameScene = shared_ptr<Scene>(new GameScene(controlsFactory));
+    sceneSystem->addScene(gameScene);
+
+    Activity activity(viewportSize, app, sceneSystem);
+    activity.run();
+}
+
+#else
 #include <GLWindow.h>
 
 int main()
@@ -26,3 +46,5 @@ int main()
 
     return EXIT_SUCCESS;
 }
+
+#endif

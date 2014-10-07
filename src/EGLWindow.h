@@ -7,6 +7,9 @@
 #include <audrey/app/android/Clock.h>
 #include <audrey/math/Dimension.h>
 
+#include <Time.h>
+#include <Dimension.h>
+
 struct android_app;
 
 namespace audrey
@@ -43,7 +46,7 @@ namespace audrey
         //!
         //!
         //!
-        float32 getFrameTime() const;
+        float getFrameTime() const;
 
         //!
         //!
@@ -57,18 +60,28 @@ namespace audrey
 
 
     private:
+
+        // android app
         android_app* app;
+
+        // EGL context
         EGLDisplay display;
         EGLSurface surface;
         EGLContext context;
 
+        // dimensions
         int32_t scrWidth;
         int32_t scrHeight;
         int32_t width;
         int32_t height;
 
+        //!
+        Timer timer;
+
+        //!
+        milliseconds frameTime;
+
+        //
         uint32_t fpsLimit;
-        Clock clock;
-        float32 lastFrameTime;
     };
 }

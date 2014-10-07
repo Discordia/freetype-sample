@@ -4,23 +4,12 @@
 #include <string>
 #include <memory>
 #include <Time.h>
+#include <Dimension.h>
 
 using std::shared_ptr;
 using std::string;
 
 struct GLFWwindow;
-
-struct Dimension
-{
-    Dimension(int w, int h)
-        : width(width), height(h)
-    {
-    }
-
-    int width;
-    int height;
-};
-
 
 class GLWindow
 {

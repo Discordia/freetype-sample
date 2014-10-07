@@ -1,6 +1,6 @@
 // -*- C++ -*-
-#include <audrey/app/android/EGLWindow.h>
-#include <audrey/system/Configure.h>
+#include <EGLWindow.h>
+#include <Log.h>
 
 #include <android_native_app_glue.h>
 #include <unistd.h>
@@ -143,26 +143,27 @@ namespace audrey
     void EGLWindow::swapBuffers()
     {
         // Limit the framerate if needed
-        if (fpsLimit > 0)
+        if (frameLimit > 0)
         {
-            float remainingTime = 1.f / fpsLimit - clock.getElapsedTime();
+            milliseconds defaultFrameTime = milliseconds(1000 / frameLimit);
+            milliseconds elapsedTime = timer.elapsedTimeMs();
 
-            if (remainingTime > 0)
+            if (elapsedTime < defaultFrameTime)
             {
-                usleep(remainingTime * 1000);
+                milliseconds remainingFrameTime = defaultFrameTime - elapsedTime;
+                this_thread::sleep_for(remainingFrameTime);
             }
         }
 
-        // Measure the time elapsed since last frame
-        lastFrameTime = clock.getElapsedTime();
-        clock.reset();
+        frameTime = timer.elapsedTimeMs();
+        timer.reset();
 
         eglSwapBuffers(display, surface);
     }
 
-    float32 EGLWindow::getFrameTime() const
+    float EGLWindow::getFrameTime() const
     {
-        return lastFrameTime;
+        return static_cast<float>(frameTime.count());
     }
 
     void EGLWindow::setFramerateLimit(const int32_t fpsLimit)
