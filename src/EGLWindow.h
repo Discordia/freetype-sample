@@ -4,84 +4,78 @@
 #include <EGL/egl.h>
 #include <GLES/gl.h>
 
-#include <audrey/app/android/Clock.h>
-#include <audrey/math/Dimension.h>
-
 #include <Time.h>
 #include <Dimension.h>
 
 struct android_app;
 
-namespace audrey
+class EGLWindow
 {
-    class EGLWindow
-    {
-    public:
+public:
 
-        //!
-        //!
-        //!
-        EGLWindow(android_app* app, int32_t width, int32_t height);
+    //!
+    //!
+    //!
+    EGLWindow(android_app *app, int32_t width, int32_t height);
 
-        //!
-        //! Returns
-        //!
-        void init();
+    //!
+    //! Returns
+    //!
+    void init();
 
-        //!
-        //!
-        //!
-        void destroy();
+    //!
+    //!
+    //!
+    void destroy();
 
-        //!
-        //!
-        //!
-        bool hasDisplay() const;
+    //!
+    //!
+    //!
+    bool hasDisplay() const;
 
-        //!
-        //!
-        //!
-        void swapBuffers();
+    //!
+    //!
+    //!
+    void swapBuffers();
 
-        //!
-        //!
-        //!
-        float getFrameTime() const;
+    //!
+    //!
+    //!
+    float getFrameTime() const;
 
-        //!
-        //!
-        //!
-        void setFramerateLimit(const int32_t fpsLimit);
+    //!
+    //!
+    //!
+    void setFramerateLimit(const int32_t fpsLimit);
 
-        //!
-        //!
-        //!
-        Dimension getSize();
+    //!
+    //!
+    //!
+    Dimension getSize();
 
 
-    private:
+private:
 
-        // android app
-        android_app* app;
+    // android app
+    android_app *app;
 
-        // EGL context
-        EGLDisplay display;
-        EGLSurface surface;
-        EGLContext context;
+    // EGL context
+    EGLDisplay display;
+    EGLSurface surface;
+    EGLContext context;
 
-        // dimensions
-        int32_t scrWidth;
-        int32_t scrHeight;
-        int32_t width;
-        int32_t height;
+    // dimensions
+    int32_t scrWidth;
+    int32_t scrHeight;
+    int32_t width;
+    int32_t height;
 
-        //!
-        Timer timer;
+    //!
+    Timer timer;
 
-        //!
-        milliseconds frameTime;
+    //!
+    milliseconds frameTime;
 
-        //
-        uint32_t fpsLimit;
-    };
-}
+    //
+    uint32_t frameLimit;
+};

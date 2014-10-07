@@ -21,6 +21,8 @@ set(SOURCE_FILES src/Main.cpp src/Log.h src/Time.h)
 if(ANDROID)
   list(APPEND SOURCE_FILES
     "src/EGLWindow.cpp"
+    "src/Activity.h"
+    "src/ACtivity.cpp"
     $ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue/android_native_app_glue.c)
 
   add_library(freetype_sample SHARED ${SOURCE_FILES})
