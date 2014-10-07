@@ -19,11 +19,12 @@ endif()
 set(SOURCE_FILES
     src/Main.cpp
     src/Game.cpp
+    src/Log.cpp
+    src/Log.h
     src/OpenGL.h
     src/Game.h
     src/Dimension.h
-    src/Time.h
-    src/Log.h)
+    src/Time.h)
 
 if(ANDROID)
   list(APPEND SOURCE_FILES
@@ -33,6 +34,7 @@ if(ANDROID)
     $ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue/android_native_app_glue.c)
 
   add_library(freetype_sample SHARED ${SOURCE_FILES})
+  target_link_libraries(freetype_sample log android EGL GLESv1_CM z)
   set_target_properties(freetype_sample PROPERTIES COMPILE_DEFINITIONS "ANDROID")
 
   android_create_apk(freetype_sample "org.discordia.prototype.freetype" "${CMAKE_BINARY_DIR}/apk" "${CMAKE_SOURCE_DIR}/libs" "${CMAKE_SOURCE_DIR}/android" "${CMAKE_SOURCE_DIR}/assets")
