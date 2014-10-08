@@ -29,6 +29,7 @@ set(SOURCE_FILES
 if(ANDROID)
   list(APPEND SOURCE_FILES
     src/EGLWindow.cpp
+    src/EGLWindow.h
     src/Activity.h
     src/Activity.cpp
     $ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue/android_native_app_glue.c)
@@ -41,6 +42,7 @@ if(ANDROID)
 else()
   list(APPEND SOURCE_FILES
     src/GLWindow.cpp
+    src/GLWindow.h
     src/Application.cpp
     src/Application.h)
 
