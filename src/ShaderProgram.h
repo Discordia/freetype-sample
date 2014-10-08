@@ -32,9 +32,9 @@ public:
         shared_ptr<ShaderProgram> program;
 
         GLuint programId = glCreateProgram();
-        if (programObject > 0)
+        if (programId > 0)
         {
-            program = shared_ptr<ShaderProgram>(new ShaderProgram());
+            program = shared_ptr<ShaderProgram>(new ShaderProgram(programId));
         }
 
         return program;
@@ -45,7 +45,7 @@ public:
     //!
     void attachShader(shared_ptr<ShaderObject> shader)
     {
-        glAttachShader(proId, shader->getShaderId());
+        glAttachShader(programId, shader->getShaderId());
     }
 
     //!
@@ -70,7 +70,7 @@ public:
     //!
     void use()
     {
-        gluseProgram(programId);
+        glUseProgram(programId);
     }
 
 private:

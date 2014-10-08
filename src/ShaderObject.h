@@ -2,8 +2,10 @@
 
 #include <OpenGL.h>
 #include <memory>
+#include <string>
 
 using std::shared_ptr;
+using std::string;
 
 class ShaderObject
 {
@@ -12,7 +14,8 @@ public:
             : shaderId(shaderId), shaderSource(shaderSource)
     {
         // Load the shader source
-        glShaderSource(shaderId, 1, shaderSource, NULL);
+        const char* shaderSourceData = shaderSource.c_str();
+        glShaderSource(shaderId, 1, &shaderSourceData, NULL);
 
         // Compile the shader
         glCompileShader(shaderId);
