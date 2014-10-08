@@ -40,6 +40,11 @@ public:
         return program;
     }
 
+    GLuint getProgramId()
+    {
+        return programId;
+    }
+
     //!
     //!
     //!

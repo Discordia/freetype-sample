@@ -16,12 +16,16 @@ public:
     {
         // Load the shader source
         const char* shaderSourceData = shaderSource.c_str();
+
+        LOGE("ShaderObject", "glShaderSource");
         glShaderSource(shaderId, 1, &shaderSourceData, NULL);
 
         // Compile the shader
+        LOGE("ShaderObject", "glCompileShader");
         glCompileShader(shaderId);
 
         // Check the compile status
+        LOGE("ShaderObject", "glGetShaderiv");
         glGetShaderiv(shaderId, GL_COMPILE_STATUS, &compiled);
 
         if (compiled != GL_TRUE)

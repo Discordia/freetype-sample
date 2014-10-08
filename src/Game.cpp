@@ -7,22 +7,18 @@
 using std::string;
 
 const string vShaderSource =
-        "#version 100                             \n"
-        "layout(location = 0) in vec4 vPosition;  \n"
-        "void main()                              \n"
-        "{                                        \n"
-        "   gl_Position = vPosition;              \n"
-        "}                                        \n";
+        "attribute vec4 vPosition;      \n"
+        "void main()                    \n"
+        "{                              \n"
+        "   gl_Position = vPosition;    \n"
+        "}                              \n";
 
 const string fShaderSource =
-        "#version 100                                 \n"
-        "precision mediump float;                     \n"
-        "out vec4 fragColor;                          \n"
-        "void main()                                  \n"
-        "{                                            \n"
-        "   fragColor = vec4 ( 1.0, 0.0, 0.0, 1.0 );  \n"
-        "}                                            \n";
-
+        "precision mediump float;                       \n"
+        "void main()                                    \n"
+        "{                                              \n"
+        "   gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);    \n"
+        "}                                              \n";
 
 Game::Game()
 {
@@ -43,6 +39,9 @@ void Game::init()
     if (!fragmentShader->isCompiled()) LOGE("Game", "Fragment shader failed to compile.");
 
     shader->attachShader(fragmentShader);
+
+    // Bind vPosition to attribute 0
+    glBindAttribLocation(shader->getProgramId(), 0, "vPosition");
 
     shader->link();
 

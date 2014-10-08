@@ -30,7 +30,8 @@ void EGLWindow::init()
      */
     const EGLint attribs[] =
     {
-        EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+        EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+        //EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
         EGL_BLUE_SIZE, 8,
         EGL_GREEN_SIZE, 8,
         EGL_RED_SIZE, 8,
@@ -59,7 +60,9 @@ void EGLWindow::init()
     ANativeWindow_setBuffersGeometry(app->window, 0, 0, format);
 
     surface = eglCreateWindowSurface(display, config, app->window, NULL);
-    context = eglCreateContext(display, config, NULL, NULL);
+
+    int attrib_list[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
+    context = eglCreateContext(display, config, EGL_NO_CONTEXT, attrib_list);
 
     if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE)
     {
