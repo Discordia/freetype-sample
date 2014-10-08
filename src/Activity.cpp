@@ -41,6 +41,7 @@ void Activity::handleCmd(int32_t cmd)
             if (app->window != NULL)
             {
                 window->init();
+                game.init();
             }
             break;
 

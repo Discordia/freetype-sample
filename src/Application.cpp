@@ -16,6 +16,7 @@ Application::~Application()
 int Application::run()
 {
     window->init();
+    game.init();
 
     while (window->isOpen())
     {

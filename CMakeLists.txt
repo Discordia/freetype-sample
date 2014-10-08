@@ -19,6 +19,8 @@ endif()
 set(SOURCE_FILES
     src/Main.cpp
     src/Game.cpp
+    src/ShaderObject.h
+    src/ShaderProgram.h
     src/Log.cpp
     src/Log.h
     src/OpenGL.h

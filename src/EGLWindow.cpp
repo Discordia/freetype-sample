@@ -78,15 +78,10 @@ void EGLWindow::init()
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    // Enable
     glEnable(GL_TEXTURE_2D);
-    // glEnable(GL_CULL_FACE);
-
-    // Disable
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_DITHER);
 
-    // Perspective
     glViewport(0, 0, scrWidth, scrHeight);
 }
 

@@ -30,7 +30,14 @@ GLWindow::GLWindow(const string& title, const Dimension windowSize, const Dimens
 
     GLFWmonitor* primaryMonitor = nullptr;
     if (fullscreen)
+    {
         primaryMonitor = glfwGetPrimaryMonitor();
+    }
+
+    glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint (GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint (GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     window = glfwCreateWindow(windowSize.width, windowSize.height, title.c_str(), primaryMonitor, nullptr);
     if (!window)
@@ -74,27 +81,13 @@ void GLWindow::init()
     // Setup OpenGL
     //
 
-    // Shading and color
-    glShadeModel(GL_SMOOTH);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    // Enable
     glEnable(GL_TEXTURE_2D);
-    // glEnable(GL_CULL_FACE);
-
-    // Disable
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_DITHER);
-    glDisable(GL_LIGHTING);
 
-    // Perspective
     glViewport(0, 0, windowSize.width, windowSize.height);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0.0f, viewportSize.width, 0.0f, viewportSize.height, -1.0f, 1.0f);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
 
     // reset frame time
     timer.reset();
