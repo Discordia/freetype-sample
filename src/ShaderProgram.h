@@ -1,6 +1,5 @@
 #pragma once
 
-#include <OpenGL.h>
 #include <ShaderObject.h>
 
 class ShaderProgram

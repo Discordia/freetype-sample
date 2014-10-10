@@ -1,10 +1,13 @@
 #include <Game.h>
 #include <ShaderProgram.h>
+#include <Log.h>
+#include <FTFont.h>
 
 #include <string>
-#include "Log.h"
 
 using std::string;
+
+#define LOG_TAG "Game"
 
 const string vShaderSource =
         "attribute vec4 vPosition;      \n"
@@ -22,6 +25,7 @@ const string fShaderSource =
 
 Game::Game()
 {
+    FTFont font;
 }
 
 void Game::init()
@@ -30,13 +34,13 @@ void Game::init()
 
     shared_ptr<ShaderObject> vertexShader = ShaderObject::create(GL_VERTEX_SHADER, vShaderSource);
 
-    if (!vertexShader->isCompiled()) LOGE("Game", "Vertext shader failed to compile.");
+    if (!vertexShader->isCompiled()) LOGE("Vertext shader failed to compile.");
 
     shader->attachShader(vertexShader);
 
     shared_ptr<ShaderObject> fragmentShader = ShaderObject::create(GL_FRAGMENT_SHADER, fShaderSource);
 
-    if (!fragmentShader->isCompiled()) LOGE("Game", "Fragment shader failed to compile.");
+    if (!fragmentShader->isCompiled()) LOGE("Fragment shader failed to compile.");
 
     shader->attachShader(fragmentShader);
 
@@ -45,7 +49,7 @@ void Game::init()
 
     shader->link();
 
-    if (!shader->isLinked()) LOGE("Game", "Shader failed to link");
+    if (!shader->isLinked()) LOGE("Shader failed to link");
 
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 }

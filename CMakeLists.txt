@@ -19,9 +19,8 @@ endif()
 set(SOURCE_FILES
     src/Main.cpp
     src/FTFont.cpp
-    src/FTFont.h
     src/Game.cpp
-    src/ShaderObject.h
+    src/ShaderObject.cpp
     src/ShaderProgram.h
     src/Log.cpp
     src/Log.h
@@ -33,8 +32,6 @@ set(SOURCE_FILES
 if(ANDROID)
   list(APPEND SOURCE_FILES
     src/EGLWindow.cpp
-    src/EGLWindow.h
-    src/Activity.h
     src/Activity.cpp
     $ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue/android_native_app_glue.c)
 

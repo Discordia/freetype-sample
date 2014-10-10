@@ -32,7 +32,7 @@ enum LogLevel
 
 void logf(LogLevel level, const string tag, string format, ...);
 
-#define LOGE(...) logf(LOG_ERROR, __VA_ARGS__)
-#define LOGW(...) logf(LOG_WARN, __VA_ARGS__)
-#define LOGI(...) logf(LOG_INFO, __VA_ARGS__)
-#define LOGD(...) logf(LOG_DEBUG, __VA_ARGS__)
+#define LOGE(...) logf(LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#define LOGW(...) logf(LOG_WARN, LOG_TAG, __VA_ARGS__)
+#define LOGI(...) logf(LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LOGD(...) logf(LOG_DEBUG, LOG_TAG, __VA_ARGS__)

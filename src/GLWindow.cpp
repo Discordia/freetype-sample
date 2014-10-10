@@ -9,6 +9,8 @@
 
 using namespace std;
 
+#define LOG_TAG "GLWindow"
+
 //!
 const int DEFAULT_FPS = 60;
 
@@ -41,7 +43,7 @@ GLWindow::GLWindow(const string& title, const Dimension windowSize, const Dimens
     window = glfwCreateWindow(windowSize.width, windowSize.height, title.c_str(), primaryMonitor, nullptr);
     if (!window)
     {
-        LOGE("GLWindow", "Failed to create GLFW window");
+        LOGE("Failed to create GLFW window");
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
@@ -53,12 +55,12 @@ GLWindow::GLWindow(const string& title, const Dimension windowSize, const Dimens
     GLenum err = glewInit();
     if (GLEW_OK != err)
     {
-        LOGE("GLWindow", "Failed to initalize GLEW");
+        LOGE("Failed to initalize GLEW");
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
 
-    LOGI("GLWindow", "Initalized");
+    LOGI("Initalized");
 }
 
 GLWindow::~GLWindow()
@@ -153,5 +155,5 @@ void GLWindow::keyCallback(GLFWwindow* handle, int key, int scancode, int action
 void GLWindow::errorCallback(int error, const char* description)
 {
     string message = "GLFW error: " + string(description);
-    LOGE("GLWindow", message);
+    LOGE(message);
 }
