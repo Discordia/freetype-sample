@@ -9,7 +9,7 @@ endif()
 set(CMAKE_CXX_FLAGS
   "-std=c++11 -ffor-scope -fno-exceptions -pipe -ffunction-sections -fdata-sections -ffast-math -pedantic -Werror -Wnon-virtual-dtor -Wsign-promo -fvisibility=hidden -fvisibility-inlines-hidden -Wstrict-null-sentinel -Os -funroll-all-loops -fpeel-loops -ftree-vectorize")
 
-include_directories(src)
+include_directories(src /usr/include/freetype2)
 
 # for android include native_app_glue
 if(ANDROID)
@@ -18,6 +18,8 @@ endif()
 
 set(SOURCE_FILES
     src/Main.cpp
+    src/FTFont.cpp
+    src/FTFont.h
     src/Game.cpp
     src/ShaderObject.h
     src/ShaderProgram.h
@@ -56,8 +58,9 @@ else()
   # GLEW
   set(GLEW_SHARED_LIBRARY "/usr/lib/x86_64-linux-gnu/libGLEW.so")
 
+
   add_executable(freetype_sample ${SOURCE_FILES})
-  target_link_libraries(freetype_sample ${GLEW_SHARED_LIBRARY} ${GLFW_STATIC_LIBRARIES})
+  target_link_libraries(freetype_sample ${GLEW_SHARED_LIBRARY} freetype ${GLFW_STATIC_LIBRARIES})
 
   # Copy assets
   add_custom_command(TARGET freetype_sample PRE_BUILD
