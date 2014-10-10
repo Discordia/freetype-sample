@@ -18,5 +18,9 @@ FTFont::FTFont()
 
 FTFont::~FTFont()
 {
-    FT_Done_FreeType(library);
+    if (library != nullptr)
+    {
+        FT_Done_FreeType(library);
+        library = nullptr;
+    }
 }

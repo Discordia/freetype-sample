@@ -10,7 +10,7 @@ ShaderObject::ShaderObject(GLuint shaderId, const string &shaderSource)
     // Load the shader source
     const char *shaderSourceData = shaderSource.c_str();
 
-    glShaderSource(shaderId, 1, &shaderSourceData, NULL);
+    glShaderSource(shaderId, 1, &shaderSourceData, nullptr);
 
     // Compile the shader
     glCompileShader(shaderId);
@@ -28,7 +28,7 @@ ShaderObject::ShaderObject(GLuint shaderId, const string &shaderSource)
         {
             char *infoLog = static_cast<char *>(malloc(sizeof(char) * infoLen));
 
-            glGetShaderInfoLog(shaderId, infoLen, NULL, infoLog);
+            glGetShaderInfoLog(shaderId, infoLen, nullptr, infoLog);
             LOGE("Error compiling shader:\n%s\n", infoLog);
 
             free(infoLog);

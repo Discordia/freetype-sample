@@ -38,7 +38,7 @@ void Activity::handleCmd(int32_t cmd)
 
         case APP_CMD_INIT_WINDOW:
             LOGD("Activity", "APP_CMD_INIT_WINDOW");
-            if (app->window != NULL)
+            if (app->window != nullptr)
             {
                 window->init();
                 game.init();
@@ -93,9 +93,9 @@ void Activity::run()
         android_poll_source *source;
 
         // Process events
-        while ((ident = ALooper_pollAll(0, NULL, &events, (void **) &source)) >= 0)
+        while ((ident = ALooper_pollAll(0, nullptr, &events, (void **) &source)) >= 0)
         {
-            if (source != NULL)
+            if (source != nullptr)
             {
                 source->process(app, source);
             }

@@ -59,7 +59,7 @@ void EGLWindow::init()
 
     ANativeWindow_setBuffersGeometry(app->window, 0, 0, format);
 
-    surface = eglCreateWindowSurface(display, config, app->window, NULL);
+    surface = eglCreateWindowSurface(display, config, app->window, nullptr);
 
     int attrib_list[] = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE };
     context = eglCreateContext(display, config, EGL_NO_CONTEXT, attrib_list);
