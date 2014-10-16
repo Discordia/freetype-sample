@@ -1,26 +1,41 @@
+#include <FTFontChar.h>
 #include <FTFont.h>
-#include "Log.h"
-
-#include <ft2build.h>
-#include  FT_FREETYPE_H
+#include <ftimage.h>
 
 #define LOG_TAG "FTFont"
 
 
-FTFont::FTFont()
+FTFont::FTFont(FontAtlas *fontAtlas)
 {
-    FT_Error error = FT_Init_FreeType(&library);
-    if (error)
-    {
-        LOGE("Error inializing Freetype2");
-    }
+
 }
 
 FTFont::~FTFont()
 {
-    if (library != nullptr)
-    {
-        FT_Done_FreeType(library);
-        library = nullptr;
-    }
+
+}
+
+void FTFont::setLineHeight(long lineHeight)
+{
+
+}
+
+void FTFont::setFTFace(FT_FaceRec_*ftFace)
+{
+
+}
+
+void* FTFont::getChar(char i)
+{
+    return nullptr;
+}
+
+FT_Pos FTFont::getLineHeight()
+{
+    return 0;
+}
+
+void FTFont::addChar(char i, FTFontChar* fontChar)
+{
+
 }

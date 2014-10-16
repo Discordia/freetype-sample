@@ -1,7 +1,7 @@
 #include <Game.h>
 #include <ShaderProgram.h>
 #include <Log.h>
-#include <FTFont.h>
+#include <FontAtlas.h>
 
 #include <string>
 
@@ -25,7 +25,6 @@ const string fShaderSource =
 
 Game::Game()
 {
-    FTFont font;
 }
 
 void Game::init()
@@ -52,6 +51,10 @@ void Game::init()
     if (!shader->isLinked()) LOGE("Shader failed to link");
 
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+    FontAtlas fontAtlas;
+    fontAtlas.addFont("LiberationMono-Regular.ttf", 16, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
+    fontAtlas.create();
 }
 
 void Game::render()

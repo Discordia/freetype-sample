@@ -18,12 +18,17 @@ endif()
 
 set(SOURCE_FILES
     src/Main.cpp
+    src/FontAtlas.cpp
+    src/FontBatchRenderer.cpp
     src/FTFont.cpp
+    src/FTFontChar.cpp
     src/Game.cpp
     src/ShaderObject.cpp
     src/ShaderProgram.h
+    src/TreeNode.cpp
     src/Log.cpp
     src/Log.h
+    src/Cache.h
     src/OpenGL.h
     src/Game.h
     src/Dimension.h

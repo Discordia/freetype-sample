@@ -1,13 +1,27 @@
 #pragma once
 
-class FT_LibraryRec_;
+struct FT_FaceRec_;
+class FTFontChar;
+class FontAtlas;
 
 class FTFont
 {
 public:
-    FTFont();
+
+    //!
+    //!
+    //!
+    FTFont(FontAtlas *fontAtlas);
+
+    //!
+    //!
+    //!
     ~FTFont();
 
-private:
-    struct FT_LibraryRec_* library;
+    void setLineHeight(long lineHeight);
+
+    void setFTFace(FT_FaceRec_* ftFace);
+    void* getChar(char i);
+    long getLineHeight();
+    void addChar(char i, FTFontChar *fontChar);
 };
