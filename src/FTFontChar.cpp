@@ -43,7 +43,7 @@ void FTFontChar::render(int x, int y) const
     vertices[6] = (float) (x + width);
     vertices[7] = (float) (y + height);
 
-    getRenderer()->addQuad(texCoords, vertices);
+    getRenderer().addQuad(texCoords, vertices);
 }
 
 void FTFontChar::drawToBitmap(unsigned char* data, int texWidth, int texHeight)
@@ -129,6 +129,11 @@ void FTFontChar::setXAdvance(int xAdvance)
     this->xAdvance = xAdvance;
 }
 
+int FTFontChar::getXAdvance()
+{
+    return xAdvance;
+}
+
 void FTFontChar::setGlyph(FT_GlyphRec_* glyph)
 {
     this->glyph = glyph;
@@ -154,7 +159,7 @@ int FTFontChar::getHeight()
     return height;
 }
 
-FontBatchRenderer* FTFontChar::getRenderer() const
+FontBatchRenderer& FTFontChar::getRenderer() const
 {
-    return nullptr;
+    return FontBatchRenderer::getRenderer();
 }

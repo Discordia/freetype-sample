@@ -65,6 +65,11 @@ public:
     //!
     //!
     //!
+    int getXAdvance();
+
+    //!
+    //!
+    //!
     void setGlyph(FT_GlyphRec_* glyph);
 
     //!
@@ -97,7 +102,7 @@ private:
     //!
     //!
     //!
-    FontBatchRenderer* getRenderer() const;
+    FontBatchRenderer& getRenderer() const;
 
 
 private:

@@ -52,7 +52,7 @@ void Game::init()
 
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-    FontAtlas fontAtlas;
+    FontAtlas fontAtlas(true);
     fontAtlas.addFont("LiberationMono-Regular.ttf", 16, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
     fontAtlas.create();
 }

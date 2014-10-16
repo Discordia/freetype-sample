@@ -16,7 +16,8 @@ using std::sort;
 
 #define LOG_TAG "FontAtlas"
 
-FontAtlas::FontAtlas()
+FontAtlas::FontAtlas(bool useKerning)
+    : useKerning(useKerning)
 {
     if (FT_Init_FreeType(&library))
     {
@@ -171,6 +172,11 @@ void FontAtlas::create()
     delete [] data;
 }
 
+bool FontAtlas::isUseKerning()
+{
+    return useKerning;
+}
+
 void FontAtlas::getNextTextureSize(int& texWidth, int& texHeight, int size)
 {
     if (size % 2)
@@ -195,4 +201,9 @@ bool FontAtlas::binPack(int texWidth, int texHeight)
         }
     }
     return true;
+}
+
+unsigned int FontAtlas::getTextureId()
+{
+    return textureId;
 }

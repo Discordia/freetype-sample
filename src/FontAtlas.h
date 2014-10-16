@@ -18,7 +18,7 @@ public:
     //!
     //!
     //!
-    FontAtlas();
+    FontAtlas(bool useKerning);
 
     //!
     //!
@@ -35,14 +35,22 @@ public:
     //!
     void create();
 
+    //!
+    //!
+    //!
+    bool isUseKerning();
+
+    //!
+    //!
+    //!
+    unsigned int getTextureId();
+
 private:
 
     //!
     //!
     //!
     void getNextTextureSize(int& texWidth, int& texHeight, int size);
-
-private:
 
     //!
     //!
@@ -62,4 +70,7 @@ private:
 
     //!
     unsigned int textureId;
+
+    //!
+    bool useKerning;
 };
