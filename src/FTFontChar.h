@@ -8,6 +8,9 @@ const int INDICES_PER_QUAD = 6;
 const int COMP_VERT_POS = 2;
 const int COMP_VERT_TEX = 2;
 
+const int WHITE = 0xffffff;
+const int BLACK = 0;
+
 class FTFontChar
 {
 public:
