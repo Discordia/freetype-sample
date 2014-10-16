@@ -10,3 +10,8 @@ FontBatchRenderer::~FontBatchRenderer()
 {
 
 }
+
+void FontBatchRenderer::addQuad(const float* texCoords, const float* vertices)
+{
+
+}

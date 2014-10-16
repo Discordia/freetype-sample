@@ -1,6 +1,12 @@
 #pragma once
 
 struct FT_GlyphRec_;
+class FontBatchRenderer;
+
+const int VERTICES_PER_QUAD = 4;
+const int INDICES_PER_QUAD = 6;
+const int COMP_VERT_POS = 2;
+const int COMP_VERT_TEX = 2;
 
 class FTFontChar
 {
@@ -24,7 +30,17 @@ public:
     //!
     //!
     //!
-    void render() const;
+    void render(int x, int y) const;
+
+    //!
+    //!
+    //!
+    void drawToBitmap(unsigned char* data, int texWidth, int texHeight);
+
+    //!
+    //!
+    //!
+    void releaseGlyph();
 
     //!
     //!
@@ -59,7 +75,7 @@ public:
     //!
     //!
     //!
-    bool isEmpty();
+    bool isEmpty() const;
 
     //!
     //!
@@ -72,6 +88,19 @@ public:
     int getHeight();
 
 private:
+
+    //!
+    //!
+    //!
+    void initTexCoords(int texWidth, int texHeight);
+
+    //!
+    //!
+    //!
+    FontBatchRenderer* getRenderer() const;
+
+
+private:
     int x;
     int y;
     int charCode;
@@ -80,6 +109,8 @@ private:
     int xOffset;
     int yOffset;
     int xAdvance;
+
+    float texCoords[VERTICES_PER_QUAD * COMP_VERT_POS];
 
     struct FT_GlyphRec_* glyph;
 };

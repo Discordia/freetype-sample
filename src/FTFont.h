@@ -18,6 +18,8 @@ public:
     //!
     ~FTFont();
 
+    void finishCreating();
+
     void setLineHeight(long lineHeight);
 
     void setFTFace(FT_FaceRec_* ftFace);

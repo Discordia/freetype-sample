@@ -149,7 +149,7 @@ void FontAtlas::create()
 
     for (n = 0; n < (int)fontCharList.size(); n++)
     {
-        fontCharList[n]->finishCreating();
+        fontList[n]->finishCreating();
     }
 
     glEnable(GL_TEXTURE_2D);

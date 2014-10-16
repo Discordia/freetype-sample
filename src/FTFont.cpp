@@ -39,3 +39,8 @@ void FTFont::addChar(char i, FTFontChar* fontChar)
 {
 
 }
+
+void FTFont::finishCreating()
+{
+
+}
