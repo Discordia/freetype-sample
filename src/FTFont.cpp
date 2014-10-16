@@ -1,14 +1,12 @@
 #include <FTFontChar.h>
 #include <FTFont.h>
 #include <FontAtlas.h>
+#include <FontBatchRenderer.h>
 
 #include <ftimage.h>
 #include <freetype.h>
-#include "FontBatchRenderer.h"
 
 #define LOG_TAG "FTFont"
-
-
 
 FTFont::FTFont(FontAtlas *fontAtlas)
 {

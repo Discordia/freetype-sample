@@ -2,7 +2,7 @@
 
 #include <string>
 #include <unordered_map>
-#include "FontBatchRenderer.h"
+
 
 using std::string;
 using std::unordered_map;
