@@ -17,7 +17,7 @@ using std::sort;
 #define LOG_TAG "FontAtlas"
 
 FontAtlas::FontAtlas(bool useKerning)
-    : useKerning(useKerning)
+        : useKerning(useKerning)
 {
     if (FT_Init_FreeType(&library))
     {
@@ -36,26 +36,26 @@ FontAtlas::~FontAtlas()
 
 void FontAtlas::addFont(const string& fontName, unsigned int size, const string& letters)
 {
-        // The Object In Which FreeType Holds Information On A Given
-        // Font Is Called A "face".
-        FT_Face face;
+    // The Object In Which FreeType Holds Information On A Given
+    // Font Is Called A "face".
+    FT_Face face;
 
-        string file = "assets/" + fontName;
-        // This Is Where We Load In The Font Information From The File.
-        if (FT_New_Face(library, file.c_str(), 0, &face ))
-        {
-            // error
-        }
+    string file = "assets/" + fontName;
+    // This Is Where We Load In The Font Information From The File.
+    if (FT_New_Face(library, file.c_str(), 0, &face))
+    {
+        // error
+    }
 
-        // FreeType Measures Font Size In Terms Of 1/64ths Of Pixels.
-        FT_Set_Char_Size(face, size*64, size*64, 72, 72);
+    // FreeType Measures Font Size In Terms Of 1/64ths Of Pixels.
+    FT_Set_Char_Size(face, size * 64, size * 64, 72, 72);
 
     unsigned long len = letters.size();
     int n;
     FTFontChar* fontChar;
     FT_Glyph pGlyph;
     FTFont* font = new FTFont(this);
-    font->setLineHeight(face->size->metrics.height>>6);
+    font->setLineHeight(face->size->metrics.height >> 6);
     font->setFTFace(face);
     fontList.push_back(font);
 
@@ -84,7 +84,7 @@ void FontAtlas::addFont(const string& fontName, unsigned int size, const string&
                 }
 
                 // Move The Face's Glyph Into A Glyph Object.
-                if (FT_Get_Glyph(face->glyph, &pGlyph ))
+                if (FT_Get_Glyph(face->glyph, &pGlyph))
                 {
                     // Error
                 }
@@ -93,7 +93,7 @@ void FontAtlas::addFont(const string& fontName, unsigned int size, const string&
 
                 // all metrics dimensions are multiplied by 64, so we have to divide by 64
                 height = face->glyph->metrics.height >> 6;
-                yOffset = font->getLineHeight() - (face->glyph->metrics.horiBearingY >> 6) ;
+                yOffset = font->getLineHeight() - (face->glyph->metrics.horiBearingY >> 6);
                 fontChar->setOffsets(face->glyph->metrics.horiBearingX >> 6, yOffset);
                 fontChar->setSize(face->glyph->metrics.width >> 6, height);
                 fontChar->setXAdvance(face->glyph->metrics.horiAdvance >> 6);
@@ -105,7 +105,7 @@ void FontAtlas::addFont(const string& fontName, unsigned int size, const string&
     }
 }
 
-bool greaterSizeComparator(FTFontChar*fontChar1, FTFontChar*fontChar2)
+bool greaterSizeComparator(FTFontChar* fontChar1, FTFontChar* fontChar2)
 {
     return fontChar1->getNumPixels() > fontChar2->getNumPixels();
 }
@@ -124,7 +124,7 @@ void FontAtlas::create()
     int texHeight = 32;
     while (true)
     {
-        if (totalPixels <= texWidth*texHeight)
+        if (totalPixels <= texWidth * texHeight)
         {
             break;
         }
@@ -132,7 +132,7 @@ void FontAtlas::create()
         ixSize++;
     }
     sort(fontCharList.begin(), fontCharList.end(), greaterSizeComparator);
-    TreeNode::getCache().init((int)(fontCharList.size()+1)*2);
+    TreeNode::getCache().init((int) (fontCharList.size() + 1) * 2);
     while (!binPack(texWidth, texHeight))
     {
         TreeNode::getCache().destroy();
@@ -142,20 +142,20 @@ void FontAtlas::create()
     TreeNode::getCache().release();
 
     unsigned char* data = new unsigned char[texWidth * texHeight];
-    for (n = 0; n < (int)fontCharList.size(); n++)
+    for (n = 0; n < (int) fontCharList.size(); n++)
     {
         fontCharList[n]->drawToBitmap(data, texWidth, texHeight);
         fontCharList[n]->releaseGlyph();
     }
 
-    for (n = 0; n < (int)fontCharList.size(); n++)
+    for (n = 0; n < (int) fontList.size(); n++)
     {
         fontList[n]->finishCreating();
     }
 
     glEnable(GL_TEXTURE_2D);
     glGenTextures(1, &textureId);
-    glBindTexture( GL_TEXTURE_2D, textureId);
+    glBindTexture(GL_TEXTURE_2D, textureId);
     glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -169,7 +169,7 @@ void FontAtlas::create()
         LOGE("Error in glTexImage2D: ", err);
     }
     // clean up memory
-    delete [] data;
+    delete[] data;
 }
 
 bool FontAtlas::isUseKerning()
