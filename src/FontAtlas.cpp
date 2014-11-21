@@ -153,10 +153,8 @@ void FontAtlas::create()
         fontList[n]->finishCreating();
     }
 
-    glEnable(GL_TEXTURE_2D);
     glGenTextures(1, &textureId);
     glBindTexture(GL_TEXTURE_2D, textureId);
-    glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -166,8 +164,9 @@ void FontAtlas::create()
     int err = glGetError();
     if (err != GL_NO_ERROR)
     {
-        LOGE("Error in glTexImage2D: ", err);
+        LOGE("2 Error in glTexImage2D: %i", err);
     }
+
     // clean up memory
     delete[] data;
 }
