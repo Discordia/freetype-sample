@@ -32,15 +32,11 @@ void Game::init()
     shader = ShaderProgram::create();
 
     shared_ptr<ShaderObject> vertexShader = ShaderObject::create(GL_VERTEX_SHADER, vShaderSource);
-
     if (!vertexShader->isCompiled()) LOGE("Vertext shader failed to compile.");
-
     shader->attachShader(vertexShader);
 
     shared_ptr<ShaderObject> fragmentShader = ShaderObject::create(GL_FRAGMENT_SHADER, fShaderSource);
-
     if (!fragmentShader->isCompiled()) LOGE("Fragment shader failed to compile.");
-
     shader->attachShader(fragmentShader);
 
     // Bind vPosition to attribute 0
@@ -61,9 +57,10 @@ void Game::render()
 {
     GLfloat vVertices[] =
     {
-        0.0f,  0.5f, 0.0f,
+        -0.5f,  0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f
+        0.5f, -0.5f, 0.0f,
+        0.5f, 0.5f, 0.5f
     };
 
     // Clear the color buffer
@@ -76,5 +73,11 @@ void Game::render()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
     glEnableVertexAttribArray(0);
 
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    GLubyte  indices[] =
+    {
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
 }
