@@ -10,10 +10,13 @@ using std::string;
 #define LOG_TAG "Game"
 
 const string vShaderSource =
-        "attribute vec4 vPosition;      \n"
+        "attribute vec4 position;      \n"
+        "uniform mat4 Projection;\n"
+        "uniform mat4 ModelView;\n"
+        "\n"
         "void main()                    \n"
         "{                              \n"
-        "   gl_Position = vPosition;    \n"
+        "   gl_Position = Projection * ModelView * position;    \n"
         "}                              \n";
 
 const string fShaderSource =
@@ -22,6 +25,33 @@ const string fShaderSource =
         "{                                              \n"
         "   gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);    \n"
         "}                                              \n";
+
+
+const string texVertexShader =
+        "attribute vec4 position;\n"
+        "attribute vec2 texture_coord;\n"
+        "\n"
+        "varying vec2 textureCoord;\n"
+        "\n"
+        "uniform mat4 Projection;\n"
+        "uniform mat4 ModelView;\n"
+        "\n"
+        "void main(void)\n"
+        "{\n"
+        "    gl_Position = Projection * ModelView * position;\n"
+        "    textureCoord =  texture_coord;\n"
+        "}";
+
+const string texFragShader =
+        "varying mediump vec2 textureCoord;\n"
+        "\n"
+        "uniform sampler2D tex;\n"
+        "\n"
+        "void main(void)\n"
+        "{\n"
+        "    gl_FragColor = texture2D(tex, textureCoord);\n"
+        "}";
+
 
 Game::Game()
 {
@@ -40,17 +70,30 @@ void Game::init()
     shader->attachShader(fragmentShader);
 
     // Bind vPosition to attribute 0
-    glBindAttribLocation(shader->getProgramId(), 0, "vPosition");
+    glBindAttribLocation(shader->getProgramId(), 0, "position");
 
     shader->link();
 
     if (!shader->isLinked()) LOGE("Shader failed to link");
 
+    shader->use();
+
+    const GLfloat identity[] = {
+            1,0,0,0,
+            0,1,0,0,
+            0,0,1,0,
+            0,0,0,1};
+    GLint modelViewLoc = glGetUniformLocation(shader->getProgramId(), "ModelView");
+    glUniformMatrix4fv(modelViewLoc, 1, 0, identity);
+
+    GLint projectionLoc = glGetUniformLocation(shader->getProgramId(), "Projection");
+    glUniformMatrix4fv(projectionLoc, 1, 0, identity);
+
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
-    FontAtlas fontAtlas(true);
-    fontAtlas.addFont("LiberationMono-Regular.ttf", 16, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
-    fontAtlas.create();
+    fontAtlas = shared_ptr<FontAtlas>(new FontAtlas(true));
+    fontAtlas->addFont("LiberationMono-Regular.ttf", 16, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
+    fontAtlas->create();
 }
 
 void Game::render()
@@ -63,11 +106,15 @@ void Game::render()
         0.5f, 0.5f, 0.5f
     };
 
+    const GLfloat textureCoords[] = {
+            1.0f, 1.0f,
+            1.0f, 0.0f,
+            0.0f, 1.0f,
+            0.0f, 0.0f,
+    };
+
     // Clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT);
-
-    // Use the program object
-    shader->use();
 
     // Load the vertex data
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
