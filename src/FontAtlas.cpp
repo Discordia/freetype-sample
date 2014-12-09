@@ -166,7 +166,7 @@ void FontAtlas::create()
     int err = glGetError();
     if (err != GL_NO_ERROR)
     {
-        LOGE("2 Error in glTexImage2D: %i", err);
+        LOGE("Error in glTexImage2D: %i", err);
     }
 
     // clean up memory
