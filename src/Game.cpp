@@ -100,7 +100,7 @@ void Game::init()
     glUniform4fv(diffuseColorLoc, 1, color);
 
     fontAtlas = shared_ptr<FontAtlas>(new FontAtlas(true));
-    fontAtlas->addFont("LiberationMono-Regular.ttf", 128, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
+    fontAtlas->addFont("LiberationMono-Regular.ttf", 64, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
     fontAtlas->create();
 
     glBindTexture(GL_TEXTURE_2D, fontAtlas->getTextureId());

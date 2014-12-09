@@ -11,6 +11,7 @@
 #include FT_FREETYPE_H
 
 #include <algorithm>
+#include <freetype.h>
 
 using std::sort;
 
@@ -78,7 +79,7 @@ void FontAtlas::addFont(const string& fontName, unsigned int size, const string&
             }
             else
             {
-                if (FT_Load_Glyph(face, ixGlyph, FT_LOAD_FORCE_AUTOHINT ))
+                if (FT_Load_Glyph(face, ixGlyph, FT_LOAD_FORCE_AUTOHINT | FT_LOAD_TARGET_LIGHT))
                 {
                     // Error
                 }
@@ -155,8 +156,8 @@ void FontAtlas::create()
 
     glGenTextures(1, &textureId);
     glBindTexture(GL_TEXTURE_2D, textureId);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
