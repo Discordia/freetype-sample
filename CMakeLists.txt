@@ -29,7 +29,7 @@ set(SOURCE_FILES
     src/Log.cpp
     src/Log.h
     src/Cache.h
-    src/OpenGL.h
+    src/OpenGL.cpp
     src/Game.h
     src/Dimension.h
     src/Time.h

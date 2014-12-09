@@ -92,15 +92,17 @@ void Game::init()
     GLint modelViewLoc = glGetUniformLocation(shader->getProgramId(), "ModelView");
     glUniformMatrix4fv(modelViewLoc, 1, 0, identity);
 
+    GLfloat ortho[16];
+    oglOrthof(ortho, 0.0f, 480.0f, 0.0f, 320.0f, -1.0f, 1.0f);
     GLint projectionLoc = glGetUniformLocation(shader->getProgramId(), "Projection");
-    glUniformMatrix4fv(projectionLoc, 1, 0, identity);
+    glUniformMatrix4fv(projectionLoc, 1, 0, ortho);
 
     GLfloat color[] = {0.0f, 0.0f, 0.0f, 1.0f};
     GLint diffuseColorLoc = glGetUniformLocation(shader->getProgramId(), "diffuseColor");
     glUniform4fv(diffuseColorLoc, 1, color);
 
     fontAtlas = shared_ptr<FontAtlas>(new FontAtlas(true));
-    fontAtlas->addFont("LiberationMono-Regular.ttf", 64, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
+    fontAtlas->addFont("LiberationMono-Regular.ttf", 128, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
     fontAtlas->create();
 
     glBindTexture(GL_TEXTURE_2D, fontAtlas->getTextureId());
@@ -117,10 +119,10 @@ void Game::render()
 
 
     GLfloat vVertices[] = {
-        -1.0f,  1.0f, 0.0f,
-        -1.0f, -1.0f, 0.0f,
-        1.0f, -1.0f, 0.0f,
-        1.0f, 1.0f, 0.0f
+        0.0f,  320.0f, 0.3f,
+        0.0f, 0.0f, 0.3f,
+        480.0f, 0.0f, 0.3f,
+        480.0f, 320.0f, 0.3f
     };
 
     // Load the vertex data
