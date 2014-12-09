@@ -45,13 +45,14 @@ const string texVertexShader =
         "}";
 
 const string texFragShader =
+        "precision mediump float;\n"
         "varying vec2 textureCoord;\n"
-        "\n"
         "uniform sampler2D tex;\n"
+        "uniform vec4 diffuseColor;\n"
         "\n"
         "void main(void)\n"
         "{\n"
-        "    gl_FragColor = texture2D(tex, textureCoord);\n"
+            "    gl_FragColor = vec4(diffuseColor.rgb, texture2D(tex, textureCoord).r * diffuseColor.a);\n"
         "}";
 
 
@@ -61,6 +62,8 @@ Game::Game()
 
 void Game::init()
 {
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
     shader = ShaderProgram::create();
 
     shared_ptr<ShaderObject> vertexShader = ShaderObject::create(GL_VERTEX_SHADER, texVertexShader);
@@ -92,71 +95,32 @@ void Game::init()
     GLint projectionLoc = glGetUniformLocation(shader->getProgramId(), "Projection");
     glUniformMatrix4fv(projectionLoc, 1, 0, identity);
 
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    GLfloat color[] = {0.0f, 0.0f, 0.0f, 1.0f};
+    GLint diffuseColorLoc = glGetUniformLocation(shader->getProgramId(), "diffuseColor");
+    glUniform4fv(diffuseColorLoc, 1, color);
 
-    /*
     fontAtlas = shared_ptr<FontAtlas>(new FontAtlas(true));
-    fontAtlas->addFont("LiberationMono-Regular.ttf", 16, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
-    fontAtlas->create();*/
+    fontAtlas->addFont("LiberationMono-Regular.ttf", 128, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
+    fontAtlas->create();
 
-    /*glBindTexture(GL_TEXTURE_2D, fontAtlas->getTextureId());
-    GLint textureSamplerLoc = glGetUniformLocation(shader->getProgramId(), "tex");
-    glUniform1i(textureSamplerLoc, 0); */
-
-    std::vector<unsigned char> image; //the raw pixels
-    unsigned width, height;
-
-    //decode
-    unsigned error = lodepng::decode(image, width, height, "assets/test.png");
-
-    //if there's an error, display it
-    if (error) LOGE("decoder error");
-
-    // Texture size must be power of two for the primitive OpenGL version this is written for. Find next power of two.
-    size_t u2 = 1;
-    while (u2 < width) u2 *= 2;
-    size_t v2 = 1;
-    while (v2 < height) v2 *= 2;
-    // Ratio for power of two version compared to actual version, to render the non power of two image with proper size.
-    u3 = (float) width / u2;
-    v3 = (float) height / v2;
-
-    // Make power of two version of the image.
-    std::vector<unsigned char> image2(u2 * v2 * 4);
-    for (size_t y = 0; y < height; y++)
-    {
-        for (size_t x = 0; x < width; x++)
-        {
-            for (size_t c = 0; c < 4; c++)
-            {
-                image2[4 * u2 * y + 4 * x + c] = image[4 * width * y + 4 * x + c];
-            }
-        }
-    }
-
-    // Enable the texture for OpenGL.
-    glEnable(GL_TEXTURE_2D);
-    glGenTextures(1, &textureId);
-    glBindTexture(GL_TEXTURE_2D, textureId);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); //GL_NEAREST = no smoothing
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, 4, u2, v2, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image2[0]);
-
+    glBindTexture(GL_TEXTURE_2D, fontAtlas->getTextureId());
     GLint textureSamplerLoc = glGetUniformLocation(shader->getProgramId(), "tex");
     glUniform1i(textureSamplerLoc, 0);
 }
 
 void Game::render()
 {
-
     // Clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
 
     GLfloat vVertices[] = {
-        -0.5f,  0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.5f, 0.5f, 0.0f
+        -1.0f,  1.0f, 0.0f,
+        -1.0f, -1.0f, 0.0f,
+        1.0f, -1.0f, 0.0f,
+        1.0f, 1.0f, 0.0f
     };
 
     // Load the vertex data
@@ -174,6 +138,7 @@ void Game::render()
     // Load the texture coords
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, textureCoords);
     glEnableVertexAttribArray(1);
+
 
     GLubyte  indices[] =
     {

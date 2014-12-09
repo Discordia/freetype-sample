@@ -78,7 +78,7 @@ void FontAtlas::addFont(const string& fontName, unsigned int size, const string&
             }
             else
             {
-                if (FT_Load_Glyph(face, ixGlyph, FT_LOAD_DEFAULT))
+                if (FT_Load_Glyph(face, ixGlyph, FT_LOAD_FORCE_AUTOHINT ))
                 {
                     // Error
                 }
@@ -160,7 +160,7 @@ void FontAtlas::create()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, texWidth, texHeight, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, texWidth, texHeight, 0, GL_RED, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     int err = glGetError();
