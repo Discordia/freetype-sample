@@ -32,7 +32,8 @@ set(SOURCE_FILES
     src/OpenGL.h
     src/Game.h
     src/Dimension.h
-    src/Time.h)
+    src/Time.h
+    src/lodepng.cpp)
 
 if(ANDROID)
   list(APPEND SOURCE_FILES

@@ -33,4 +33,8 @@ private:
     shared_ptr<ShaderProgram> shader;
 
     shared_ptr<FontAtlas> fontAtlas;
+
+    unsigned int textureId;
+
+    float u3, v3;
 };

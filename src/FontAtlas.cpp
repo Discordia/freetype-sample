@@ -180,10 +180,8 @@ bool FontAtlas::isUseKerning()
 
 void FontAtlas::getNextTextureSize(int& texWidth, int& texHeight, int size)
 {
-    if (size % 2)
-        texHeight *= 2;
-    else
-        texWidth *= 2;
+    texHeight *= 2;
+    texWidth *= 2;
     if (texWidth > 1024 || texHeight > 1024)
     {
         LOGE("To many images to fit in one texture");
