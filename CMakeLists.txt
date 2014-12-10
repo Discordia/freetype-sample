@@ -17,23 +17,22 @@ if(ANDROID)
 endif()
 
 set(SOURCE_FILES
-    src/Main.cpp
+    src/BufferObject.cpp
+    src/Cache.h
+    src/Dimension.h
     src/FontAtlas.cpp
     src/FontBatchRenderer.cpp
     src/FTFont.cpp
     src/FTFontChar.cpp
     src/Game.cpp
+    src/lodepng.cpp
+    src/Log.cpp
+    src/Main.cpp
+    src/OpenGL.cpp
     src/ShaderObject.cpp
     src/ShaderProgram.h
-    src/TreeNode.cpp
-    src/Log.cpp
-    src/Log.h
-    src/Cache.h
-    src/OpenGL.cpp
-    src/Game.h
-    src/Dimension.h
     src/Time.h
-    src/lodepng.cpp)
+    src/TreeNode.cpp)
 
 if(ANDROID)
   list(APPEND SOURCE_FILES
