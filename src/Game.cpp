@@ -3,9 +3,11 @@
 #include <Log.h>
 #include <FontAtlas.h>
 #include <lodepng.h>
+#include <BufferObject.h>
 
 #include <string>
 #include <iostream>
+
 
 using std::string;
 
@@ -64,6 +66,37 @@ void Game::init()
 {
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
+    //
+    // Vertex Buffer
+    // x, y, z, u, v
+    //
+
+    GLfloat vertices[] = {
+            0.0f,  320.0f, 0.3f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.3f, 0.0f, 1.0f,
+            480.0f, 0.0f, 0.3f, 1.0f, 1.0f,
+            480.0f, 320.0f, 0.3f, 1.0f, 0.0f
+    };
+
+    vertexBuffer = BufferObject::createVertexBuffer(20 * sizeof(GLfloat));
+    vertexBuffer->fill(0, 5 * 4 * 4, vertices);
+
+    //
+    // Index buffer
+    //
+
+    GLubyte  indices[] = {
+            0, 1, 2,
+            2, 3, 0
+    };
+
+    indexBuffer = BufferObject::createIndexBuffer(6 * sizeof(GLubyte));
+    indexBuffer->fill(0, 6 * sizeof(GLubyte), indices);
+
+    //
+    // Shader
+    //
+
     shader = ShaderProgram::create();
 
     shared_ptr<ShaderObject> vertexShader = ShaderObject::create(GL_VERTEX_SHADER, texVertexShader);
@@ -101,6 +134,10 @@ void Game::init()
     GLint diffuseColorLoc = glGetUniformLocation(shader->getProgramId(), "diffuseColor");
     glUniform4fv(diffuseColorLoc, 1, color);
 
+    //
+    // Texture
+    //
+
     fontAtlas = shared_ptr<FontAtlas>(new FontAtlas(true));
     fontAtlas->addFont("LiberationMono-Regular.ttf", 128, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
     fontAtlas->create();
@@ -114,39 +151,19 @@ void Game::render()
 {
     // Clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT);
+
+    // Enable blending
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-
-    GLfloat vVertices[] = {
-        0.0f,  320.0f, 0.3f,
-        0.0f, 0.0f, 0.3f,
-        480.0f, 0.0f, 0.3f,
-        480.0f, 320.0f, 0.3f
-    };
-
-    // Load the vertex data
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, vVertices);
+    // Setup the vertex data
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * 4, 0);
     glEnableVertexAttribArray(0);
 
-
-    const GLfloat textureCoords[] = {
-        0.0f, 0.0f,
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        1.0f, 0.0f
-    };
-
-    // Load the texture coords
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, textureCoords);
+    // Setup the texture coords
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * 4, (const void*)(3 * 4));
     glEnableVertexAttribArray(1);
 
-
-    GLubyte  indices[] =
-    {
-        0, 1, 2,
-        2, 3, 0
-    };
-
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+    // Draw
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
 }

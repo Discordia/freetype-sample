@@ -5,8 +5,9 @@
 using std::shared_ptr;
 using std::unique_ptr;
 
-class ShaderProgram;
+class BufferObject;
 class FontAtlas;
+class ShaderProgram;
 
 class Game
 {
@@ -30,11 +31,14 @@ public:
 private:
 
     //
+    shared_ptr<BufferObject> vertexBuffer;
+
+    //
+    shared_ptr<BufferObject> indexBuffer;
+
+    //
     shared_ptr<ShaderProgram> shader;
 
+    //
     shared_ptr<FontAtlas> fontAtlas;
-
-    unsigned int textureId;
-
-    float u3, v3;
 };
