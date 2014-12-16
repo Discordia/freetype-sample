@@ -24,7 +24,7 @@ public:
     //!
     //!
     //!
-    void setAttributes(unsigned int textureId, int color, float alpha, bool transparent, bool smooth);
+    void setAttributes(unsigned int textureId, int color, float alpha, bool transparent);
 
     //!
     //!
@@ -64,7 +64,6 @@ private:
     int color;			    // colour tint of current quads
     GLuint textureId;		// texture of current quads
     bool transparent;		// are current quads transparent
-    bool smooth;
 
     //! Statistics
     int drawCallCount;

@@ -21,8 +21,7 @@ FTFont::~FTFont()
 
 int FTFont::drawString(int x, int y, const string& text, int color, float alpha)
 {
-    // TODO: should we call it with smooth set to true? Now it is set to false
-    getRenderer().setAttributes(fontAtlas->getTextureId(), color, alpha, true, false);
+    getRenderer().setAttributes(fontAtlas->getTextureId(), color, alpha, true);
 
     unsigned char c;
     int currX = x;

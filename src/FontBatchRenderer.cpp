@@ -4,7 +4,7 @@
 #include <cassert>
 #include <cstring>
 
-const int DATA_PER_VERTEX = 5;
+const int VERTEX_STRIDE = 5;
 
 FontBatchRenderer FontBatchRenderer::renderer;
 
@@ -12,7 +12,6 @@ FontBatchRenderer::FontBatchRenderer()
     : numQuads(0), vertexData(nullptr), indices(nullptr), textureId(0), cacheSize(0), drawCallCount(0)
 
 {
-    // assume that we will have at least 150 quads strung together
     reallocate(150);
 }
 
@@ -26,14 +25,13 @@ FontBatchRenderer& FontBatchRenderer::getRenderer()
     return renderer;
 }
 
-void FontBatchRenderer::setAttributes(unsigned int textureId, int color, float alpha, bool transparent, bool smooth)
+void FontBatchRenderer::setAttributes(unsigned int textureId, int color, float alpha, bool transparent)
 {
     if (alpha > 1.0f) alpha = 1.0f;
     if (this->textureId != textureId ||
-            this->color != color ||
-            this->alpha != alpha ||
-            this->transparent != transparent ||
-            this->smooth != smooth)
+        this->color != color ||
+        this->alpha != alpha ||
+        this->transparent != transparent)
     {
         render();
 
@@ -41,7 +39,6 @@ void FontBatchRenderer::setAttributes(unsigned int textureId, int color, float a
         this->color = color;
         this->alpha = alpha;
         this->transparent = transparent;
-        this->smooth = smooth;
     }
 }
 
@@ -52,15 +49,15 @@ void FontBatchRenderer::addQuad(const float* texCoords, const float* vertices)
         reallocate(20);
     }
 
-    int currIndex = numQuads * VERTICES_PER_QUAD * DATA_PER_VERTEX;
+    int currIndex = numQuads * VERTICES_PER_QUAD * VERTEX_STRIDE;
     for (int n = 0; n < VERTICES_PER_QUAD; n++)
     {
         // x,y,z: note: do not need to copy 3rd coordinate, just zero it
-        vertexData[currIndex+n * DATA_PER_VERTEX]   = vertices[n * COMP_VERT_POS];
-        vertexData[currIndex+n*DATA_PER_VERTEX + 1] = vertices[n * COMP_VERT_POS + 1];
+        vertexData[currIndex+n * VERTEX_STRIDE]   = vertices[n * COMP_VERT_POS];
+        vertexData[currIndex+n* VERTEX_STRIDE + 1] = vertices[n * COMP_VERT_POS + 1];
         // u,v
-        vertexData[currIndex+n*DATA_PER_VERTEX + 3] = texCoords[n * COMP_VERT_TEX];
-        vertexData[currIndex+n*DATA_PER_VERTEX + 4] = texCoords[n * COMP_VERT_TEX + 1];
+        vertexData[currIndex+n* VERTEX_STRIDE + 3] = texCoords[n * COMP_VERT_TEX];
+        vertexData[currIndex+n* VERTEX_STRIDE + 4] = texCoords[n * COMP_VERT_TEX + 1];
     }
 
     numQuads++;
@@ -110,16 +107,10 @@ void FontBatchRenderer::render()
 
     glBindTexture(GL_TEXTURE_2D, textureId);
 
-    if (smooth)
-    {
-        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    }
-    else
-    {
-        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    }
+
+    glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 
     if (alpha > 0.99f && color == WHITE)
     {
@@ -150,8 +141,8 @@ void FontBatchRenderer::render()
      param 3: Specifies the byte offset between consecutive vertexes.
      param 4: Offset to the start of the first vertex into the VBO.
      */
-    glVertexPointer(3, GL_FLOAT, sizeof(float) * DATA_PER_VERTEX, vertexData);
-    glTexCoordPointer(COMP_VERT_TEX, GL_FLOAT, sizeof(float) * DATA_PER_VERTEX, &vertexData[3]);
+    glVertexPointer(3, GL_FLOAT, sizeof(float) * VERTEX_STRIDE, vertexData);
+    glTexCoordPointer(COMP_VERT_TEX, GL_FLOAT, sizeof(float) * VERTEX_STRIDE, &vertexData[3]);
     assert(numQuads * INDICES_PER_QUAD < 0xffff);
     glDrawElements(GL_TRIANGLES, (GLsizei)(numQuads * INDICES_PER_QUAD), GL_UNSIGNED_SHORT, indices);
 
@@ -170,8 +161,8 @@ void FontBatchRenderer::render()
 void FontBatchRenderer::reallocate(int sizeIncrease)
 {
     int newSize = numQuads + sizeIncrease;
-    float* pVertices = new float[newSize * VERTICES_PER_QUAD * DATA_PER_VERTEX];	// x,y,z
-    memset(pVertices, 0, newSize * VERTICES_PER_QUAD * DATA_PER_VERTEX * sizeof(float));
+    float* pVertices = new float[newSize * VERTICES_PER_QUAD * VERTEX_STRIDE];	// x,y,z
+    memset(pVertices, 0, newSize * VERTICES_PER_QUAD * VERTEX_STRIDE * sizeof(float));
     GLushort* pIndices = new GLushort[newSize * INDICES_PER_QUAD];   // 2 triangles per quad
     // indices never change
     for (int n = 0; n < newSize; n++)
@@ -187,7 +178,7 @@ void FontBatchRenderer::reallocate(int sizeIncrease)
     if (numQuads > 0)
     {
         int numVert = numQuads * VERTICES_PER_QUAD;
-        memcpy(pVertices, vertexData, numVert * DATA_PER_VERTEX * sizeof(float));
+        memcpy(pVertices, vertexData, numVert * VERTEX_STRIDE * sizeof(float));
         release();
     }
     vertexData = pVertices;
