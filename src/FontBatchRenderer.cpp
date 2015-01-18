@@ -25,20 +25,18 @@ FontBatchRenderer& FontBatchRenderer::getRenderer()
     return renderer;
 }
 
-void FontBatchRenderer::setAttributes(unsigned int textureId, int color, float alpha, bool transparent)
+void FontBatchRenderer::setAttributes(unsigned int textureId, int color, float alpha)
 {
     if (alpha > 1.0f) alpha = 1.0f;
     if (this->textureId != textureId ||
         this->color != color ||
-        this->alpha != alpha ||
-        this->transparent != transparent)
+        this->alpha != alpha)
     {
         render();
 
         this->textureId = textureId;
         this->color = color;
         this->alpha = alpha;
-        this->transparent = transparent;
     }
 }
 
