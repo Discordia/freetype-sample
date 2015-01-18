@@ -1,6 +1,12 @@
 #pragma once
 
 #include <OpenGL.h>
+#include <memory>
+
+using std::shared_ptr;
+
+class BufferObject;
+class ShaderProgram;
 
 class FontBatchRenderer
 {
@@ -34,6 +40,11 @@ public:
     //!
     //!
     //!
+    void init();
+
+    //!
+    //!
+    //!
     void render();
 
     //!
@@ -52,6 +63,12 @@ private:
 
     //! Instance
     static FontBatchRenderer renderer;
+
+    // Render state
+    shared_ptr<BufferObject> vertexBuffer;
+    shared_ptr<BufferObject> indexBuffer;
+    shared_ptr<ShaderProgram> shader;
+
 
     //! Render data
     float* vertexData;		// storage of vertex array

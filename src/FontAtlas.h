@@ -2,10 +2,12 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include "FTFont.h"
 
 using std::string;
 using std::vector;
+using std::shared_ptr;
 
 struct FT_LibraryRec_;
 class FTFont;
@@ -28,7 +30,7 @@ public:
     //!
     //!
     //!
-    void addFont(const string& fontName, unsigned int size, const string& letters);
+    shared_ptr<FTFont> addFont(const string& fontName, unsigned int size, const string& letters);
 
     //!
     //!
@@ -63,7 +65,7 @@ private:
     struct FT_LibraryRec_* library;
 
     //!
-    vector<FTFont*> fontList;
+    vector<shared_ptr<FTFont> > fontList;
 
     //!
     vector<FTFontChar*> fontCharList;
