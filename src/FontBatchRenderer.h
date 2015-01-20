@@ -35,7 +35,7 @@ public:
     //!
     //!
     //!
-    void addQuad(const float* texCoords, const float* vertices);
+    void addQuad(const float* vertices, const float* texCoords);
 
     //!
     //!
@@ -46,11 +46,6 @@ public:
     //!
     //!
     void render();
-
-    //!
-    //!
-    //!
-    void reallocate(int sizeIncrease);
 
 private:
 
@@ -69,10 +64,6 @@ private:
     shared_ptr<BufferObject> indexBuffer;
     shared_ptr<ShaderProgram> shader;
 
-
-    //! Render data
-    float* vertexData;		// storage of vertex array
-    GLushort* indices;	    // indices of quads
     int numQuads;			// current number of quads waiting to be rendered
     int cacheSize;		    // current amount of quads that can fit in the arrays
 

@@ -30,20 +30,24 @@ void FTFontChar::render(int x, int y) const
     x += xOffset;
     y += yOffset;
 
-    float vertices[VERTICES_PER_QUAD * COMP_VERT_POS];
-    vertices[0] = (float) x;
-    vertices[1] = (float) y;
+    float vertices[VERTICES_PER_QUAD * (COMP_VERT_POS + 1)];
+    vertices[0]  = (float) x;
+    vertices[1]  = (float) y;
+    vertices[2]  = 0.0f;
 
-    vertices[2] = (float) (x + width);
-    vertices[3] = (float) y;
+    vertices[3]  = (float) (x + width);
+    vertices[4]  = (float) y;
+    vertices[5]  = 0.0f;
 
-    vertices[4] = (float) x;
-    vertices[5] = (float) (y + height);
+    vertices[6]  = (float) x;
+    vertices[7]  = (float) (y + height);
+    vertices[8]  = 0.0f;
 
-    vertices[6] = (float) (x + width);
-    vertices[7] = (float) (y + height);
+    vertices[9]  = (float) (x + width);
+    vertices[10] = (float) (y + height);
+    vertices[11] = 0.0f;
 
-    getRenderer().addQuad(texCoords, vertices);
+    getRenderer().addQuad(vertices, texCoords);
 }
 
 void FTFontChar::drawToBitmap(unsigned char* data, int texWidth, int texHeight)

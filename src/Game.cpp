@@ -1,16 +1,10 @@
 #include <Game.h>
 #include <ShaderProgram.h>
-#include <Log.h>
 #include <FontAtlas.h>
-#include <lodepng.h>
 #include <BufferObject.h>
+#include <FontBatchRenderer.h>
 
-#include <string>
 #include <iostream>
-#include "FontBatchRenderer.h"
-
-
-using std::string;
 
 #define LOG_TAG "Game"
 
@@ -34,5 +28,7 @@ void Game::render()
     // Clear the color buffer
     glClear(GL_COLOR_BUFFER_BIT);
 
-    font->drawString(100, 100, "Testing...", 0x000000, 1.0f);
+    font->drawString(100, 100, "Testing..1", 0x000000, 1.0f);
+    font->drawString(150, 150, "Testing..2", 0xFF0000, 1.0f);
+    font->drawString(150, 150, "Testing..3", 0x00FF00, 1.0f);
 }

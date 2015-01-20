@@ -41,10 +41,9 @@ const string texFragShader =
 FontBatchRenderer FontBatchRenderer::renderer;
 
 FontBatchRenderer::FontBatchRenderer()
-    : numQuads(0), vertexData(nullptr), indices(nullptr), textureId(0), cacheSize(0), drawCallCount(0)
+    : numQuads(0), textureId(0), cacheSize(150), drawCallCount(0)
 
 {
-    reallocate(150);
 }
 
 FontBatchRenderer::~FontBatchRenderer()
@@ -72,22 +71,16 @@ void FontBatchRenderer::setAttributes(unsigned int textureId, int color, float a
     }
 }
 
-void FontBatchRenderer::addQuad(const float* texCoords, const float* vertices)
+void FontBatchRenderer::addQuad(const float* vertices, const float* texCoords)
 {
-    if (numQuads >= cacheSize)
-    {
-        reallocate(20);
-    }
-
     int currIndex = numQuads * VERTICES_PER_QUAD * VERTEX_STRIDE;
+
     for (int n = 0; n < VERTICES_PER_QUAD; n++)
     {
-        // x,y,z: note: do not need to copy 3rd coordinate, just zero it
-        vertexData[currIndex+n * VERTEX_STRIDE]   = vertices[n * COMP_VERT_POS];
-        vertexData[currIndex+n* VERTEX_STRIDE + 1] = vertices[n * COMP_VERT_POS + 1];
+        // x,y,z
+        vertexBuffer->fill((uint32) currIndex, 3 * sizeof(float), vertices);
         // u,v
-        vertexData[currIndex+n* VERTEX_STRIDE + 3] = texCoords[n * COMP_VERT_TEX];
-        vertexData[currIndex+n* VERTEX_STRIDE + 4] = texCoords[n * COMP_VERT_TEX + 1];
+        vertexBuffer->fill((uint32) currIndex + 3, 2 * sizeof(float), texCoords);
     }
 
     numQuads++;
@@ -95,9 +88,22 @@ void FontBatchRenderer::addQuad(const float* texCoords, const float* vertices)
 
 void FontBatchRenderer::init()
 {
-    vertexBuffer = BufferObject::createVertexBuffer((uint32) (cacheSize * VERTEX_STRIDE * sizeof(GLfloat)));
-    indexBuffer = BufferObject::createIndexBuffer((uint32) (cacheSize * INDICES_PER_QUAD * sizeof(GLubyte)));
+    vertexBuffer = BufferObject::createVertexBuffer((uint32) (cacheSize * VERTICES_PER_QUAD * VERTEX_STRIDE * sizeof(GLfloat)));
+    indexBuffer = BufferObject::createIndexBuffer((uint32) (cacheSize * INDICES_PER_QUAD));
 
+    // Indices
+    GLubyte* indices = new GLubyte[(uint32) (cacheSize * INDICES_PER_QUAD)];
+    for (int n = 0; n < cacheSize; n++)
+    {
+        indices[n * INDICES_PER_QUAD]     = (GLubyte) (n * VERTICES_PER_QUAD);
+        indices[n * INDICES_PER_QUAD + 1] = (GLubyte) (n * VERTICES_PER_QUAD + 1);
+        indices[n * INDICES_PER_QUAD + 2] = (GLubyte) (n * VERTICES_PER_QUAD + 2);
+        indices[n * INDICES_PER_QUAD + 3] = (GLubyte) (n * VERTICES_PER_QUAD + 1);
+        indices[n * INDICES_PER_QUAD + 4] = (GLubyte) (n * VERTICES_PER_QUAD + 3);
+        indices[n * INDICES_PER_QUAD + 5] = (GLubyte) (n * VERTICES_PER_QUAD + 2);
+    }
+    indexBuffer->fill(0, (uint32) (cacheSize * INDICES_PER_QUAD * sizeof(GLubyte)), indices);
+    delete[] indices;
 
     //
     // Shader
@@ -177,6 +183,7 @@ void FontBatchRenderer::render()
     //
 
     // Setup the vertex data
+    // TODO: can we only have two floats per vertex?
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * VERTEX_STRIDE, 0);
     glEnableVertexAttribArray(0);
 
@@ -193,46 +200,7 @@ void FontBatchRenderer::render()
     numQuads = 0;
 }
 
-void FontBatchRenderer::reallocate(int sizeIncrease)
-{
-    int newSize = numQuads + sizeIncrease;
-    float* pVertices = new float[newSize * VERTICES_PER_QUAD * VERTEX_STRIDE];	// x,y,z
-    memset(pVertices, 0, newSize * VERTICES_PER_QUAD * VERTEX_STRIDE * sizeof(float));
-    GLushort* pIndices = new GLushort[newSize * INDICES_PER_QUAD];   // 2 triangles per quad
-    // indices never change
-    for (int n = 0; n < newSize; n++)
-    {
-        pIndices[n * INDICES_PER_QUAD]     = (GLushort) (n * VERTICES_PER_QUAD);
-        pIndices[n * INDICES_PER_QUAD + 1] = (GLushort) (n * VERTICES_PER_QUAD + 1);
-        pIndices[n * INDICES_PER_QUAD + 2] = (GLushort) (n * VERTICES_PER_QUAD + 2);
-        pIndices[n * INDICES_PER_QUAD + 3] = (GLushort) (n * VERTICES_PER_QUAD + 1);
-        pIndices[n * INDICES_PER_QUAD + 4] = (GLushort) (n * VERTICES_PER_QUAD + 3);
-        pIndices[n * INDICES_PER_QUAD + 5] = (GLushort) (n * VERTICES_PER_QUAD + 2);
-    }
-
-    if (numQuads > 0)
-    {
-        int numVert = numQuads * VERTICES_PER_QUAD;
-        memcpy(pVertices, vertexData, numVert * VERTEX_STRIDE * sizeof(float));
-        release();
-    }
-    vertexData = pVertices;
-    indices = pIndices;
-    cacheSize = newSize;
-}
-
 void FontBatchRenderer::release()
 {
-    if (vertexData != nullptr)
-    {
-        delete[] vertexData;
-        vertexData = nullptr;
-    }
-    if (indices != nullptr)
-    {
-        delete[] indices;
-        indices = nullptr;
-    }
-
     cacheSize = 0;
 }
