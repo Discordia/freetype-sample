@@ -72,14 +72,14 @@ void FontBatchRenderer::setAttributes(unsigned int textureId, int color, float a
 
 void FontBatchRenderer::addQuad(const float* vertices, const float* texCoords)
 {
-    int currIndex = numQuads * VERTICES_PER_QUAD * VERTEX_STRIDE;
+    uint32 currIndex = (uint32) (numQuads * VERTICES_PER_QUAD * VERTEX_STRIDE * sizeof(float));
 
     for (int n = 0; n < VERTICES_PER_QUAD; n++)
     {
         // x,y,z
-        vertexBuffer->fill((uint32) currIndex, 3 * sizeof(float), vertices);
+        vertexBuffer->fill((uint32 const)(currIndex + (n * VERTEX_STRIDE * sizeof(float))), 3 * sizeof(float), &vertices[n * 3]);
         // u,v
-        vertexBuffer->fill((uint32) currIndex + 3, 2 * sizeof(float), texCoords);
+        vertexBuffer->fill((uint32 const) (currIndex + (n * VERTEX_STRIDE * sizeof(float)) + 3 * sizeof(float)) , 2 * sizeof(float), &texCoords[n * 2]);
     }
 
     numQuads++;
@@ -87,8 +87,8 @@ void FontBatchRenderer::addQuad(const float* vertices, const float* texCoords)
 
 void FontBatchRenderer::init()
 {
-    vertexBuffer = BufferObject::createVertexBuffer((uint32) (cacheSize * VERTICES_PER_QUAD * VERTEX_STRIDE * sizeof(GLfloat)));
-    indexBuffer = BufferObject::createIndexBuffer((uint32) (cacheSize * INDICES_PER_QUAD));
+    vertexBuffer = BufferObject::createVertexBuffer((uint32 const) (cacheSize * VERTICES_PER_QUAD * VERTEX_STRIDE * sizeof(GLfloat)));
+    indexBuffer = BufferObject::createIndexBuffer((uint32 const) (cacheSize * INDICES_PER_QUAD  * sizeof(GLubyte)));
 
     // Indices
     GLubyte* indices = new GLubyte[(uint32) (cacheSize * INDICES_PER_QUAD)];
