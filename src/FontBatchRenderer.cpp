@@ -5,7 +5,6 @@
 #include <FTFontChar.h>
 
 #include <cassert>
-#include <cstring>
 
 #define LOG_TAG "FontBatchRenderer"
 
@@ -102,6 +101,7 @@ void FontBatchRenderer::init()
         indices[n * INDICES_PER_QUAD + 4] = (GLubyte) (n * VERTICES_PER_QUAD + 3);
         indices[n * INDICES_PER_QUAD + 5] = (GLubyte) (n * VERTICES_PER_QUAD + 2);
     }
+
     indexBuffer->fill(0, (uint32) (cacheSize * INDICES_PER_QUAD * sizeof(GLubyte)), indices);
     delete[] indices;
 
@@ -141,7 +141,6 @@ void FontBatchRenderer::init()
     oglOrthof(ortho, 0.0f, 480.0f, 0.0f, 320.0f, -1.0f, 1.0f);
     GLint projectionLoc = glGetUniformLocation(shader->getProgramId(), "Projection");
     glUniformMatrix4fv(projectionLoc, 1, 0, ortho);
-
 }
 
 void FontBatchRenderer::render()
