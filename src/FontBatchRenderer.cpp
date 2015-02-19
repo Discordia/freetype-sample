@@ -97,9 +97,9 @@ void FontBatchRenderer::init()
         indices[n * INDICES_PER_QUAD]     = (GLubyte) (n * VERTICES_PER_QUAD);
         indices[n * INDICES_PER_QUAD + 1] = (GLubyte) (n * VERTICES_PER_QUAD + 1);
         indices[n * INDICES_PER_QUAD + 2] = (GLubyte) (n * VERTICES_PER_QUAD + 2);
-        indices[n * INDICES_PER_QUAD + 3] = (GLubyte) (n * VERTICES_PER_QUAD + 1);
+        indices[n * INDICES_PER_QUAD + 3] = (GLubyte) (n * VERTICES_PER_QUAD + 2);
         indices[n * INDICES_PER_QUAD + 4] = (GLubyte) (n * VERTICES_PER_QUAD + 3);
-        indices[n * INDICES_PER_QUAD + 5] = (GLubyte) (n * VERTICES_PER_QUAD + 2);
+        indices[n * INDICES_PER_QUAD + 5] = (GLubyte) (n * VERTICES_PER_QUAD);
     }
 
     indexBuffer->fill(0, (uint32) (cacheSize * INDICES_PER_QUAD * sizeof(GLubyte)), indices);
