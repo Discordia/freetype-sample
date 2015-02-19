@@ -14,7 +14,7 @@ Game::Game()
 
 void Game::init()
 {
-    glClearColor(1.0f, 0.20f, 1.0f, 0.60f);
+    glClearColor(1.0f, 0.20f, 0.60f, 1.0f);
 
     FontBatchRenderer::getRenderer().init();
 
