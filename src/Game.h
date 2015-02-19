@@ -5,9 +5,8 @@
 using std::shared_ptr;
 using std::unique_ptr;
 
-class BufferObject;
+class FTFont;
 class FontAtlas;
-class ShaderProgram;
 
 class Game
 {
@@ -31,14 +30,8 @@ public:
 private:
 
     //
-    shared_ptr<BufferObject> vertexBuffer;
-
-    //
-    shared_ptr<BufferObject> indexBuffer;
-
-    //
-    shared_ptr<ShaderProgram> shader;
-
-    //
     shared_ptr<FontAtlas> fontAtlas;
+
+    //
+    shared_ptr<FTFont> font;
 };

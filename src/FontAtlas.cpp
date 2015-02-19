@@ -35,7 +35,7 @@ FontAtlas::~FontAtlas()
     }
 }
 
-void FontAtlas::addFont(const string& fontName, unsigned int size, const string& letters)
+shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size, const string& letters)
 {
     // The Object In Which FreeType Holds Information On A Given
     // Font Is Called A "face".
@@ -55,7 +55,7 @@ void FontAtlas::addFont(const string& fontName, unsigned int size, const string&
     int n;
     FTFontChar* fontChar;
     FT_Glyph pGlyph;
-    FTFont* font = new FTFont(this);
+    shared_ptr<FTFont> font = shared_ptr<FTFont>(new FTFont(this));
     font->setLineHeight(face->size->metrics.height >> 6);
     font->setFTFace(face);
     fontList.push_back(font);
@@ -104,6 +104,8 @@ void FontAtlas::addFont(const string& fontName, unsigned int size, const string&
             }
         }
     }
+
+    return font;
 }
 
 bool greaterSizeComparator(FTFontChar* fontChar1, FTFontChar* fontChar2)

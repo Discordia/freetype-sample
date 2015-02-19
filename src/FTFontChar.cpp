@@ -30,20 +30,25 @@ void FTFontChar::render(int x, int y) const
     x += xOffset;
     y += yOffset;
 
-    float vertices[VERTICES_PER_QUAD * COMP_VERT_POS];
-    vertices[0] = (float) x;
-    vertices[1] = (float) y;
+    float vertices[VERTICES_PER_QUAD * (COMP_VERT_POS + 1)];
 
-    vertices[2] = (float) (x + width);
-    vertices[3] = (float) y;
+    vertices[0]  = (float) x;
+    vertices[1]  = (float) (y + height);
+    vertices[2]  = 0.3f;
 
-    vertices[4] = (float) x;
-    vertices[5] = (float) (y + height);
+    vertices[3]  = (float) x;
+    vertices[4]  = (float) y;
+    vertices[5]  = 0.3f;
 
-    vertices[6] = (float) (x + width);
-    vertices[7] = (float) (y + height);
+    vertices[6]  = (float) (x + width);
+    vertices[7]  = (float) y;
+    vertices[8]  = 0.3f;
 
-    getRenderer().addQuad(texCoords, vertices);
+    vertices[9]  = (float) (x + width);
+    vertices[10] = (float) (y + height);
+    vertices[11] = 0.3f;
+
+    getRenderer().addQuad(vertices, texCoords);
 }
 
 void FTFontChar::drawToBitmap(unsigned char* data, int texWidth, int texHeight)
@@ -88,14 +93,14 @@ void FTFontChar::initTexCoords(int texWidth, int texHeight)
     texCoords[0] = x1;
     texCoords[1] = y1;
 
-    texCoords[2] = x2;
-    texCoords[3] = y1;
+    texCoords[2] = x1;
+    texCoords[3] = y2;
 
-    texCoords[4] = x1;
+    texCoords[4] = x2;
     texCoords[5] = y2;
 
     texCoords[6] = x2;
-    texCoords[7] = y2;
+    texCoords[7] = y1;
 }
 
 void FTFontChar::releaseGlyph()

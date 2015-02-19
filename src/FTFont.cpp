@@ -21,7 +21,7 @@ FTFont::~FTFont()
 
 int FTFont::drawString(int x, int y, const string& text, int color, float alpha)
 {
-    getRenderer().setAttributes(fontAtlas->getTextureId(), color, alpha, true);
+    getRenderer().setAttributes(fontAtlas->getTextureId(), color, alpha);
 
     unsigned char c;
     int currX = x;
