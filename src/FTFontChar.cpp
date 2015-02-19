@@ -92,14 +92,14 @@ void FTFontChar::initTexCoords(int texWidth, int texHeight)
     texCoords[0] = x1;
     texCoords[1] = y1;
 
-    texCoords[2] = x2;
-    texCoords[3] = y1;
+    texCoords[2] = x1;
+    texCoords[3] = y2;
 
-    texCoords[4] = x1;
+    texCoords[4] = x2;
     texCoords[5] = y2;
 
     texCoords[6] = x2;
-    texCoords[7] = y2;
+    texCoords[7] = y1;
 }
 
 void FTFontChar::releaseGlyph()

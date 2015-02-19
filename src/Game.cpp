@@ -31,4 +31,6 @@ void Game::render()
     font->drawString(100, 100, "A", 0x000000, 1.0f);
     /*font->drawString(150, 150, "Testing..2", 0xFF0000, 1.0f);
     font->drawString(150, 150, "Testing..3", 0x00FF00, 1.0f); */
+
+    FontBatchRenderer::getRenderer().render();
 }
