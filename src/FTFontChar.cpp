@@ -31,16 +31,17 @@ void FTFontChar::render(int x, int y) const
     y += yOffset;
 
     float vertices[VERTICES_PER_QUAD * (COMP_VERT_POS + 1)];
+
     vertices[0]  = (float) x;
-    vertices[1]  = (float) y;
+    vertices[1]  = (float) (y + height);
     vertices[2]  = 0.3f;
 
-    vertices[3]  = (float) (x + width);
+    vertices[3]  = (float) x;
     vertices[4]  = (float) y;
     vertices[5]  = 0.3f;
 
-    vertices[6]  = (float) x;
-    vertices[7]  = (float) (y + height);
+    vertices[6]  = (float) (x + width);
+    vertices[7]  = (float) y;
     vertices[8]  = 0.3f;
 
     vertices[9]  = (float) (x + width);
