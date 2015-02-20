@@ -43,9 +43,10 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
 
     string file = "assets/" + fontName;
     // This Is Where We Load In The Font Information From The File.
-    if (FT_New_Face(library, file.c_str(), 0, &face))
+    if (FT_Error error = FT_New_Face(library, file.c_str(), 0, &face))
     {
-        // error
+        LOGE("Failed to load font.");
+        exit(1);
     }
 
     // FreeType Measures Font Size In Terms Of 1/64ths Of Pixels.
