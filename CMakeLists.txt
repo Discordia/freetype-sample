@@ -25,7 +25,6 @@ set(SOURCE_FILES
     src/FTFont.cpp
     src/FTFontChar.cpp
     src/Game.cpp
-    src/lodepng.cpp
     src/Log.cpp
     src/Main.cpp
     src/OpenGL.cpp
