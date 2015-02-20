@@ -93,10 +93,8 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
                 fontChar = new FTFontChar(c);
 
                 // all metrics dimensions are multiplied by 64, so we have to divide by 64
-                height = face->glyph->metrics.height >> 6;
-                yOffset = font->getLineHeight() - (face->glyph->metrics.horiBearingY >> 6);
-                fontChar->setOffsets(face->glyph->metrics.horiBearingX >> 6, yOffset);
-                fontChar->setSize(face->glyph->metrics.width >> 6, height);
+                fontChar->setOffsets(face->glyph->metrics.horiBearingX >> 6, face->glyph->metrics.horiBearingY >> 6);
+                fontChar->setSize(face->glyph->metrics.width >> 6, face->glyph->metrics.height >> 6);
                 fontChar->setXAdvance(face->glyph->metrics.horiAdvance >> 6);
                 fontChar->setGlyph(pGlyph);
                 fontCharList.push_back(fontChar);
