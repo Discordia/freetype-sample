@@ -3,8 +3,10 @@
 #include <memory>
 
 using std::shared_ptr;
+using std::unique_ptr;
 
-class ShaderProgram;
+class FTFont;
+class FontAtlas;
 
 class Game
 {
@@ -28,5 +30,8 @@ public:
 private:
 
     //
-    shared_ptr<ShaderProgram> shader;
+    shared_ptr<FontAtlas> fontAtlas;
+
+    //
+    shared_ptr<FTFont> font;
 };

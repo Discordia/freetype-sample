@@ -81,7 +81,6 @@ void EGLWindow::init()
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    glEnable(GL_TEXTURE_2D);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_DITHER);
 

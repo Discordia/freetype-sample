@@ -36,9 +36,9 @@ GLWindow::GLWindow(const string& title, const Dimension windowSize, const Dimens
         primaryMonitor = glfwGetPrimaryMonitor();
     }
 
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
-    glfwWindowHint (GLFW_CONTEXT_VERSION_MAJOR, 2);
-    glfwWindowHint (GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
     window = glfwCreateWindow(windowSize.width, windowSize.height, title.c_str(), primaryMonitor, nullptr);
     if (!window)
@@ -84,7 +84,7 @@ void GLWindow::init()
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    glEnable(GL_TEXTURE_2D);
+    //glEnable(GL_TEXTURE_2D);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_DITHER);
 
