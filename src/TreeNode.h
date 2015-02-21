@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Cache.h>
+#include <Pool.h>
 #include "FTFontChar.h"
 
 class FTFontChar;
@@ -27,7 +27,7 @@ public:
     //!
     //!
     //!
-    static Cache<TreeNode>& getCache();
+    static Pool<TreeNode>& getPool();
 
     //!
     //!
@@ -59,7 +59,7 @@ private:
 private:
 
     //!
-    static Cache<TreeNode> cache;
+    static Pool<TreeNode> pool;
 
     int x;
     int y;

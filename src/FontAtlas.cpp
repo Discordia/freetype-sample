@@ -134,14 +134,14 @@ void FontAtlas::create()
         ixSize++;
     }
     sort(fontCharList.begin(), fontCharList.end(), greaterSizeComparator);
-    TreeNode::getCache().init((int) (fontCharList.size() + 1) * 2);
+    TreeNode::getPool().init((int) (fontCharList.size() + 1) * 2);
     while (!binPack(texWidth, texHeight))
     {
-        TreeNode::getCache().destroy();
+        TreeNode::getPool().destroy();
         getNextTextureSize(texWidth, texHeight, ixSize);
         ixSize++;
     }
-    TreeNode::getCache().release();
+    TreeNode::getPool().release();
 
     unsigned char* data = new unsigned char[texWidth * texHeight];
     for (n = 0; n < (int) fontCharList.size(); n++)
@@ -192,7 +192,7 @@ void FontAtlas::getNextTextureSize(int& texWidth, int& texHeight, int size)
 
 bool FontAtlas::binPack(int texWidth, int texHeight)
 {
-    TreeNode* treeNode = TreeNode::getCache().allocate();
+    TreeNode* treeNode = TreeNode::getPool().allocate();
     treeNode->set(0, 0, texWidth, texHeight);
     for (int n = 0; n < (int) fontCharList.size(); n++)
     {

@@ -18,7 +18,7 @@ endif()
 
 set(SOURCE_FILES
     src/BufferObject.cpp
-    src/Cache.h
+    src/Pool.h
     src/Dimension.h
     src/FontAtlas.cpp
     src/FontBatchRenderer.cpp

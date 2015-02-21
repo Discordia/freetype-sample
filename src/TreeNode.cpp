@@ -1,7 +1,7 @@
 #include <TreeNode.h>
 #include <FTFontChar.h>
 
-Cache<TreeNode> TreeNode::cache;
+Pool<TreeNode> TreeNode::pool;
 
 TreeNode::TreeNode()
     : leaf1(nullptr), leaf2(nullptr), x(0), y(0), width(0), height(0)
@@ -18,9 +18,9 @@ TreeNode::~TreeNode()
     // TODO: implement destruction
 }
 
-Cache<TreeNode>& TreeNode::getCache()
+Pool<TreeNode>& TreeNode::getPool()
 {
-    return cache;
+    return pool;
 }
 
 bool TreeNode::isEmpty() const
@@ -77,20 +77,20 @@ void TreeNode::createBranches(FTFontChar *fontChar)
     if (dx < dy)
     {
         //	split so the top is cut in half and the rest is one big rect below
-        leaf1 = cache.allocate();
+        leaf1 = pool.allocate();
         leaf1->set(x + fontChar->getWidth(), y, width - fontChar->getWidth(), fontChar->getHeight());
 
-        leaf2 = cache.allocate();
+        leaf2 = pool.allocate();
         leaf2->set(x, y + fontChar->getHeight(), width, height - fontChar->getHeight());
     }
     else
     {
         //	m_pLeaf1 = left (cut in half)
-        leaf1 = cache.allocate();
+        leaf1 = pool.allocate();
         leaf1->set(x, y + fontChar->getHeight(), fontChar->getWidth(), height - fontChar->getHeight());
 
         // m_pLeaf2 = right (not cut)
-        leaf2 = cache.allocate();
+        leaf2 = pool.allocate();
         leaf2->set(x + fontChar->getWidth(), y, width - fontChar->getWidth(), height);
     }
 }

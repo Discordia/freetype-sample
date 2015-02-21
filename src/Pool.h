@@ -7,28 +7,28 @@
 //#define LOG_TAG "Cache"
 
 template <class T>
-class Cache
+class Pool
 {
 public:
-    Cache()
+    Pool()
     {
         size = 0;
-        cache = NULL;
+        pool = NULL;
         used = 0;
     }
 
-    ~Cache()
+    ~Pool()
     {
         release();
     }
 
     void release()
     {
-        if (cache != NULL)
+        if (pool != NULL)
         {
-            free(cache);
+            free(pool);
             size = 0;
-            cache = NULL;
+            pool = NULL;
             used = 0;
         }
     }
@@ -37,20 +37,20 @@ public:
     {
         if (this->size < size)
         {
-            T* newCache = (T*) malloc(size * sizeof(T));
+            T* newPool = (T*) malloc(size * sizeof(T));
 
-            if (newCache == NULL)
+            if (newPool == NULL)
             {
   //              LOGE("Not enough memory ");
             }
 
             if (used > 0)
             {
-                memcpy(newCache, cache, used * sizeof(T));
+                memcpy(newPool, pool, used * sizeof(T));
             }
 
             release();
-            cache = newCache;
+            pool = newPool;
             this->size = size;
         }
     }
@@ -64,13 +64,13 @@ public:
     {
         if (used >= this->size)
         {
-    //        LOGW("Alocating when no memory left in cache, returning NULL");
+    //        LOGW("Alocating when no memory left in pool, returning NULL");
             assert(false);
 
             return NULL;
         }
 
-        return &cache[used++];
+        return &pool[used++];
     }
 
     void deallocate()
@@ -80,21 +80,21 @@ public:
 
     T* getCache()
     {
-        return cache;
+        return pool;
     }
 
     T& get(int index)
     {
-        return cache[index];
+        return pool[index];
     }
 
     T* getPtr(int index)
     {
-        return &cache[index];
+        return &pool[index];
     }
 
 private:
-    T* cache;
+    T* pool;
     int size;
     int used;
 };
