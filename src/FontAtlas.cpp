@@ -55,9 +55,7 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
     int n;
     FTFontChar* fontChar;
     FT_Glyph pGlyph;
-    shared_ptr<FTFont> font = shared_ptr<FTFont>(new FTFont(this));
-    font->setLineHeight(face->size->metrics.height >> 6);
-    font->setFTFace(face);
+    shared_ptr<FTFont> font = shared_ptr<FTFont>(new FTFont(this, face));
     fontList.push_back(font);
 
     char c;

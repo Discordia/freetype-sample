@@ -8,10 +8,10 @@
 
 #define LOG_TAG "FTFont"
 
-FTFont::FTFont(FontAtlas *fontAtlas)
+FTFont::FTFont(FontAtlas *fontAtlas, FT_FaceRec_* face)
 {
     this->fontAtlas = fontAtlas;
-    this->ftFace = nullptr;
+    this->face = face;
 }
 
 FTFont::~FTFont()
@@ -46,10 +46,10 @@ int FTFont::drawString(int x, int y, const string& text, int color, float alpha)
             if (fontHasKerning)
             {
                 // get kerning
-                ixGlyph = FT_Get_Char_Index(ftFace, c);
+                ixGlyph = FT_Get_Char_Index(face, c);
                 if (ixGlyphPrev && ixGlyph)
                 {
-                    FT_Get_Kerning(ftFace, ixGlyphPrev, ixGlyph, FT_KERNING_DEFAULT, &kerning);
+                    FT_Get_Kerning(face, ixGlyphPrev, ixGlyph, FT_KERNING_DEFAULT, &kerning);
                     currX += kerning.x >> 6;
                 }
 
@@ -64,16 +64,6 @@ int FTFont::drawString(int x, int y, const string& text, int color, float alpha)
     }
 
     return currX;
-}
-
-int FTFont::getLineHeight()
-{
-    return lineHeight;
-}
-
-void FTFont::setLineHeight(int lineHeight)
-{
-    this->lineHeight = lineHeight;
 }
 
 void FTFont::addChar(char charCode, FTFontChar* fontChar)
@@ -93,11 +83,6 @@ void* FTFont::getChar(char charCode)
     return nullptr;
 }
 
-void FTFont::setFTFace(FT_FaceRec_* ftFace)
-{
-    this->ftFace = ftFace;
-}
-
 void FTFont::finishCreating()
 {
     if (!hasKerning())
@@ -108,10 +93,10 @@ void FTFont::finishCreating()
 
 void FTFont::releaseFace()
 {
-    if (ftFace)
+    if (face)
     {
-        FT_Done_Face(ftFace);
-        ftFace = nullptr;
+        FT_Done_Face(face);
+        face = nullptr;
     }
 }
 
@@ -119,9 +104,9 @@ bool FTFont::hasKerning()
 {
     bool hasKerning = false;
 
-    if (ftFace)
+    if (face)
     {
-        hasKerning = static_cast<bool >(FT_HAS_KERNING(ftFace));
+        hasKerning = static_cast<bool >(FT_HAS_KERNING(face));
     }
 
     return hasKerning;

@@ -19,7 +19,7 @@ public:
     //!
     //!
     //!
-    FTFont(FontAtlas *fontAtlas);
+    FTFont(FontAtlas *fontAtlas, FT_FaceRec_* face);
 
     //!
     //!
@@ -52,11 +52,6 @@ public:
     void* getChar(char i);
 
     //!
-    //! TODO: could this not be part of the constructor?
-    //!
-    void setFTFace(FT_FaceRec_* ftFace);
-
-    //!
     //! TODO: Is this needed?
     //!
     void finishCreating();
@@ -84,7 +79,7 @@ private:
     FontAtlas* fontAtlas;
 
     //!
-    struct FT_FaceRec_* ftFace;
+    struct FT_FaceRec_* face;
 
     //!
     int lineHeight;
