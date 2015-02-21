@@ -70,7 +70,7 @@ private:
 private:
 
     //!
-    int textureId;
+    unsigned int textureId;
 
     //!
     struct FT_FaceRec_* face;
