@@ -80,7 +80,7 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
             }
             else
             {
-                if (FT_Load_Glyph(face, ixGlyph, FT_LOAD_FORCE_AUTOHINT | FT_LOAD_TARGET_LIGHT))
+                if (FT_Load_Glyph(face, ixGlyph, FT_LOAD_FORCE_AUTOHINT | FT_LOAD_TARGET_NORMAL))
                 {
                     // Error
                 }
