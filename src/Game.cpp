@@ -18,7 +18,7 @@ void Game::init()
 
     FontBatchRenderer::getRenderer().init();
 
-    fontAtlas = shared_ptr<FontAtlas>(new FontAtlas(true));
+    fontAtlas = shared_ptr<FontAtlas>(new FontAtlas());
     font = fontAtlas->addFont("LiberationMono-Regular.ttf", 16, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
     fontAtlas->create();
 }

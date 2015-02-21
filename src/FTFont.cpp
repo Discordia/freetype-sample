@@ -100,7 +100,7 @@ void FTFont::setFTFace(FT_FaceRec_* ftFace)
 
 void FTFont::finishCreating()
 {
-    if (!hasKerning() || !fontAtlas->isUseKerning())
+    if (!hasKerning())
     {
         releaseFace();
     }

@@ -20,7 +20,7 @@ public:
     //!
     //!
     //!
-    FontAtlas(bool useKerning);
+    FontAtlas();
 
     //!
     //!
@@ -36,11 +36,6 @@ public:
     //!
     //!
     void create();
-
-    //!
-    //!
-    //!
-    bool isUseKerning();
 
     //!
     //!
@@ -72,7 +67,4 @@ private:
 
     //!
     unsigned int textureId;
-
-    //!
-    bool useKerning;
 };
