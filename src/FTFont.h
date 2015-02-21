@@ -18,18 +18,13 @@ public:
     //!
     //!
     //!
-    FTFont(FT_FaceRec_* face);
+    FTFont(FT_FaceRec_* face, unsigned int textureId);
 
     //!
     //!
     //!
     ~FTFont();
 
-    //!
-    //!
-    //!
-    void setTextureId(int textureId);
-    
     //!
     //!
     //!

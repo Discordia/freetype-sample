@@ -7,20 +7,16 @@
 
 #define LOG_TAG "FTFont"
 
-FTFont::FTFont(FT_FaceRec_* face)
+FTFont::FTFont(FT_FaceRec_* face, unsigned int textureId)
     : textureId(0)
 {
     this->face = face;
+    this->textureId = textureId;
 }
 
 FTFont::~FTFont()
 {
     releaseFace();
-}
-
-void FTFont::setTextureId(int textureId)
-{
-    this->textureId = textureId;
 }
 
 int FTFont::drawString(int x, int y, const string& text, int color, float alpha)

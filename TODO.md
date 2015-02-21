@@ -8,6 +8,11 @@ Some thoughs on how the codebase should change.
    => Then  we can work away so that FTFont foes not ahve to know about it's atlas.
    => FTFont need to know about it's own texture id.
 
+* fontCharList is stored both in FontAtlas and FTFont.
+  ==> It should only be needed at one of the places, probably only FTFont.
+
+* Have a border of one empty pixel around each font glyph in the texture. To remove artifacts.
+
 * The whole rendering pipeline is messy:
   - font::drawString -> FTFont::render -> FTFontChar::render -> FontBatchRenderer::addQuad
   - Then we have to explicitly call FontBatchRenderer::render to render (if there are no render state changes).

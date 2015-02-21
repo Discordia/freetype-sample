@@ -17,12 +17,17 @@ using std::sort;
 
 #define LOG_TAG "FontAtlas"
 
-FontAtlas::FontAtlas()
+FontAtlas::FontAtlas(int width, int height)
 {
+    this->width = width;
+    this->height = height;
+
     if (FT_Init_FreeType(&library))
     {
         LOGE("Error inializing Freetype2");
     }
+
+    glGenTextures(1, &textureId);
 }
 
 FontAtlas::~FontAtlas()
@@ -52,19 +57,17 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
     FT_Set_Char_Size(face, size * 64, size * 64, 72, 72);
 
     unsigned long len = letters.size();
-    int n;
-    FTFontChar* fontChar;
-    FT_Glyph pGlyph;
-    shared_ptr<FTFont> font = shared_ptr<FTFont>(new FTFont(face));
+
+    shared_ptr<FTFont> font = shared_ptr<FTFont>(new FTFont(face, textureId));
     fontList.push_back(font);
 
-    char c;
-    long height;
-    long yOffset;
+    FTFontChar* fontChar;
+    FT_Glyph pGlyph;
     int ixGlyph;
-    for (n = 0; n < len; n++)
+
+    for (int n = 0; n < len; n++)
     {
-        c = letters[n];
+        char c = letters[n];
 
         // check that the character hasn't already been processed
         if (font->getChar(c) == NULL)
@@ -79,13 +82,13 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
             {
                 if (FT_Load_Glyph(face, ixGlyph, FT_LOAD_FORCE_AUTOHINT | FT_LOAD_TARGET_NORMAL))
                 {
-                    // Error
+                    LOGE("Failed to load the glyph for char c=%c.", c);
                 }
 
                 // Move The Face's Glyph Into A Glyph Object.
                 if (FT_Get_Glyph(face->glyph, &pGlyph))
                 {
-                    // Error
+                    LOGE("Failed to load the glyph object for char c=%c.", c);
                 }
 
                 fontChar = new FTFontChar(c);
@@ -147,7 +150,7 @@ void FontAtlas::create()
         fontCharList[n]->releaseGlyph();
     }
 
-    glGenTextures(1, &textureId);
+
     glBindTexture(GL_TEXTURE_2D, textureId);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -165,7 +168,6 @@ void FontAtlas::create()
 
     for (n = 0; n < (int) fontList.size(); n++)
     {
-        fontList[n]->setTextureId(textureId);
         fontList[n]->finishCreating();
     }
 

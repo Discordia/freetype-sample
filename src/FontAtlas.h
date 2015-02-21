@@ -20,7 +20,7 @@ public:
     //!
     //!
     //!
-    FontAtlas();
+    FontAtlas(int width, int height);
 
     //!
     //!
@@ -57,6 +57,15 @@ private:
 private:
 
     //!
+    int width;
+
+    //!
+    int height;
+
+    //!
+    unsigned int textureId;
+
+    //!
     struct FT_LibraryRec_* library;
 
     //!
@@ -64,7 +73,4 @@ private:
 
     //!
     vector<FTFontChar*> fontCharList;
-
-    //!
-    unsigned int textureId;
 };
