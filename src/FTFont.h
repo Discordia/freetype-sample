@@ -9,7 +9,6 @@ using std::unordered_map;
 
 struct FT_FaceRec_;
 class FTFontChar;
-class FontAtlas;
 class FontBatchRenderer;
 
 class FTFont
@@ -19,27 +18,22 @@ public:
     //!
     //!
     //!
-    FTFont(FontAtlas *fontAtlas, FT_FaceRec_* face);
+    FTFont(FT_FaceRec_* face);
 
     //!
     //!
     //!
     ~FTFont();
+
+    //!
+    //!
+    //!
+    void setTextureId(int textureId);
     
     //!
     //!
     //!
     int drawString(int x, int y, const string& text, int color, float alpha = 1.0f);
-
-    //!
-    //!
-    //!
-    int getLineHeight();
-
-    //!
-    //! TODO: could this not be part of the constructor?
-    //!
-    void setLineHeight(int lineHeight);
 
     //!
     //! TODO: could this not be part of the constructor?
@@ -76,13 +70,10 @@ private:
 private:
 
     //!
-    FontAtlas* fontAtlas;
+    int textureId;
 
     //!
     struct FT_FaceRec_* face;
-
-    //!
-    int lineHeight;
 
     //!
     unordered_map<int, FTFontChar*> fontCharList;

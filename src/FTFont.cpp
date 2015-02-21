@@ -1,6 +1,5 @@
 #include <FTFontChar.h>
 #include <FTFont.h>
-#include <FontAtlas.h>
 #include <FontBatchRenderer.h>
 
 #include <ftimage.h>
@@ -8,9 +7,9 @@
 
 #define LOG_TAG "FTFont"
 
-FTFont::FTFont(FontAtlas *fontAtlas, FT_FaceRec_* face)
+FTFont::FTFont(FT_FaceRec_* face)
+    : textureId(0)
 {
-    this->fontAtlas = fontAtlas;
     this->face = face;
 }
 
@@ -19,9 +18,14 @@ FTFont::~FTFont()
     releaseFace();
 }
 
+void FTFont::setTextureId(int textureId)
+{
+    this->textureId = textureId;
+}
+
 int FTFont::drawString(int x, int y, const string& text, int color, float alpha)
 {
-    getRenderer().setAttributes(fontAtlas->getTextureId(), color, alpha);
+    getRenderer().setAttributes(textureId, color, alpha);
 
     unsigned char c;
     int currX = x;

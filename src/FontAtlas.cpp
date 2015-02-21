@@ -55,7 +55,7 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
     int n;
     FTFontChar* fontChar;
     FT_Glyph pGlyph;
-    shared_ptr<FTFont> font = shared_ptr<FTFont>(new FTFont(this, face));
+    shared_ptr<FTFont> font = shared_ptr<FTFont>(new FTFont(face));
     fontList.push_back(font);
 
     char c;
@@ -147,11 +147,6 @@ void FontAtlas::create()
         fontCharList[n]->releaseGlyph();
     }
 
-    for (n = 0; n < (int) fontList.size(); n++)
-    {
-        fontList[n]->finishCreating();
-    }
-
     glGenTextures(1, &textureId);
     glBindTexture(GL_TEXTURE_2D, textureId);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -166,6 +161,12 @@ void FontAtlas::create()
     if (err != GL_NO_ERROR)
     {
         LOGE("Error in glTexImage2D: %i", err);
+    }
+
+    for (n = 0; n < (int) fontList.size(); n++)
+    {
+        fontList[n]->setTextureId(textureId);
+        fontList[n]->finishCreating();
     }
 
     // clean up memory
