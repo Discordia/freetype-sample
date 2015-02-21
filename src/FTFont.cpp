@@ -83,6 +83,17 @@ void* FTFont::getChar(char charCode)
     return nullptr;
 }
 
+int FTFont::getTotalNumPixels()
+{
+    int totalPixels = 0;
+    for (auto it = fontCharList.begin(); it != fontCharList.end(); ++it)
+    {
+        totalPixels += it->second->getNumPixels();
+    }
+
+    return totalPixels;
+}
+
 void FTFont::finishCreating()
 {
     if (!hasKerning())
@@ -116,3 +127,4 @@ FontBatchRenderer& FTFont::getRenderer()
 {
     return FontBatchRenderer::getRenderer();
 }
+

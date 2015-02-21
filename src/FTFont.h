@@ -41,6 +41,11 @@ public:
     void* getChar(char i);
 
     //!
+    //!
+    //!
+    int getTotalNumPixels();
+
+    //!
     //! TODO: Is this needed?
     //!
     void finishCreating();

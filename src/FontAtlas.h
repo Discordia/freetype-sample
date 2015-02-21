@@ -37,17 +37,7 @@ public:
     //!
     void create();
 
-    //!
-    //!
-    //!
-    unsigned int getTextureId();
-
 private:
-
-    //!
-    //!
-    //!
-    void getNextTextureSize(int& texWidth, int& texHeight, int size);
 
     //!
     //!

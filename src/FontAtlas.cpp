@@ -114,42 +114,28 @@ bool greaterSizeComparator(FTFontChar* fontChar1, FTFontChar* fontChar2)
 
 void FontAtlas::create()
 {
-    int n;
     int totalPixels = 0;
-    for (n = 0; n < (int) fontCharList.size(); n++)
+    for (int n = 0; n < (int) fontList.size(); n++)
     {
-        totalPixels += fontCharList[n]->getNumPixels();
+        shared_ptr<FTFont> font = fontList[n];
+        totalPixels += font->getTotalNumPixels();
     }
 
-    int ixSize = 0;
-    int texWidth = 32;
-    int texHeight = 32;
-    while (true)
-    {
-        if (totalPixels <= texWidth * texHeight)
-        {
-            break;
-        }
-        getNextTextureSize(texWidth, texHeight, ixSize);
-        ixSize++;
-    }
     sort(fontCharList.begin(), fontCharList.end(), greaterSizeComparator);
+
     TreeNode::getPool().init((int) (fontCharList.size() + 1) * 2);
-    while (!binPack(texWidth, texHeight))
+    if (!binPack(width, height))
     {
-        TreeNode::getPool().destroy();
-        getNextTextureSize(texWidth, texHeight, ixSize);
-        ixSize++;
+        LOGE("Failed to render glyphs to texture");
     }
     TreeNode::getPool().release();
 
-    unsigned char* data = new unsigned char[texWidth * texHeight];
-    for (n = 0; n < (int) fontCharList.size(); n++)
+    unsigned char* data = new unsigned char[width * height];
+    for (int n = 0; n < (int) fontCharList.size(); n++)
     {
-        fontCharList[n]->drawToBitmap(data, texWidth, texHeight);
+        fontCharList[n]->drawToBitmap(data, width, height);
         fontCharList[n]->releaseGlyph();
     }
-
 
     glBindTexture(GL_TEXTURE_2D, textureId);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -157,7 +143,7 @@ void FontAtlas::create()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, texWidth, texHeight, 0, GL_RED, GL_UNSIGNED_BYTE, data);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
 
     int err = glGetError();
@@ -166,23 +152,13 @@ void FontAtlas::create()
         LOGE("Error in glTexImage2D: %i", err);
     }
 
-    for (n = 0; n < (int) fontList.size(); n++)
+    for (int n = 0; n < (int) fontList.size(); n++)
     {
         fontList[n]->finishCreating();
     }
 
     // clean up memory
     delete[] data;
-}
-
-void FontAtlas::getNextTextureSize(int& texWidth, int& texHeight, int size)
-{
-    texHeight *= 2;
-    texWidth *= 2;
-    if (texWidth > 1024 || texHeight > 1024)
-    {
-        LOGE("To many images to fit in one texture");
-    }
 }
 
 bool FontAtlas::binPack(int texWidth, int texHeight)
@@ -197,9 +173,4 @@ bool FontAtlas::binPack(int texWidth, int texHeight)
         }
     }
     return true;
-}
-
-unsigned int FontAtlas::getTextureId()
-{
-    return textureId;
 }
