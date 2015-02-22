@@ -46,7 +46,7 @@ bool TreeNode::add(FTFontChar* fontChar)
         if (fits(fontChar))
         {
             createBranches(fontChar);
-            fontChar->setXY(x, y);
+            fontChar->setXY(x + 1, y + 1);
 
             return true;
         }
@@ -78,19 +78,19 @@ void TreeNode::createBranches(FTFontChar *fontChar)
     {
         //	split so the top is cut in half and the rest is one big rect below
         leaf1 = pool.allocate();
-        leaf1->set(x + fontChar->getWidth(), y, width - fontChar->getWidth(), fontChar->getHeight());
+        leaf1->set(x + fontChar->getWidth() + 2, y, width - (fontChar->getWidth() + 2), fontChar->getHeight() + 2);
 
         leaf2 = pool.allocate();
-        leaf2->set(x, y + fontChar->getHeight(), width, height - fontChar->getHeight());
+        leaf2->set(x, y + fontChar->getHeight() + 2, width, height - (fontChar->getHeight() + 2));
     }
     else
     {
         //	m_pLeaf1 = left (cut in half)
         leaf1 = pool.allocate();
-        leaf1->set(x, y + fontChar->getHeight(), fontChar->getWidth(), height - fontChar->getHeight());
+        leaf1->set(x, y + fontChar->getHeight() + 2, fontChar->getWidth() + 2, height - (fontChar->getHeight() + 2));
 
         // m_pLeaf2 = right (not cut)
         leaf2 = pool.allocate();
-        leaf2->set(x + fontChar->getWidth(), y, width - fontChar->getWidth(), height);
+        leaf2->set(x + fontChar->getWidth() + 2, y, width - (fontChar->getWidth() + 2), height);
     }
 }
