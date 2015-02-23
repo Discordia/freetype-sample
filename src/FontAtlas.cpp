@@ -44,16 +44,13 @@ FontAtlas::~FontAtlas()
 
 shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size, const string& letters)
 {
-    // The Object In Which FreeType Holds Information On A Given
-    // Font Is Called A "face".
     FT_Face face;
 
     string file = "assets/" + fontName;
-    // This Is Where We Load In The Font Information From The File.
     if (FT_Error error = FT_New_Face(library, file.c_str(), 0, &face))
     {
         LOGE("Failed to load font.");
-        exit(1);
+        return shared_ptr<FTFont>();
     }
 
     // FreeType Measures Font Size In Terms Of 1/64ths Of Pixels.
@@ -72,10 +69,8 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
     {
         char c = letters[n];
 
-        // check that the character hasn't already been processed
         if (font->getChar(c) == NULL)
         {
-            // Load The Glyph For Our Character.
             ixGlyph = FT_Get_Char_Index(face, c);
             if (ixGlyph == 0)
             {
@@ -83,7 +78,7 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
             }
             else
             {
-                if (FT_Load_Glyph(face, ixGlyph, FT_LOAD_FORCE_AUTOHINT | FT_LOAD_TARGET_NORMAL))
+                if (FT_Load_Glyph(face, ixGlyph, FT_LOAD_RENDER))
                 {
                     LOGE("Failed to load the glyph for char c=%c.", c);
                 }

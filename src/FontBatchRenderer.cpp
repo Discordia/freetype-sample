@@ -152,8 +152,7 @@ void FontBatchRenderer::render()
     // glFrontFace(GL_CW);
     // glEnable(GL_CULL_FACE);
 
-    // TODO: should we disable DEPTH_TEST?
-    // glDisable(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
 
     shader->use();
 

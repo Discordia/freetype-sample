@@ -7,7 +7,7 @@
 
 #define LOG_TAG "FTFont"
 
-FTFont::FTFont(FT_FaceRec_* face, unsigned int textureId)
+FTFont::FTFont(FT_Face face, unsigned int textureId)
     : textureId(0)
 {
     this->face = face;
@@ -87,7 +87,7 @@ int FTFont::getTotalNumPixels()
     return totalPixels;
 }
 
-bool FTFont::hasKerning(FT_FaceRec_* face)
+bool FTFont::hasKerning(FT_Face face)
 {
     bool hasKerning = false;
 
