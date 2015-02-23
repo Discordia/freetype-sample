@@ -46,11 +46,6 @@ public:
     int getTotalNumPixels();
 
     //!
-    //! TODO: Is this needed?
-    //!
-    void finishCreating();
-
-    //!
     //!
     //!
     FontBatchRenderer& getRenderer();
@@ -60,12 +55,12 @@ private:
     //!
     //!
     //!
-    void releaseFace();
+    bool hasKerning(FT_FaceRec_* face);
 
     //!
     //!
     //!
-    bool hasKerning();
+    int getKerning(unsigned int glyphPrev, unsigned int glyph);
 
 private:
 
@@ -74,6 +69,9 @@ private:
 
     //!
     struct FT_FaceRec_* face;
+
+    //!
+    bool kerning;
 
     //!
     unordered_map<int, FTFontChar*> fontCharList;

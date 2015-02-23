@@ -32,7 +32,10 @@ FontAtlas::FontAtlas(int width, int height)
 
 FontAtlas::~FontAtlas()
 {
-    if (library != nullptr)
+    fontList.clear();
+    fontCharList.clear();
+
+    if (library)
     {
         FT_Done_FreeType(library);
         library = nullptr;
@@ -150,11 +153,6 @@ void FontAtlas::create()
     if (err != GL_NO_ERROR)
     {
         LOGE("Error in glTexImage2D: %i", err);
-    }
-
-    for (int n = 0; n < (int) fontList.size(); n++)
-    {
-        fontList[n]->finishCreating();
     }
 
     // clean up memory

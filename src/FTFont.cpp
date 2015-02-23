@@ -12,55 +12,48 @@ FTFont::FTFont(FT_FaceRec_* face, unsigned int textureId)
 {
     this->face = face;
     this->textureId = textureId;
+    this->kerning = hasKerning(face);
 }
 
 FTFont::~FTFont()
 {
-    releaseFace();
+    if (face)
+    {
+        FT_Done_Face(face);
+        face = nullptr;
+    }
 }
 
 int FTFont::drawString(int x, int y, const string& text, int color, float alpha)
 {
     getRenderer().setAttributes(textureId, color, alpha);
 
-    unsigned char c;
-    int currX = x;
-    int n = 0;
-
     unordered_map<int, FTFontChar*>::const_iterator it;
 
-    FT_Vector kerning;
-    FT_UInt ixGlyph;
-    FT_UInt ixGlyphPrev = 0;
+    unsigned char c;
+    int currX = x;
+    FT_UInt glyph;
+    FT_UInt glyphPrev = 0;
 
-    bool fontHasKerning = hasKerning();
-
-    // TODO: iterate over string the c++ way instead of c way
-    while (text[n] != 0)
+    for (int n = 0; text[n] != 0; n++)
     {
         c = (unsigned char) text[n];
-
         it = fontCharList.find(c);
+
         if (it != fontCharList.end())
         {
-            if (fontHasKerning)
-            {
-                // get kerning
-                ixGlyph = FT_Get_Char_Index(face, c);
-                if (ixGlyphPrev && ixGlyph)
-                {
-                    FT_Get_Kerning(face, ixGlyphPrev, ixGlyph, FT_KERNING_DEFAULT, &kerning);
-                    currX += kerning.x >> 6;
-                }
+            FTFontChar* fontChar = it->second;
 
-                ixGlyphPrev = ixGlyph;
+            if (kerning)
+            {
+                glyph = FT_Get_Char_Index(face, c);
+                currX += getKerning(glyphPrev, glyph);
+                glyphPrev = glyph;
             }
 
-            it->second->render(currX, y);
-            currX += it->second->getXAdvance();
+            fontChar->render(currX, y);
+            currX += fontChar->getXAdvance();
         }
-
-        n++;
     }
 
     return currX;
@@ -94,24 +87,7 @@ int FTFont::getTotalNumPixels()
     return totalPixels;
 }
 
-void FTFont::finishCreating()
-{
-    if (!hasKerning())
-    {
-        releaseFace();
-    }
-}
-
-void FTFont::releaseFace()
-{
-    if (face)
-    {
-        FT_Done_Face(face);
-        face = nullptr;
-    }
-}
-
-bool FTFont::hasKerning()
+bool FTFont::hasKerning(FT_FaceRec_* face)
 {
     bool hasKerning = false;
 
@@ -123,8 +99,21 @@ bool FTFont::hasKerning()
     return hasKerning;
 }
 
+int FTFont::getKerning(unsigned int glyphPrev, unsigned int glyph)
+{
+    FT_Vector kerningVec;
+    int kerningX = 0;
+
+    if (glyphPrev && glyph)
+    {
+        FT_Get_Kerning(face, glyphPrev, glyph, FT_KERNING_DEFAULT, &kerningVec);
+        kerningX += kerningVec.x >> 6;
+    }
+
+    return kerningX;
+}
+
 FontBatchRenderer& FTFont::getRenderer()
 {
     return FontBatchRenderer::getRenderer();
 }
-
