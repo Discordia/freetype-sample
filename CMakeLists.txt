@@ -13,7 +13,7 @@ set(CMAKE_CXX_FLAGS
 add_subdirectory(deps/freetype)
 
 # Includes
-include_directories(src /usr/include/freetype2)
+include_directories(src deps/freetype/include)
 
 # for android include native_app_glue
 if(ANDROID)
