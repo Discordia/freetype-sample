@@ -1,0 +1,3 @@
+[submodule "deps/freetype"]
+	path = deps/freetype
+	url = https://github.com/Discordia/freetype.git
