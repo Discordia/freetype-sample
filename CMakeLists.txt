@@ -9,6 +9,10 @@ endif()
 set(CMAKE_CXX_FLAGS
   "-std=c++11 -ffor-scope -fno-exceptions -pipe -ffunction-sections -fdata-sections -ffast-math -pedantic -Werror -Wnon-virtual-dtor -Wsign-promo -fvisibility=hidden -fvisibility-inlines-hidden -Wstrict-null-sentinel -Os -funroll-all-loops -fpeel-loops -ftree-vectorize")
 
+# Dependencies
+add_subdirectory(deps/freetype)
+
+# Includes
 include_directories(src /usr/include/freetype2)
 
 # for android include native_app_glue
