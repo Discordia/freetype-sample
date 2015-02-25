@@ -2,6 +2,8 @@
 #include <Activity.h>
 #include <Log.h>
 
+#define LOG_TAG "Activity"
+
 const int DEFAULT_FPS = 60;
 
 Activity::Activity(const Dimension viewportSize, android_app *app)
@@ -16,6 +18,7 @@ Activity::Activity(const Dimension viewportSize, android_app *app)
 
 int32_t Activity::handleInput(AInputEvent *event)
 {
+
     return 0;
 }
 

@@ -8,6 +8,8 @@
 #include <android_native_app_glue.h>
 #include <unistd.h>
 
+#define LOG_TAG "EGLWindow"
+
 EGLWindow::EGLWindow(android_app *app, int32_t width, int32_t height)
         : app(app), width(width), height(height),
           display(EGL_NO_DISPLAY),
@@ -21,7 +23,7 @@ EGLWindow::EGLWindow(android_app *app, int32_t width, int32_t height)
 
 void EGLWindow::init()
 {
-    LOGD("EGLWindow", "init()");
+    LOGD("init()");
 
     /*
      * Here specify the attributes of the desired configuration.

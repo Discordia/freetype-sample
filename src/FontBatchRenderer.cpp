@@ -33,7 +33,7 @@ const string texFragShader =
         "\n"
         "void main(void)\n"
         "{\n"
-        "    gl_FragColor = vec4(diffuseColor.rgb, texture2D(tex, textureCoord).r * diffuseColor.a);\n"
+        "    gl_FragColor = vec4(diffuseColor.rgb, texture2D(tex, textureCoord).a * diffuseColor.a);\n"
         "}";
 
 
