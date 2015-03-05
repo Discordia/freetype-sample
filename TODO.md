@@ -1,17 +1,7 @@
-Some thoughs on how the codebase should change.
-
-* Need to fix so that the rendering is done according to freetypes model:
-  http://www.freetype.org/freetype2/docs/tutorial/step2.html
-   --> Kinda DONE, but should start to use advance when available
-
-* useKerning should be per font and not per font atlas.
-   => Then  we can work away so that FTFont foes not ahve to know about it's atlas.
-   => FTFont need to know about it's own texture id.
+Some thoughts on how the codebase should change.
 
 * fontCharList is stored both in FontAtlas and FTFont.
   ==> It should only be needed at one of the places, probably only FTFont.
-
-* Have a border of one empty pixel around each font glyph in the texture. To remove artifacts.
 
 * The whole rendering pipeline is messy:
   - font::drawString -> FTFont::render -> FTFontChar::render -> FontBatchRenderer::addQuad
