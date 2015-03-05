@@ -18,12 +18,7 @@ public:
     //!
     //!
     //!
-    FTFontChar();
-
-    //!
-    //!
-    //!
-    FTFontChar(char i);
+    FTFontChar(char charCode, int width, int height, int xOffset, int yOffset, int xAdvance, FT_GlyphRec_* glyph);
 
     //!
     //!
@@ -53,27 +48,7 @@ public:
     //!
     //!
     //!
-    void setOffsets(int xOffset, int yOffset);
-
-    //!
-    //!
-    //!
-    void setSize(int width, int height);
-
-    //!
-    //!
-    //!
-    void setXAdvance(int xAdvance);
-
-    //!
-    //!
-    //!
     int getXAdvance();
-
-    //!
-    //!
-    //!
-    void setGlyph(FT_GlyphRec_* glyph);
 
     //!
     //!

@@ -89,13 +89,15 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
                     LOGE("Failed to load the glyph object for char c=%c.", c);
                 }
 
-                fontChar = new FTFontChar(c);
 
                 // all metrics dimensions are multiplied by 64, so we have to divide by 64
-                fontChar->setOffsets(face->glyph->metrics.horiBearingX >> 6, face->glyph->metrics.horiBearingY >> 6);
-                fontChar->setSize(face->glyph->metrics.width >> 6, face->glyph->metrics.height >> 6);
-                fontChar->setXAdvance(face->glyph->metrics.horiAdvance >> 6);
-                fontChar->setGlyph(pGlyph);
+                int xOffset = (int) face->glyph->metrics.horiBearingX >> 6;
+                int yOffset = (int) face->glyph->metrics.horiBearingY >> 6;
+                int width = (int) face->glyph->metrics.width >> 6;
+                int height = (int) face->glyph->metrics.height >> 6;
+                int xAdvance = (int) face->glyph->metrics.horiAdvance >> 6;
+
+                fontChar = new FTFontChar(c, width, height, xOffset, yOffset, xAdvance, pGlyph);
                 fontCharList.push_back(fontChar);
                 font->addChar(c, fontChar);
             }

@@ -5,13 +5,8 @@
 
 #include <ftglyph.h>
 
-FTFontChar::FTFontChar()
-    : x(0), y(0), width(0), height(0), xOffset(0), yOffset(0), xAdvance(0), glyph(NULL)
-{
-}
-
-FTFontChar::FTFontChar(char charCode)
-    : charCode(charCode)
+FTFontChar::FTFontChar(char charCode, int width, int height, int xOffset, int yOffset, int xAdvance, FT_GlyphRec_* glyph)
+    : charCode(charCode), x(0), y(0), width(width), height(height), xOffset(xOffset), yOffset(yOffset), xAdvance(xAdvance), glyph(glyph)
 {
 }
 
@@ -115,31 +110,9 @@ void FTFontChar::setXY(int x, int y)
     this->y = y;
 }
 
-void FTFontChar::setOffsets(int xOffset, int yOffset)
-{
-    this->xOffset = xOffset;
-    this->yOffset = yOffset;
-}
-
-void FTFontChar::setSize(int width, int height)
-{
-    this->width = width;
-    this->height = height;
-}
-
-void FTFontChar::setXAdvance(int xAdvance)
-{
-    this->xAdvance = xAdvance;
-}
-
 int FTFontChar::getXAdvance()
 {
     return xAdvance;
-}
-
-void FTFontChar::setGlyph(FT_GlyphRec_* glyph)
-{
-    this->glyph = glyph;
 }
 
 int FTFontChar::getNumPixels() const
