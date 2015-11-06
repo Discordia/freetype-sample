@@ -7,6 +7,7 @@ using std::unique_ptr;
 
 class FTFont;
 class FontAtlas;
+class StreamFactory;
 
 class Game
 {
@@ -15,7 +16,7 @@ public:
     //!
     //!
     //!
-    Game();
+    Game(shared_ptr<StreamFactory> streamFactory);
 
     //!
     //!
@@ -29,9 +30,12 @@ public:
 
 private:
 
-    //
+    //!
     shared_ptr<FontAtlas> fontAtlas;
 
-    //
+    //!
     shared_ptr<FTFont> font;
+
+    //!
+    shared_ptr<StreamFactory> streamFactory;
 };

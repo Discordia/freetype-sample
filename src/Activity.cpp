@@ -2,6 +2,8 @@
 #include <Activity.h>
 #include <Log.h>
 
+#include <AndroidStreamFactory.h>
+
 #define LOG_TAG "Activity"
 
 const int DEFAULT_FPS = 60;
@@ -14,6 +16,8 @@ Activity::Activity(const Dimension viewportSize, android_app *app)
     // EGL Window - the surface we draw to
     window = unique_ptr<EGLWindow>(new EGLWindow(app, viewportSize.width, viewportSize.height));
     window->setFramerateLimit(DEFAULT_FPS);
+
+    this->game = shared_ptr<Game>(new Game(shared_ptr<StreamFactory>(new AndroidStreamFactory(app->activity->assetManager))));
 }
 
 int32_t Activity::handleInput(AInputEvent *event)
@@ -44,7 +48,7 @@ void Activity::handleCmd(int32_t cmd)
             if (app->window != nullptr)
             {
                 window->init();
-                game.init();
+                game->init();
             }
             break;
 
@@ -116,7 +120,7 @@ void Activity::run()
         {
             float frameTime = window->getFrameTime();
 
-            game.render();
+            game->render();
 
             window->swapBuffers();
         }

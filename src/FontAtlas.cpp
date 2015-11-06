@@ -12,13 +12,15 @@
 
 #include <algorithm>
 #include <freetype.h>
-#include <FileStream.h>
+#include <StreamFactory.h>
+
 
 using std::sort;
 
 #define LOG_TAG "FontAtlas"
 
-FontAtlas::FontAtlas(int width, int height)
+FontAtlas::FontAtlas(shared_ptr<StreamFactory> streamFactory, int width, int height)
+    : streamFactory(streamFactory)
 {
     this->width = width;
     this->height = height;
@@ -33,6 +35,7 @@ FontAtlas::FontAtlas(int width, int height)
 
 FontAtlas::~FontAtlas()
 {
+    fontFiles.clear();
     fontList.clear();
     fontCharList.clear();
 
@@ -47,8 +50,8 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
 {
     FT_Face face;
 
-    string file = "assets/" + fontName;
-    fontFile = shared_ptr<FileStream>(new FileStream(file));
+    shared_ptr<Stream> fontFile = streamFactory->open(fontName);
+    fontFiles.push_back(fontFile);
     char* fontData = new char[fontFile->size()];
     fontFile->read(fontData, fontFile->size());
 

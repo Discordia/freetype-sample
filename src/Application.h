@@ -37,5 +37,5 @@ private:
     unique_ptr<GLWindow> window;
 
     //!
-    Game game;
+    shared_ptr<Game> game;
 };

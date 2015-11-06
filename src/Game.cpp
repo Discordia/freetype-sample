@@ -8,7 +8,8 @@
 
 #define LOG_TAG "Game"
 
-Game::Game()
+Game::Game(shared_ptr<StreamFactory> streamFactory)
+    : streamFactory(streamFactory)
 {
 }
 
@@ -18,7 +19,7 @@ void Game::init()
 
     FontBatchRenderer::getRenderer().init();
 
-    fontAtlas = shared_ptr<FontAtlas>(new FontAtlas(1024, 1024));
+    fontAtlas = shared_ptr<FontAtlas>(new FontAtlas(streamFactory, 1024, 1024));
     font = fontAtlas->addFont("LiberationMono-Regular.ttf", 16, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
     fontAtlas->create();
 }

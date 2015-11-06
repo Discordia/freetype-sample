@@ -37,13 +37,15 @@ set(SOURCE_FILES
     src/Time.h
     src/TreeNode.cpp
     src/Stream.h
-    src/FileStream.h
-    src/FileStream.cpp)
+    src/StreamFactory.h)
 
 if(ANDROID)
   list(APPEND SOURCE_FILES
     src/EGLWindow.cpp
     src/Activity.cpp
+          src/AndroidStreamFactory.h
+    src/AssetStream.cpp
+    src/AssetStream.h
     $ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue/android_native_app_glue.c)
 
   add_library(freetype_sample SHARED ${SOURCE_FILES})
@@ -56,7 +58,10 @@ else()
     src/GLWindow.cpp
     src/GLWindow.h
     src/Application.cpp
-    src/Application.h)
+    src/Application.h
+    src/FileStream.h
+    src/FileStream.cpp
+    src/DesktopStreamFactory.h)
 
   # GLFW
   find_package(PkgConfig REQUIRED)

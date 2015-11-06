@@ -55,5 +55,5 @@ private:
     unique_ptr<EGLWindow> window;
 
     //!
-    Game game;
+    shared_ptr<Game> game;
 };

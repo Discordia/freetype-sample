@@ -13,6 +13,7 @@ struct FT_LibraryRec_;
 class FTFont;
 struct FTFontChar;
 class Stream;
+class StreamFactory;
 
 class FontAtlas
 {
@@ -21,7 +22,7 @@ public:
     //!
     //!
     //!
-    FontAtlas(int width, int height);
+    FontAtlas(shared_ptr<StreamFactory> streamFactory, int width, int height);
 
     //!
     //!
@@ -66,5 +67,8 @@ private:
     vector<FTFontChar*> fontCharList;
 
     //!
-    shared_ptr<Stream> fontFile;
+    vector<shared_ptr<Stream>> fontFiles;
+
+    //!
+    shared_ptr<StreamFactory> streamFactory;
 };
