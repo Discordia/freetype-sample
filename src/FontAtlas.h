@@ -12,6 +12,7 @@ using std::shared_ptr;
 struct FT_LibraryRec_;
 class FTFont;
 struct FTFontChar;
+class Stream;
 
 class FontAtlas
 {
@@ -63,4 +64,7 @@ private:
 
     //!
     vector<FTFontChar*> fontCharList;
+
+    //!
+    shared_ptr<Stream> fontFile;
 };

@@ -6,6 +6,8 @@
 
     <uses-sdk android:minSdkVersion="${ANDROID_APK_API_LEVEL}" />
 
+    <uses-permission android:name="com.sony.mobile.permission.SYSTEM_UI_VISIBILITY_EXTENSION" />
+
     <application android:label="@string/app_name"
                  android:icon="@drawable/icon"
                  android:hasCode="false"

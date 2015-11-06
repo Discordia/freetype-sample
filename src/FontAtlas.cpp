@@ -12,6 +12,7 @@
 
 #include <algorithm>
 #include <freetype.h>
+#include <FileStream.h>
 
 using std::sort;
 
@@ -47,7 +48,11 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
     FT_Face face;
 
     string file = "assets/" + fontName;
-    if (FT_Error error = FT_New_Face(library, file.c_str(), 0, &face))
+    fontFile = shared_ptr<FileStream>(new FileStream(file));
+    char* fontData = new char[fontFile->size()];
+    fontFile->read(fontData, fontFile->size());
+
+    if (FT_Error error = FT_New_Memory_Face(library, (FT_Byte*) fontData, fontFile->size(), 0, &face))
     {
         LOGE("Failed to load font.");
         return shared_ptr<FTFont>();

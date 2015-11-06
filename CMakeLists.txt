@@ -35,7 +35,10 @@ set(SOURCE_FILES
     src/ShaderObject.cpp
     src/ShaderProgram.h
     src/Time.h
-    src/TreeNode.cpp)
+    src/TreeNode.cpp
+    src/Stream.h
+    src/FileStream.h
+    src/FileStream.cpp)
 
 if(ANDROID)
   list(APPEND SOURCE_FILES
