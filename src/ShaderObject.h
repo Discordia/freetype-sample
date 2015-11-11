@@ -38,12 +38,12 @@ public:
 
 private:
 
-//
+    //
     GLuint shaderId;
 
-//
+    //
     string shaderSource;
 
-//
+    //
     GLint compiled;
 };

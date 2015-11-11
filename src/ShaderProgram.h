@@ -1,6 +1,9 @@
 #pragma once
 
 #include <ShaderObject.h>
+#include <vector>
+
+using std::vector;
 
 class ShaderProgram
 {
@@ -19,6 +22,8 @@ public:
     //!
     ~ShaderProgram()
     {
+        shaders.clear();
+
         glDeleteProgram(programId);
         programId = 0;
     }
@@ -49,6 +54,7 @@ public:
     //!
     void attachShader(shared_ptr<ShaderObject> shader)
     {
+        shaders.push_back(shader);
         glAttachShader(programId, shader->getShaderId());
     }
 
@@ -85,5 +91,6 @@ private:
     //
     GLint linked;
 
-    // TODO: store shaders in a list
+    //
+    vector<shared_ptr<ShaderObject>> shaders;
 };
