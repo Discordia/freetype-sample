@@ -119,13 +119,13 @@ void FontBatchRenderer::init()
     if (!fragmentShader->isCompiled()) LOGE("Fragment shader failed to compile.");
     shader->attachShader(fragmentShader);
 
+    shader->link();
+    if (!shader->isLinked()) LOGE("Shader failed to link");
+
     // Bind vPosition to attribute 0
     glBindAttribLocation(shader->getProgramId(), 0, "position");
     glBindAttribLocation(shader->getProgramId(), 1, "texture_coord");
 
-    shader->link();
-
-    if (!shader->isLinked()) LOGE("Shader failed to link");
 
     shader->use();
 
