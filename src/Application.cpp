@@ -4,9 +4,9 @@
 #include "DesktopStreamFactory.h"
 
 // TODO :assert that windowSize and viewportSize has the same aspect ratio
-Application::Application(const string &title, const Dimension windowSize, const Dimension viewportSize)
+Application::Application(const string& title, const Dimension windowSize)
 {
-    window = unique_ptr<GLWindow>(new GLWindow(title, windowSize, viewportSize));
+    window = unique_ptr<GLWindow>(new GLWindow(title, windowSize));
     window->setFrameLimit(60);
 
     this->game = shared_ptr<Game>(new Game(shared_ptr<StreamFactory>(new DesktopStreamFactory("assets"))));

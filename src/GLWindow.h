@@ -17,7 +17,7 @@ public:
 
     /*! @breif Creates a new window
      */
-    GLWindow(const string& title, const Dimension windowSize, const Dimension viewportSize, bool fullscreen = false);
+    GLWindow(const string& title, const Dimension windowSize, bool fullscreen = false);
 
     /*! @breif Destruct the window
      */
@@ -68,9 +68,6 @@ private:
 
     //!
     const Dimension windowSize;
-
-    //!
-    const Dimension viewportSize;
 
     //!
     GLFWwindow* window;

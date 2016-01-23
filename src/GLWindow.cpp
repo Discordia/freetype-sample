@@ -18,8 +18,8 @@ const int DEFAULT_FPS = 60;
 const int DEFAULT_BIT_DEPTH = 32;
 
 
-GLWindow::GLWindow(const string& title, const Dimension windowSize, const Dimension viewportSize, bool fullscreen)
-    : windowSize(windowSize), viewportSize(viewportSize), frameTime(0), frameLimit(0)
+GLWindow::GLWindow(const string& title, const Dimension windowSize, bool fullscreen)
+    : windowSize(windowSize), frameTime(0), frameLimit(0)
 {
     if (!glfwInit())
     {

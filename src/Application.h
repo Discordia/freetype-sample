@@ -18,7 +18,7 @@ public:
     //!
     //!
     //!
-    Application(const string &title, const Dimension windowSize, const Dimension viewportSize);
+    Application(const string& title, const Dimension windowSize);
 
     //!
     //!

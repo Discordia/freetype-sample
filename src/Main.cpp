@@ -27,9 +27,8 @@ void android_main(android_app* app)
 int main()
 {
     const Dimension windowSize(1024, 768);
-    const Dimension viewportSize(480, 320);
 
-    unique_ptr<Application> application(new Application("Freetype rendering example", windowSize, viewportSize));
+    unique_ptr<Application> application(new Application("Freetype rendering example", windowSize));
     application->run();
 }
 
