@@ -8,7 +8,7 @@
 
 #define LOG_TAG "FontBatchRenderer"
 
-const int VERTEX_STRIDE = 5;
+const int VERTEX_STRIDE = 4;
 
 const string texVertexShader =
         "attribute vec4 position;\n"
@@ -77,9 +77,9 @@ void FontBatchRenderer::addQuad(const float* vertices, const float* texCoords)
     for (int n = 0; n < VERTICES_PER_QUAD; n++)
     {
         // x,y,z
-        vertexBuffer->fill((uint32 const)(currIndex + (n * VERTEX_STRIDE * sizeof(float))), 3 * sizeof(float), &vertices[n * 3]);
+        vertexBuffer->fill((uint32 const)(currIndex + (n * VERTEX_STRIDE * sizeof(float))), 2 * sizeof(float), &vertices[n * 3]);
         // u,v
-        vertexBuffer->fill((uint32 const) (currIndex + (n * VERTEX_STRIDE * sizeof(float)) + 3 * sizeof(float)) , 2 * sizeof(float), &texCoords[n * 2]);
+        vertexBuffer->fill((uint32 const) (currIndex + (n * VERTEX_STRIDE * sizeof(float)) + 2 * sizeof(float)) , 2 * sizeof(float), &texCoords[n * 2]);
     }
 
     numQuads++;
@@ -149,7 +149,7 @@ void FontBatchRenderer::render()
     assert(numQuads * INDICES_PER_QUAD < 0xffff);
 
     // TODO: use culling?
-    // glFrontFace(GL_CW);
+    // glFrontFace(GL_CCW);
     // glEnable(GL_CULL_FACE);
 
     glDisable(GL_DEPTH_TEST);
@@ -181,12 +181,11 @@ void FontBatchRenderer::render()
     //
 
     // Setup the vertex data
-    // TODO: can we only have two floats per vertex?
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * VERTEX_STRIDE, 0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * VERTEX_STRIDE, 0);
     glEnableVertexAttribArray(0);
 
     // Setup the texture coords
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * VERTEX_STRIDE, (const void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * VERTEX_STRIDE, (const void*)(2 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
     // Draw
