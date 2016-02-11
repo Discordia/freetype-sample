@@ -11,6 +11,4 @@ Some thoughts on how the codebase should change.
     - Cache render jobs (we will probably render them in the next frame also)
     - Batch everything up, sort by render state and render on end of frame
 
-* Fix build for android with freetype
-
 * Implement IOS support
