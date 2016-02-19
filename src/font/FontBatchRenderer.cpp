@@ -5,7 +5,6 @@
 #include <font/FTFontChar.h>
 
 #include <cassert>
-#include <core/Dimension.h>
 
 #define LOG_TAG "FontBatchRenderer"
 
@@ -27,7 +26,6 @@ const string texVertexShader =
         "}";
 
 const string texFragShader =
-        "precision mediump float;\n"
         "varying vec2 textureCoord;\n"
         "uniform sampler2D tex;\n"
         "uniform vec4 diffuseColor;\n"
