@@ -2,6 +2,7 @@
 
 #include <core/OpenGL.h>
 #include <memory>
+#include <core/Dimension.h>
 
 using std::shared_ptr;
 
@@ -40,7 +41,7 @@ public:
     //!
     //!
     //!
-    void init();
+    void init(const Dimension& windowSize);
 
     //!
     //!

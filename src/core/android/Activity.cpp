@@ -8,13 +8,13 @@
 
 const int DEFAULT_FPS = 60;
 
-Activity::Activity(const Dimension viewportSize, android_app *app)
-        : app(app), viewportSize(viewportSize)
+Activity::Activity(android_app *app)
+        : app(app)
 {
     LOGD("Activity", "ACTIVITY::CONSTRUCTOR");
 
     // EGL Window - the surface we draw to
-    window = unique_ptr<EGLWindow>(new EGLWindow(app, viewportSize.width, viewportSize.height));
+    window = unique_ptr<EGLWindow>(new EGLWindow(app));
     window->setFramerateLimit(DEFAULT_FPS);
 
     this->game = shared_ptr<Game>(new Game(shared_ptr<StreamFactory>(new AndroidStreamFactory(app->activity->assetManager))));
@@ -22,7 +22,6 @@ Activity::Activity(const Dimension viewportSize, android_app *app)
 
 int32_t Activity::handleInput(AInputEvent *event)
 {
-
     return 0;
 }
 
@@ -48,7 +47,7 @@ void Activity::handleCmd(int32_t cmd)
             if (app->window != nullptr)
             {
                 window->init();
-                game->init();
+                game->init(window->getSize());
             }
             break;
 

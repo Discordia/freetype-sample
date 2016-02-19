@@ -35,6 +35,10 @@ public:
      */
     bool isOpen() const;
 
+    /*! @breif Query the window size
+     */
+    const Dimension& getSize() const;
+
     /*! @breif Process the enents from GLFW
      */
     void processEvents() const;
@@ -67,7 +71,7 @@ private:
 private:
 
     //!
-    const Dimension windowSize;
+    Dimension windowSize;
 
     //!
     GLFWwindow* window;

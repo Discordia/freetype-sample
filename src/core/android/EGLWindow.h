@@ -15,7 +15,7 @@ public:
     //!
     //!
     //!
-    EGLWindow(android_app *app, int32_t width, int32_t height);
+    EGLWindow(android_app *app);
 
     //!
     //! Returns
@@ -50,31 +50,22 @@ public:
     //!
     //!
     //!
-    Dimension getSize();
+    const Dimension& getSize() const;
 
 
 private:
 
-    // android app
+    //! window context
     android_app *app;
+    Dimension windowSize;
 
-    // EGL context
+    //! EGL context
     EGLDisplay display;
     EGLSurface surface;
     EGLContext context;
 
-    // dimensions
-    int32_t scrWidth;
-    int32_t scrHeight;
-    int32_t width;
-    int32_t height;
-
-    //!
+    //! FPS limiting
     Timer timer;
-
-    //!
     milliseconds frameTime;
-
-    //
     uint32_t frameLimit;
 };

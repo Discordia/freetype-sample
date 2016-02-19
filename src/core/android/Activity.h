@@ -26,7 +26,7 @@ public:
     //!
     //!
     //!
-    Activity(const Dimension viewportSize, android_app *app);
+    Activity(android_app *app);
 
     //!
     //!
@@ -47,9 +47,6 @@ private:
 
     //!
     android_app *app;
-
-    //!
-    Dimension viewportSize;
 
     //!
     unique_ptr<EGLWindow> window;

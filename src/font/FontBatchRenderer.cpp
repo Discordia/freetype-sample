@@ -5,6 +5,7 @@
 #include <font/FTFontChar.h>
 
 #include <cassert>
+#include <core/Dimension.h>
 
 #define LOG_TAG "FontBatchRenderer"
 
@@ -85,7 +86,7 @@ void FontBatchRenderer::addQuad(const float* vertices, const float* texCoords)
     numQuads++;
 }
 
-void FontBatchRenderer::init()
+void FontBatchRenderer::init(const Dimension& windowSize)
 {
     vertexBuffer = BufferObject::createVertexBuffer((uint32 const) (cacheSize * VERTICES_PER_QUAD * VERTEX_STRIDE * sizeof(GLfloat)));
     indexBuffer = BufferObject::createIndexBuffer((uint32 const) (cacheSize * INDICES_PER_QUAD  * sizeof(GLubyte)));
@@ -138,7 +139,7 @@ void FontBatchRenderer::init()
     glUniformMatrix4fv(modelViewLoc, 1, 0, identity);
 
     GLfloat ortho[16];
-    oglOrthof(ortho, 0.0f, 480.0f, 0.0f, 320.0f, -1.0f, 1.0f);
+    oglOrthof(ortho, 0.0f, windowSize.width, 0.0f, windowSize.height, -1.0f, 1.0f);
     GLint projectionLoc = glGetUniformLocation(shader->getProgramId(), "Projection");
     glUniformMatrix4fv(projectionLoc, 1, 0, ortho);
 }

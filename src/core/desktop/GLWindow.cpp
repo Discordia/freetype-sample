@@ -30,13 +30,24 @@ GLWindow::GLWindow(const string& title, const Dimension windowSize, bool fullscr
     glfwSetErrorCallback(errorCallback);
     glfwWindowHint(GLFW_REFRESH_RATE, DEFAULT_FPS);
 
-    GLFWmonitor* primaryMonitor = nullptr;
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+    glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+    glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+    glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+
+
     if (fullscreen)
     {
-        primaryMonitor = glfwGetPrimaryMonitor();
+        window = glfwCreateWindow(mode->width, mode->height, title.c_str(), monitor, nullptr);
+    }
+    else
+    {
+        window = glfwCreateWindow(windowSize.width, windowSize.height, title.c_str(), nullptr, nullptr);
     }
 
-    window = glfwCreateWindow(windowSize.width, windowSize.height, title.c_str(), primaryMonitor, nullptr);
     if (!window)
     {
         LOGE("Failed to create GLFW window");
@@ -56,6 +67,13 @@ GLWindow::GLWindow(const string& title, const Dimension windowSize, bool fullscr
         exit(EXIT_FAILURE);
     }
 
+    // Retrieve frame buffer size
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
+    this->windowSize.width = width;
+    this->windowSize.height = height;
+
+    LOGI("Frame Buffer size [%i,%i]", width, height);
     LOGI("Initalized");
 }
 
@@ -101,6 +119,11 @@ void GLWindow::destroy() const
 bool GLWindow::isOpen() const
 {
     return !glfwWindowShouldClose(window);
+}
+
+const Dimension& GLWindow::getSize() const
+{
+    return windowSize;
 }
 
 void GLWindow::processEvents() const

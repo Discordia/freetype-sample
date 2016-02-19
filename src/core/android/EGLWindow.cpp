@@ -10,15 +10,14 @@
 
 #define LOG_TAG "EGLWindow"
 
-EGLWindow::EGLWindow(android_app *app, int32_t width, int32_t height)
-        : app(app), width(width), height(height),
+EGLWindow::EGLWindow(android_app *app)
+        : app(app),
           display(EGL_NO_DISPLAY),
           surface(EGL_NO_SURFACE),
           context(EGL_NO_CONTEXT),
           frameLimit(0),
           frameTime(0)
 {
-    // TODO: assert that the aspect ratio is aligned with the screen aspect ratio
 }
 
 void EGLWindow::init()
@@ -73,22 +72,26 @@ void EGLWindow::init()
         LOGD("EGLWindow", "Unable to eglMakeCurrent");
 
         // TODO: proper error handling
-
         return;
     }
 
     // Query width and height of surface
-    eglQuerySurface(display, surface, EGL_WIDTH, &scrWidth);
-    eglQuerySurface(display, surface, EGL_HEIGHT, &scrHeight);
+    int width, height;
+    eglQuerySurface(display, surface, EGL_WIDTH, &width);
+    eglQuerySurface(display, surface, EGL_HEIGHT, &height);
+    this->windowSize.width = width;
+    this->windowSize.height = height;
 
-    LOGD("EGLWindow", "width: %i, height: %i", scrWidth, scrHeight);
+    LOGI("Frame Buffer size [%i,%i]", width, height);
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_DITHER);
 
-    glViewport(0, 0, scrWidth, scrHeight);
+    glViewport(0, 0, width, height);
+
+    LOGI("Initalized");
 }
 
 void EGLWindow::destroy()
@@ -161,7 +164,7 @@ void EGLWindow::setFramerateLimit(const int32_t fpsLimit)
     this->frameLimit = fpsLimit;
 }
 
-Dimension EGLWindow::getSize()
+const Dimension& EGLWindow::getSize() const
 {
-    return Dimension(this->scrWidth, this->scrHeight);
+    return windowSize;
 }

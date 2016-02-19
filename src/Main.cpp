@@ -11,8 +11,7 @@ void android_main(android_app* app)
 {
     app_dummy();
 
-    const Dimension viewportSize(480, 320);
-    unique_ptr<Activity> activity(new Activity(viewportSize, app));
+    unique_ptr<Activity> activity(new Activity(app));
     activity->run();
 }
 
