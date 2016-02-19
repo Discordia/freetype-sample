@@ -1,8 +1,8 @@
 #include "FontBatchRenderer.h"
-#include "BufferObject.h"
-#include "ShaderProgram.h"
-#include "Log.h"
-#include <FTFontChar.h>
+#include "core/BufferObject.h"
+#include "core/ShaderProgram.h"
+#include "core/Log.h"
+#include <font/FTFontChar.h>
 
 #include <cassert>
 

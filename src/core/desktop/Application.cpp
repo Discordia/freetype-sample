@@ -1,6 +1,6 @@
 // -*- C++ -*-
-#include <Application.h>
-#include <GLWindow.h>
+#include <core/desktop/Application.h>
+#include <core/desktop/GLWindow.h>
 #include "DesktopStreamFactory.h"
 
 // TODO :assert that windowSize and viewportSize has the same aspect ratio

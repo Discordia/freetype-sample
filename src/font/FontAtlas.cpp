@@ -1,10 +1,10 @@
-#include <FontAtlas.h>
+#include <font/FontAtlas.h>
 
-#include <FTFontChar.h>
-#include <FTFont.h>
-#include <TreeNode.h>
-#include <OpenGL.h>
-#include <Log.h>
+#include <font/FTFontChar.h>
+#include <font/FTFont.h>
+#include <font/TreeNode.h>
+#include <core/OpenGL.h>
+#include <core/Log.h>
 
 #include <ft2build.h>
 #include <ftglyph.h>
@@ -12,7 +12,7 @@
 
 #include <algorithm>
 #include <freetype.h>
-#include <StreamFactory.h>
+#include <core/StreamFactory.h>
 
 
 using std::sort;

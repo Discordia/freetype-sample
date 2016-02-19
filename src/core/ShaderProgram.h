@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ShaderObject.h>
+#include <core/ShaderObject.h>
 #include <vector>
 
 using std::vector;

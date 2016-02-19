@@ -1,7 +1,7 @@
 // -*- C++ -*-
-#include <EGLWindow.h>
-#include <Log.h>
-#include <OpenGL.h>
+#include <core/android/EGLWindow.h>
+#include <core/Log.h>
+#include <core/OpenGL.h>
 
 #include <thread>
 

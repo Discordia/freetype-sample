@@ -1,8 +1,8 @@
 #include <Game.h>
-#include <ShaderProgram.h>
-#include <FontAtlas.h>
-#include <BufferObject.h>
-#include <FontBatchRenderer.h>
+#include <core/ShaderProgram.h>
+#include <font/FontAtlas.h>
+#include <core/BufferObject.h>
+#include <font/FontBatchRenderer.h>
 
 #include <iostream>
 

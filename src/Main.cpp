@@ -5,7 +5,7 @@
 // Android
 //
 
-#include <Activity.h>
+#include <core/android/Activity.h>
 
 void android_main(android_app* app)
 {
@@ -22,7 +22,7 @@ void android_main(android_app* app)
 // Desktop
 //
 
-#include <Application.h>
+#include <core/desktop/Application.h>
 
 int main()
 {

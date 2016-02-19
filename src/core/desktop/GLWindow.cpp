@@ -1,11 +1,11 @@
 // -*- C++ -*-
-#include <GLWindow.h>
-#include <Log.h>
+#include <core/desktop/GLWindow.h>
+#include <core/Log.h>
 
 #include <thread>
 #include <cstdlib>
 
-#include <OpenGL.h>
+#include <core/OpenGL.h>
 
 using namespace std;
 

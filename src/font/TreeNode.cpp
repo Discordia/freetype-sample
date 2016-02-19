@@ -1,5 +1,5 @@
-#include <TreeNode.h>
-#include <FTFontChar.h>
+#include <font/TreeNode.h>
+#include <font/FTFontChar.h>
 
 Pool<TreeNode> TreeNode::pool;
 

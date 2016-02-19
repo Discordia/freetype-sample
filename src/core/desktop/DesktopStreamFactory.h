@@ -1,7 +1,7 @@
 #ifndef FREETYPE_SAMPLE_DESKTOPSTREAMFACTORY_H
 #define FREETYPE_SAMPLE_DESKTOPSTREAMFACTORY_H
 
-#include "StreamFactory.h"
+#include "core/StreamFactory.h"
 #include "FileStream.h"
 
 class DesktopStreamFactory : public StreamFactory

@@ -1,8 +1,8 @@
 // -*- C++ -*-
-#include <Activity.h>
-#include <Log.h>
+#include <core/android/Activity.h>
+#include <core/Log.h>
 
-#include <AndroidStreamFactory.h>
+#include <core/android/AndroidStreamFactory.h>
 
 #define LOG_TAG "Activity"
 

@@ -1,7 +1,7 @@
 // -*- C++ -*-
 #pragma once
 
-#include <Stream.h>
+#include <core/Stream.h>
 
 #include <fstream>
 #include <string>

@@ -1,5 +1,5 @@
 // -*- C++ -*-
-#include <OpenGL.h>
+#include <core/OpenGL.h>
 #include <cmath>
 
 void oglFrustumf(float* matrix, float left, float right, float bottom, float top, float znear, float zfar)

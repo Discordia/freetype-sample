@@ -8,8 +8,8 @@
 
 #include <memory>
 
-#include <EGLWindow.h>
-#include <Dimension.h>
+#include <core/android/EGLWindow.h>
+#include <core/Dimension.h>
 #include <Game.h>
 
 using std::unique_ptr;

@@ -3,7 +3,7 @@
 
 #include <string>
 #include <memory>
-#include <Dimension.h>
+#include <core/Dimension.h>
 #include <Game.h>
 
 using std::string;

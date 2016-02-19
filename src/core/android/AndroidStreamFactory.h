@@ -3,7 +3,7 @@
 
 #include <android/asset_manager.h>
 
-#include "StreamFactory.h"
+#include "core/StreamFactory.h"
 #include "AssetStream.h"
 
 class AndroidStreamFactory : public StreamFactory

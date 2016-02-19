@@ -1,5 +1,5 @@
-#include <FTFontChar.h>
-#include <FontBatchRenderer.h>
+#include <font/FTFontChar.h>
+#include <font/FontBatchRenderer.h>
 
 #include <cassert>
 

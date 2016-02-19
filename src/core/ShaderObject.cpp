@@ -1,5 +1,5 @@
-#include <ShaderObject.h>
-#include <OpenGL.h>
+#include <core/ShaderObject.h>
+#include <core/OpenGL.h>
 #include "Log.h"
 
 #define LOG_TAG "ShaderObject"

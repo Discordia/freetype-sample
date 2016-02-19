@@ -1,5 +1,5 @@
-#include <BufferObject.h>
-#include <OpenGL.h>
+#include <core/BufferObject.h>
+#include <core/OpenGL.h>
 
 BufferObject::BufferObject(const uint32 type, const uint32 size)
         : type(type), size(size)

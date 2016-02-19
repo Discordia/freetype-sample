@@ -1,7 +1,7 @@
 #ifndef FREETYPE_SAMPLE_STREAMFACTORY_H
 #define FREETYPE_SAMPLE_STREAMFACTORY_H
 
-#include <Stream.h>
+#include <core/Stream.h>
 
 #include <memory>
 #include <string>

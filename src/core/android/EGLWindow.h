@@ -3,8 +3,8 @@
 
 #include <EGL/egl.h>
 
-#include <Time.h>
-#include <Dimension.h>
+#include <core/Time.h>
+#include <core/Dimension.h>
 
 struct android_app;
 

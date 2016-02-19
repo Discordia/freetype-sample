@@ -3,8 +3,8 @@
 
 #include <string>
 #include <memory>
-#include <Time.h>
-#include <Dimension.h>
+#include <core/Time.h>
+#include <core/Dimension.h>
 
 using std::shared_ptr;
 using std::string;

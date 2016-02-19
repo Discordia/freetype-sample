@@ -1,6 +1,6 @@
 #pragma once
 
-#include <OpenGL.h>
+#include <core/OpenGL.h>
 #include <memory>
 #include <string>
 

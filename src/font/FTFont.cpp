@@ -1,6 +1,6 @@
-#include <FTFontChar.h>
-#include <FTFont.h>
-#include <FontBatchRenderer.h>
+#include <font/FTFontChar.h>
+#include <font/FTFont.h>
+#include <font/FontBatchRenderer.h>
 
 #include <ftimage.h>
 #include <freetype.h>
