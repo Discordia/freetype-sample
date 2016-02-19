@@ -1,7 +1,3 @@
-======================================
-Freetype Sample
-======================================
-
 Idea
 ======================================
 This is suppose to be an example of opengl rendering text with freetype2 on both desktop (linux, osx and windows) and
@@ -14,7 +10,6 @@ Builds on Linux Mint and Android.
 Can read font and draw text.
 
 
-========================================================
 Building
 ========================================================
 
@@ -29,8 +24,8 @@ Directly after clone do:
 
 To clone freetype2 into the submodule under deps/
 
-Desktop
-========================================================
+**Desktop**
+
 I have only built it on Linux Mint but should be trivial to build on Windows and OSX 
 since I'm using GLFW3 and GLEW to abstract away OS differences. But that might be 
 famous last words.
@@ -49,8 +44,7 @@ To build do (after clone):
 
 Then run with: ./freetype_sample
 
-Android
-========================================================
+**Android**
 
 First of you need to install an Android SDK and NDK.
 
@@ -72,6 +66,6 @@ adb install -r apk/bin/freetype_sample-debug.apk
 
 The installed app will be called "Freetype prototype" and have the default android icon.
 
-IOS
-========================================================
+**IOS**
+
 Not implemented (yet).
