@@ -15,7 +15,7 @@ Can read font and draw text.
 
 
 ========================================================
-Buidling
+Building
 ========================================================
 
 Build instructions using cmake on various platforms. Note that I'm developing 
