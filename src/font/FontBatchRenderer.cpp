@@ -1,7 +1,8 @@
-#include "FontBatchRenderer.h"
-#include "core/BufferObject.h"
-#include "core/ShaderProgram.h"
-#include "core/Log.h"
+#include <font/FontBatchRenderer.h>
+#include <core/BufferObject.h>
+#include <core/ShaderProgram.h>
+#include <core/Log.h>
+#include <font/FontGeometry.h>
 #include <font/FTFontChar.h>
 
 #include <cassert>
@@ -36,52 +37,14 @@ const string texFragShader =
         "}";
 
 
-FontBatchRenderer FontBatchRenderer::renderer;
-
 FontBatchRenderer::FontBatchRenderer()
-    : numQuads(0), textureId(0), cacheSize(150), drawCallCount(0)
-
+    : cacheSize(150)
 {
 }
 
 FontBatchRenderer::~FontBatchRenderer()
 {
-    release();
-}
-
-FontBatchRenderer& FontBatchRenderer::getRenderer()
-{
-    return renderer;
-}
-
-void FontBatchRenderer::setAttributes(unsigned int textureId, int color, float alpha)
-{
-    if (alpha > 1.0f) alpha = 1.0f;
-    if (this->textureId != textureId ||
-        this->color != color ||
-        this->alpha != alpha)
-    {
-        render();
-
-        this->textureId = textureId;
-        this->color = color;
-        this->alpha = alpha;
-    }
-}
-
-void FontBatchRenderer::addQuad(const float* vertices, const float* texCoords)
-{
-    uint32 currIndex = (uint32) (numQuads * VERTICES_PER_QUAD * VERTEX_STRIDE * sizeof(float));
-
-    for (int n = 0; n < VERTICES_PER_QUAD; n++)
-    {
-        // x,y
-        vertexBuffer->fill((uint32 const)(currIndex + (n * VERTEX_STRIDE * sizeof(float))), 2 * sizeof(float), &vertices[n * 2]);
-        // u,v
-        vertexBuffer->fill((uint32 const) (currIndex + (n * VERTEX_STRIDE * sizeof(float)) + 2 * sizeof(float)) , 2 * sizeof(float), &texCoords[n * 2]);
-    }
-
-    numQuads++;
+    cacheSize = 0;
 }
 
 void FontBatchRenderer::init(const Dimension& windowSize)
@@ -142,14 +105,17 @@ void FontBatchRenderer::init(const Dimension& windowSize)
     glUniformMatrix4fv(projectionLoc, 1, 0, ortho);
 }
 
-void FontBatchRenderer::render()
+void FontBatchRenderer::render(shared_ptr<FontGeometry> fontGeometry)
 {
-    if (numQuads == 0) return;
-    assert(numQuads * INDICES_PER_QUAD < 0xffff);
-
-    // TODO: use culling?
-    // glFrontFace(GL_CCW);
-    // glEnable(GL_CULL_FACE);
+    const unsigned int& textureId = fontGeometry->getTextureId();
+    const int& color = fontGeometry->getColor();
+    const float& alpha = fontGeometry->getAlpha();
+    const int& quads = fontGeometry->getNrQuads();
+    TexturedVertex* vertices = fontGeometry->getVertices();
+    
+    vertexBuffer->fill(0, quads * VERTICES_PER_QUAD * VERTEX_STRIDE * sizeof(float), &vertices[0]);
+    if (quads == 0) return;
+    assert(quads * INDICES_PER_QUAD < 0xffff);
 
     glDisable(GL_DEPTH_TEST);
 
@@ -171,9 +137,9 @@ void FontBatchRenderer::render()
     float green = ((color>>8)&0xff) * inv256;
     float blue = (color&0xff) * inv256;
 
-    GLfloat color[] = {red, green, blue, alpha};
+    GLfloat colorV[] = {red, green, blue, alpha};
     GLint diffuseColorLoc = glGetUniformLocation(shader->getProgramId(), "diffuseColor");
-    glUniform4fv(diffuseColorLoc, 1, color);
+    glUniform4fv(diffuseColorLoc, 1, colorV);
 
     //
     // Draw
@@ -188,15 +154,5 @@ void FontBatchRenderer::render()
     glEnableVertexAttribArray(1);
 
     // Draw
-    glDrawElements(GL_TRIANGLES, (GLsizei)(numQuads * INDICES_PER_QUAD), GL_UNSIGNED_BYTE, 0);
-
-    // Update statistics
-    drawCallCount++;
-    quadCount += numQuads;
-    numQuads = 0;
-}
-
-void FontBatchRenderer::release()
-{
-    cacheSize = 0;
+    glDrawElements(GL_TRIANGLES, (GLsizei)(quads * INDICES_PER_QUAD), GL_UNSIGNED_BYTE, 0);
 }

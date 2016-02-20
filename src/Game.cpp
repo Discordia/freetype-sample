@@ -4,13 +4,10 @@
 #include <core/BufferObject.h>
 #include <font/FontBatchRenderer.h>
 
-#include <iostream>
-#include <core/Dimension.h>
-
 #define LOG_TAG "Game"
 
 Game::Game(shared_ptr<StreamFactory> streamFactory)
-    : streamFactory(streamFactory)
+    : streamFactory(streamFactory), renderer(new FontBatchRenderer())
 {
 }
 
@@ -18,20 +15,20 @@ void Game::init(const Dimension& windowSize)
 {
     glClearColor(1.0f, 0.20f, 0.60f, 1.0f);
 
-    FontBatchRenderer::getRenderer().init(windowSize);
+    renderer->init(windowSize);
 
     fontAtlas = shared_ptr<FontAtlas>(new FontAtlas(streamFactory, 1024, 1024));
     font = fontAtlas->addFont("LiberationMono-Regular.ttf", 16, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
     fontAtlas->create();
+
+    neonText = font->calcVertices(10, 10, "NEON GENESIS EVANGELION", 0x000000, 1.0f);
+    foxText = font->calcVertices(10, 100, "The quick brown fox jumped over the lazy dog.", 0x000000, 1.0f);
 }
 
 void Game::render()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    font->drawString(10, 10, "NEON GENESIS EVANGELION", 0x000000, 1.0f);
-
-    font->drawString(10, 100, "The quick brown fox jumped over the lazy dog.", 0x000000, 1.0f);
-
-    FontBatchRenderer::getRenderer().render();
+    renderer->render(neonText);
+    renderer->render(foxText);
 }

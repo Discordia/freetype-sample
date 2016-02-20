@@ -1,13 +1,14 @@
 #pragma once
 
-#include <core/OpenGL.h>
 #include <memory>
+#include <core/OpenGL.h>
 #include <core/Dimension.h>
 
 using std::shared_ptr;
 
 class BufferObject;
 class ShaderProgram;
+class FontGeometry;
 
 class FontBatchRenderer
 {
@@ -26,54 +27,20 @@ public:
     //!
     //!
     //!
-    static FontBatchRenderer& getRenderer();
-
-    //!
-    //!
-    //!
-    void setAttributes(unsigned int textureId, int color, float alpha);
-
-    //!
-    //!
-    //!
-    void addQuad(const float* vertices, const float* texCoords);
-
-    //!
-    //!
-    //!
     void init(const Dimension& windowSize);
 
     //!
     //!
     //!
-    void render();
+    void render(shared_ptr<FontGeometry> fontGeometry);
 
 private:
 
-    //!
-    //!
-    //!
-    void release();
-
-private:
-
-    //! Instance
-    static FontBatchRenderer renderer;
-
-    // Render state
+    //! render state
     shared_ptr<BufferObject> vertexBuffer;
     shared_ptr<BufferObject> indexBuffer;
     shared_ptr<ShaderProgram> shader;
 
-    int numQuads;			// current number of quads waiting to be rendered
-    int cacheSize;		    // current amount of quads that can fit in the arrays
-
-    //! Render properties
-    float alpha;			// alpha value of current quads
-    int color;			    // colour tint of current quads
-    GLuint textureId;		// texture of current quads
-
-    //! Statistics
-    int drawCallCount;
-    int quadCount;
+    //! current amount of quads that can fit in the arrays
+    int cacheSize;
 };

@@ -4,6 +4,9 @@
 #include <cassert>
 
 #include <ftglyph.h>
+#include <core/Log.h>
+
+#define LOG_TAG "FTFontChar"
 
 FTFontChar::FTFontChar(char charCode, int width, int height, int xOffset, int yOffset, int xAdvance, FT_GlyphRec_* glyph)
     : charCode(charCode), x(0), y(0), width(width), height(height), xOffset(xOffset), yOffset(yOffset), xAdvance(xAdvance), glyph(glyph)
@@ -14,30 +17,29 @@ FTFontChar::~FTFontChar()
 {
 }
 
-void FTFontChar::render(int x, int y) const
+void FTFontChar::calcVertices(int x, int y, TexturedVertex* vertices) const
 {
-    if (isEmpty())
-    {
-        return;
-    }
+    int xo = x + xOffset;
 
-    x += xOffset;
+    vertices[0].x  = (float) xo;
+    vertices[0].y  = (float) (y + yOffset);
+    vertices[0].u  = texCoords[0];
+    vertices[0].v  = texCoords[1];
 
-    float vertices[VERTICES_PER_QUAD * (COMP_VERT_POS)];
+    vertices[1].x  = (float) xo;
+    vertices[1].y  = (float) y - (height - yOffset);
+    vertices[1].u  = texCoords[2];
+    vertices[1].v  = texCoords[3];
 
-    vertices[0]  = (float) x;
-    vertices[1]  = (float) (y + yOffset);
+    vertices[2].x  = (float) (xo + width);
+    vertices[2].y  = (float) y - (height - yOffset);
+    vertices[2].u  = texCoords[4];
+    vertices[2].v  = texCoords[5];
 
-    vertices[2]  = (float) x;
-    vertices[3]  = (float) y - (height - yOffset);
-
-    vertices[4]  = (float) (x + width);
-    vertices[5]  = (float) y - (height - yOffset);
-
-    vertices[6]  = (float) (x + width);
-    vertices[7] = (float) (y + yOffset);
-
-    getRenderer().addQuad(vertices, texCoords);
+    vertices[3].x  = (float) (xo + width);
+    vertices[3].y  = (float) (y + yOffset);
+    vertices[3].u  = texCoords[6];
+    vertices[3].v  = texCoords[7];
 }
 
 void FTFontChar::drawToBitmap(unsigned char* data, int texWidth, int texHeight)
@@ -129,9 +131,4 @@ int FTFontChar::getWidth()
 int FTFontChar::getHeight()
 {
     return height;
-}
-
-FontBatchRenderer& FTFontChar::getRenderer() const
-{
-    return FontBatchRenderer::getRenderer();
 }

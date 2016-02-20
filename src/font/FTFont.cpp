@@ -1,6 +1,6 @@
 #include <font/FTFontChar.h>
 #include <font/FTFont.h>
-#include <font/FontBatchRenderer.h>
+#include <font/FontGeometry.h>
 
 #include <ftimage.h>
 #include <freetype.h>
@@ -24,9 +24,10 @@ FTFont::~FTFont()
     }
 }
 
-int FTFont::drawString(int x, int y, const string& text, int color, float alpha)
+shared_ptr<FontGeometry> FTFont::calcVertices(int x, int y, const string& text, int color, float alpha)
 {
-    getRenderer().setAttributes(textureId, color, alpha);
+    unsigned long quads = text.length();
+    TexturedVertex* vertices = new TexturedVertex[VERTICES_PER_QUAD * quads];
 
     unordered_map<int, FTFontChar*>::const_iterator it;
 
@@ -51,12 +52,16 @@ int FTFont::drawString(int x, int y, const string& text, int color, float alpha)
                 glyphPrev = glyph;
             }
 
-            fontChar->render(currX, y);
+            if (!fontChar->isEmpty())
+            {
+                fontChar->calcVertices(currX, y, &vertices[n * VERTICES_PER_QUAD]);
+            }
+
             currX += fontChar->getXAdvance();
         }
     }
 
-    return currX;
+    return shared_ptr<FontGeometry>(new FontGeometry(textureId, color, alpha, quads, vertices));
 }
 
 void FTFont::addChar(char charCode, FTFontChar* fontChar)
@@ -111,9 +116,4 @@ int FTFont::getKerning(unsigned int glyphPrev, unsigned int glyph)
     }
 
     return kerningX;
-}
-
-FontBatchRenderer& FTFont::getRenderer()
-{
-    return FontBatchRenderer::getRenderer();
 }

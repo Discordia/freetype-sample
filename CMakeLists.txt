@@ -28,16 +28,18 @@ set(SOURCE_FILES
         src/font/FontBatchRenderer.cpp
         src/font/FTFont.cpp
         src/font/FTFontChar.cpp
-    src/Game.cpp
+        src/Game.cpp
         src/core/Log.cpp
-    src/Main.cpp
+        src/Main.cpp
         src/core/OpenGL.cpp
         src/core/ShaderObject.cpp
         src/core/ShaderProgram.h
         src/core/Time.h
         src/font/TreeNode.cpp
         src/core/Stream.h
-        src/core/StreamFactory.h)
+        src/core/StreamFactory.h
+        src/font/FontGeometry.h
+        src/font/VertexTypes.h)
 
 if(ANDROID)
   list(APPEND SOURCE_FILES

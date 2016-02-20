@@ -1,15 +1,13 @@
 #pragma once
 
+#include <font/VertexTypes.h>
+
 struct FT_GlyphRec_;
 class FontBatchRenderer;
 
 const int VERTICES_PER_QUAD = 4;
 const int INDICES_PER_QUAD = 6;
 const int COMP_VERT_POS = 2;
-const int COMP_VERT_TEX = 2;
-
-const int WHITE = 0xffffff;
-const int BLACK = 0;
 
 class FTFontChar
 {
@@ -28,7 +26,7 @@ public:
     //!
     //!
     //!
-    void render(int x, int y) const;
+    void calcVertices(int x, int y, TexturedVertex* vertices) const;
 
     //!
     //!

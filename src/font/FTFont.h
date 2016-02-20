@@ -1,15 +1,18 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <unordered_map>
 
-
+using std::shared_ptr;
 using std::string;
 using std::unordered_map;
 
 struct FT_FaceRec_;
 class FTFontChar;
 class FontBatchRenderer;
+struct TexturedVertex;
+class FontGeometry;
 
 class FTFont
 {
@@ -28,7 +31,7 @@ public:
     //!
     //!
     //!
-    int drawString(int x, int y, const string& text, int color, float alpha = 1.0f);
+    shared_ptr<FontGeometry> calcVertices(int x, int y, const string& text, int color, float alpha);
 
     //!
     //! TODO: could this not be part of the constructor?
@@ -44,11 +47,6 @@ public:
     //!
     //!
     int getTotalNumPixels();
-
-    //!
-    //!
-    //!
-    FontBatchRenderer& getRenderer();
 
 private:
 
