@@ -75,8 +75,8 @@ void FontBatchRenderer::addQuad(const float* vertices, const float* texCoords)
 
     for (int n = 0; n < VERTICES_PER_QUAD; n++)
     {
-        // x,y,z
-        vertexBuffer->fill((uint32 const)(currIndex + (n * VERTEX_STRIDE * sizeof(float))), 2 * sizeof(float), &vertices[n * 3]);
+        // x,y
+        vertexBuffer->fill((uint32 const)(currIndex + (n * VERTEX_STRIDE * sizeof(float))), 2 * sizeof(float), &vertices[n * 2]);
         // u,v
         vertexBuffer->fill((uint32 const) (currIndex + (n * VERTEX_STRIDE * sizeof(float)) + 2 * sizeof(float)) , 2 * sizeof(float), &texCoords[n * 2]);
     }
