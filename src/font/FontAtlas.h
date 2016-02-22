@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "FTFont.h"
 
 using std::string;
 using std::vector;
@@ -38,13 +37,6 @@ public:
     //!
     //!
     void create();
-
-private:
-
-    //!
-    //!
-    //!
-    bool binPack(int texWidth, int texHeight);
 
 private:
 

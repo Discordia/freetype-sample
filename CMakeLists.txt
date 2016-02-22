@@ -21,25 +21,25 @@ if(ANDROID)
 endif()
 
 set(SOURCE_FILES
-        src/core/BufferObject.cpp
-        src/font/Pool.h
-        src/core/Dimension.h
-        src/font/FontAtlas.cpp
-        src/font/FontBatchRenderer.cpp
-        src/font/FTFont.cpp
-        src/font/FTFontChar.cpp
-        src/Game.cpp
-        src/core/Log.cpp
         src/Main.cpp
+        src/Game.cpp
+        src/core/BufferObject.cpp
+        src/core/Dimension.h
+        src/core/Log.cpp
         src/core/OpenGL.cpp
         src/core/ShaderObject.cpp
         src/core/ShaderProgram.h
         src/core/Time.h
-        src/font/TreeNode.cpp
         src/core/Stream.h
         src/core/StreamFactory.h
+        src/font/FontAtlas.cpp
+        src/font/FontBatchRenderer.cpp
+        src/font/FTFont.cpp
+        src/font/FTFontChar.cpp
         src/font/FontGeometry.h
-        src/font/VertexTypes.h)
+        src/font/VertexTypes.h
+        src/font/BinPacker.cpp
+        src/font/BinPacker.h)
 
 if(ANDROID)
   list(APPEND SOURCE_FILES

@@ -1,33 +1,44 @@
 #pragma once
 
-#include <font/Pool.h>
-#include "FTFontChar.h"
+#include <vector>
+#include <core/Dimension.h>
 
+using std::vector;
+
+class BinPackNode;
 class FTFontChar;
 
-class TreeNode
+class BinPacker
+{
+public:
+    BinPacker(const Dimension& size);
+    ~BinPacker();
+
+    bool pack(vector<FTFontChar*> fontCharList);
+
+private:
+    Dimension size;
+    BinPackNode* root;
+};
+
+class BinPackNode
 {
 public:
 
     //!
     //!
     //!
-    TreeNode();
+    BinPackNode();
 
     //!
     //!
     //!
-    TreeNode(int x, int y, int width, int height);
+    BinPackNode(int x, int y, int width, int height);
 
     //!
     //!
     //!
-    ~TreeNode();
-
-    //!
-    //!
-    //!
-    static Pool<TreeNode>& getPool();
+    ~BinPackNode();
 
     //!
     //!
@@ -57,14 +68,10 @@ private:
     void createBranches(FTFontChar *fontChar);
 
 private:
-
-    //!
-    static Pool<TreeNode> pool;
-
     int x;
     int y;
     int width;
     int height;
-    TreeNode* leaf1;
-    TreeNode* leaf2;
+    BinPackNode* leaf1;
+    BinPackNode* leaf2;
 };

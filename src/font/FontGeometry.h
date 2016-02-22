@@ -8,7 +8,7 @@ using std::shared_ptr;
 class FontGeometry
 {
 public:
-    FontGeometry(unsigned int textureId, int color, float alpha, int quads, TexturedVertex* vertices)
+    FontGeometry(unsigned int textureId, int color, float alpha, unsigned long quads, TexturedVertex* vertices)
         : textureId(textureId), color(color), alpha(alpha), quads(quads), vertices(vertices)
     {
     }
@@ -33,7 +33,7 @@ public:
         return alpha;
     }
 
-    const int& getNrQuads()
+    const unsigned long& getNrQuads()
     {
         return quads;
     }
@@ -48,6 +48,6 @@ private:
     unsigned int textureId;
     int color;
     float alpha;
-    int quads;
+    unsigned long quads;
     TexturedVertex* vertices;
 };

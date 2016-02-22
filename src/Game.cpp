@@ -1,8 +1,9 @@
 #include <Game.h>
+#include <core/BufferObject.h>
 #include <core/ShaderProgram.h>
 #include <font/FontAtlas.h>
-#include <core/BufferObject.h>
 #include <font/FontBatchRenderer.h>
+#include <font/FTFont.h>
 
 #define LOG_TAG "Game"
 

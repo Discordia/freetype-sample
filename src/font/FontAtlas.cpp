@@ -1,10 +1,12 @@
 #include <font/FontAtlas.h>
 
+#include <core/Log.h>
+#include <core/OpenGL.h>
+#include <core/StreamFactory.h>
+
 #include <font/FTFontChar.h>
 #include <font/FTFont.h>
-#include <font/TreeNode.h>
-#include <core/OpenGL.h>
-#include <core/Log.h>
+#include <font/BinPacker.h>
 
 #include <ft2build.h>
 #include <ftglyph.h>
@@ -12,7 +14,6 @@
 
 #include <algorithm>
 #include <freetype.h>
-#include <core/StreamFactory.h>
 
 
 using std::sort;
@@ -131,12 +132,11 @@ void FontAtlas::create()
 
     sort(fontCharList.begin(), fontCharList.end(), greaterSizeComparator);
 
-    TreeNode::getPool().init((int) (fontCharList.size() + 1) * 2);
-    if (!binPack(width, height))
+    BinPacker binPacker(Dimension(width, height));
+    if (!binPacker.pack(fontCharList))
     {
         LOGE("Failed to render glyphs to texture");
     }
-    TreeNode::getPool().release();
 
     unsigned char* data = new unsigned char[width * height];
     for (int n = 0; n < (int) fontCharList.size(); n++)
@@ -162,18 +162,4 @@ void FontAtlas::create()
 
     // clean up memory
     delete[] data;
-}
-
-bool FontAtlas::binPack(int texWidth, int texHeight)
-{
-    TreeNode* treeNode = TreeNode::getPool().allocate();
-    treeNode->set(0, 0, texWidth, texHeight);
-    for (int n = 0; n < (int) fontCharList.size(); n++)
-    {
-        if (!treeNode->add(fontCharList[n]))
-        {
-            return false;
-        }
-    }
-    return true;
 }

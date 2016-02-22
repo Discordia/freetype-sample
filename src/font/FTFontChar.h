@@ -75,12 +75,6 @@ private:
     //!
     void initTexCoords(int texWidth, int texHeight);
 
-    //!
-    //!
-    //!
-    FontBatchRenderer& getRenderer() const;
-
-
 private:
     int x;
     int y;
