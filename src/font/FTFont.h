@@ -36,17 +36,12 @@ public:
     //!
     //! TODO: could this not be part of the constructor?
     //!
-    void addChar(char chartCode, FTFontChar* fontChar);
+    void addChar(uint32_t chartCode, FTFontChar* fontChar);
 
     //!
     //!
     //!
-    void* getChar(char i);
-
-    //!
-    //!
-    //!
-    int getTotalNumPixels();
+    void* getChar(uint32_t c);
 
 private:
 
@@ -72,5 +67,5 @@ private:
     bool kerning;
 
     //!
-    unordered_map<int, FTFontChar*> fontCharList;
+    unordered_map<uint32_t, FTFontChar*> fontCharList;
 };

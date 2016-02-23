@@ -29,16 +29,15 @@ shared_ptr<FontGeometry> FTFont::calcVertices(int x, int y, const string& text, 
     unsigned long quads = text.length();
     TexturedVertex* vertices = new TexturedVertex[VERTICES_PER_QUAD * quads];
 
-    unordered_map<int, FTFontChar*>::const_iterator it;
+    unordered_map<uint32_t, FTFontChar*>::const_iterator it;
 
-    unsigned char c;
     int currX = x;
     FT_UInt glyph;
     FT_UInt glyphPrev = 0;
 
     for (int n = 0; text[n] != 0; n++)
     {
-        c = (unsigned char) text[n];
+        uint32_t c = static_cast<uint32_t>(text[n]);
         it = fontCharList.find(c);
 
         if (it != fontCharList.end())
@@ -64,14 +63,14 @@ shared_ptr<FontGeometry> FTFont::calcVertices(int x, int y, const string& text, 
     return shared_ptr<FontGeometry>(new FontGeometry(textureId, color, alpha, quads, vertices));
 }
 
-void FTFont::addChar(char charCode, FTFontChar* fontChar)
+void FTFont::addChar(uint32_t charCode, FTFontChar* fontChar)
 {
     fontCharList[charCode] = fontChar;
 }
 
-void* FTFont::getChar(char charCode)
+void* FTFont::getChar(uint32_t charCode)
 {
-    unordered_map<int, FTFontChar*>::const_iterator it = fontCharList.find(charCode);
+    unordered_map<uint32_t, FTFontChar*>::const_iterator it = fontCharList.find(charCode);
 
     if (it != fontCharList.end())
     {
@@ -79,17 +78,6 @@ void* FTFont::getChar(char charCode)
     }
 
     return nullptr;
-}
-
-int FTFont::getTotalNumPixels()
-{
-    int totalPixels = 0;
-    for (auto it = fontCharList.begin(); it != fontCharList.end(); ++it)
-    {
-        totalPixels += it->second->getNumPixels();
-    }
-
-    return totalPixels;
 }
 
 bool FTFont::hasKerning(FT_Face face)

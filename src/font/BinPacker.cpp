@@ -84,6 +84,7 @@ bool BinPackNode::add(FTFontChar* fontChar)
 
         return false;
     }
+
     if (leaf1->add(fontChar))
     {
         return true;

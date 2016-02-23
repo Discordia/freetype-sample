@@ -38,6 +38,11 @@ FontAtlas::~FontAtlas()
 {
     fontFiles.clear();
     fontList.clear();
+
+    for (auto it = fontCharList.begin(); it != fontCharList.end(); ++it)
+    {
+        delete *it;
+    }
     fontCharList.clear();
 
     if (library)
@@ -65,52 +70,51 @@ shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size,
     // FreeType Measures Font Size In Terms Of 1/64ths Of Pixels.
     FT_Set_Char_Size(face, size * 64, size * 64, 72, 72);
 
-    unsigned long len = letters.size();
-
     shared_ptr<FTFont> font = shared_ptr<FTFont>(new FTFont(face, textureId));
     fontList.push_back(font);
 
-    FTFontChar* fontChar;
     FT_Glyph pGlyph;
-    int ixGlyph;
+    unsigned int ixGlyph;
 
-    for (int n = 0; n < len; n++)
+    for (int n = 0; n < letters.size(); n++)
     {
-        char c = letters[n];
-
-        if (font->getChar(c) == NULL)
+        uint32_t c = static_cast<uint32_t>(letters[n]);
+        if (font->getChar(c) != nullptr)
         {
-            ixGlyph = FT_Get_Char_Index(face, c);
-            if (ixGlyph == 0)
-            {
-                LOGE("character doesn't exist in font: %c", c);
-            }
-            else
-            {
-                if (FT_Load_Glyph(face, ixGlyph, FT_LOAD_RENDER))
-                {
-                    LOGE("Failed to load the glyph for char c=%c.", c);
-                }
-
-                // Move The Face's Glyph Into A Glyph Object.
-                if (FT_Get_Glyph(face->glyph, &pGlyph))
-                {
-                    LOGE("Failed to load the glyph object for char c=%c.", c);
-                }
-
-
-                // all metrics dimensions are multiplied by 64, so we have to divide by 64
-                int xOffset = (int) face->glyph->metrics.horiBearingX >> 6;
-                int yOffset = (int) face->glyph->metrics.horiBearingY >> 6;
-                int width = (int) face->glyph->metrics.width >> 6;
-                int height = (int) face->glyph->metrics.height >> 6;
-                int xAdvance = (int) face->glyph->metrics.horiAdvance >> 6;
-
-                fontChar = new FTFontChar(c, width, height, xOffset, yOffset, xAdvance, pGlyph);
-                fontCharList.push_back(fontChar);
-                font->addChar(c, fontChar);
-            }
+            return shared_ptr<FTFont>();
         }
+
+        ixGlyph = FT_Get_Char_Index(face, c);
+        if (ixGlyph == 0)
+        {
+            LOGE("character doesn't exist in font: %c", c);
+            return shared_ptr<FTFont>();
+        }
+
+        if (FT_Load_Glyph(face, ixGlyph, FT_LOAD_RENDER))
+        {
+            LOGE("Failed to load the glyph for char c=%c.", c);
+            return shared_ptr<FTFont>();
+        }
+
+        // Move The Face's Glyph Into A Glyph Object.
+        if (FT_Get_Glyph(face->glyph, &pGlyph))
+        {
+            LOGE("Failed to load the glyph object for char c=%c.", c);
+            return shared_ptr<FTFont>();
+        }
+
+        // all metrics dimensions are multiplied by 64, so we have to divide by 64
+        int xOffset = (int) face->glyph->metrics.horiBearingX >> 6;
+        int yOffset = (int) face->glyph->metrics.horiBearingY >> 6;
+        int width = (int) face->glyph->metrics.width >> 6;
+        int height = (int) face->glyph->metrics.height >> 6;
+        int xAdvance = (int) face->glyph->metrics.horiAdvance >> 6;
+
+        // Create a new FTFontChar that represent one chartacter in the font
+        FTFontChar* fontChar = new FTFontChar(c, width, height, xOffset, yOffset, xAdvance, pGlyph);
+        fontCharList.push_back(fontChar);
+        font->addChar(c, fontChar);
     }
 
     return font;
@@ -123,19 +127,12 @@ bool greaterSizeComparator(FTFontChar* fontChar1, FTFontChar* fontChar2)
 
 void FontAtlas::create()
 {
-    int totalPixels = 0;
-    for (int n = 0; n < (int) fontList.size(); n++)
-    {
-        shared_ptr<FTFont> font = fontList[n];
-        totalPixels += font->getTotalNumPixels();
-    }
-
     sort(fontCharList.begin(), fontCharList.end(), greaterSizeComparator);
 
     BinPacker binPacker(Dimension(width, height));
     if (!binPacker.pack(fontCharList))
     {
-        LOGE("Failed to render glyphs to texture");
+        LOGE("Failed to render glyphs to texture. Glyphs did not fit.");
     }
 
     unsigned char* data = new unsigned char[width * height];

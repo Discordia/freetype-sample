@@ -3,7 +3,6 @@
 #include <core/desktop/GLWindow.h>
 #include "DesktopStreamFactory.h"
 
-// TODO :assert that windowSize and viewportSize has the same aspect ratio
 Application::Application(const string& title, const Dimension windowSize)
 {
     window = unique_ptr<GLWindow>(new GLWindow(title, windowSize, false));
