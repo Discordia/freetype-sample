@@ -28,7 +28,7 @@ FontAtlas::FontAtlas(shared_ptr<StreamFactory> streamFactory, int width, int hei
 
     if (FT_Init_FreeType(&library))
     {
-        LOGE("Error inializing Freetype2");
+        LOGE("Error initializing Freetype2");
     }
 
     glGenTextures(1, &textureId);
