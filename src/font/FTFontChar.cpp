@@ -1,12 +1,7 @@
 #include <font/FTFontChar.h>
-#include <font/FontBatchRenderer.h>
 
 #include <cassert>
-
 #include <ftglyph.h>
-#include <core/Log.h>
-
-#define LOG_TAG "FTFontChar"
 
 FTFontChar::FTFontChar(char charCode, int width, int height, int xOffset, int yOffset, int xAdvance, FT_GlyphRec_* glyph)
     : charCode(charCode), x(0), y(0), width(width), height(height), xOffset(xOffset), yOffset(yOffset), xAdvance(xAdvance), glyph(glyph)
