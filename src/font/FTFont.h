@@ -10,7 +10,6 @@ using std::unordered_map;
 
 struct FT_FaceRec_;
 class FTFontChar;
-class FontBatchRenderer;
 struct TexturedVertex;
 class FontGeometry;
 

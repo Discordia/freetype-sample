@@ -3,7 +3,6 @@
 #include <font/VertexTypes.h>
 
 struct FT_GlyphRec_;
-class FontBatchRenderer;
 
 const int VERTICES_PER_QUAD = 4;
 const int INDICES_PER_QUAD = 6;
