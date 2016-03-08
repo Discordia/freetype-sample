@@ -6,6 +6,7 @@
 
 using std::shared_ptr;
 using std::unique_ptr;
+using std::weak_ptr;
 
 class FTFont;
 class FontAtlas;
@@ -40,7 +41,7 @@ private:
     shared_ptr<FontAtlas> fontAtlas;
 
     //!
-    shared_ptr<FTFont> font;
+    weak_ptr<FTFont> font;
     shared_ptr<FontGeometry> neonText;
     shared_ptr<FontGeometry> foxText;
 

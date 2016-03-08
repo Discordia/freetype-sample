@@ -22,8 +22,9 @@ void Game::init(const Dimension& windowSize)
     font = fontAtlas->addFont("LiberationMono-Regular.ttf", 16, " !\"#&'()*,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ\\_abcdefghijklmnopqrstuvwxyz");
     fontAtlas->create();
 
-    neonText = font->calcVertices(10, 10, "NEON GENESIS EVANGELION", 0x000000, 1.0f);
-    foxText = font->calcVertices(10, 100, "The quick brown fox jumped over the lazy dog.", 0x000000, 1.0f);
+    shared_ptr<FTFont> fontPtr = font.lock();
+    neonText = fontPtr->calcVertices(10, 10, "NEON GENESIS EVANGELION", 0x000000, 1.0f);
+    foxText = fontPtr->calcVertices(10, 100, "The quick brown fox jumped over the lazy dog.", 0x000000, 1.0f);
 }
 
 void Game::render()

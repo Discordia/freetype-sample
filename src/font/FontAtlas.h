@@ -7,6 +7,7 @@
 using std::string;
 using std::vector;
 using std::shared_ptr;
+using std::weak_ptr;
 
 struct FT_LibraryRec_;
 class FTFont;
@@ -31,7 +32,7 @@ public:
     //!
     //!
     //!
-    shared_ptr<FTFont> addFont(const string& fontName, unsigned int size, const string& letters);
+    weak_ptr<FTFont> addFont(const string& fontName, unsigned int size, const string& letters);
 
     //!
     //!

@@ -52,7 +52,7 @@ FontAtlas::~FontAtlas()
     }
 }
 
-shared_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size, const string& letters)
+weak_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size, const string& letters)
 {
     FT_Face face;
 
