@@ -11,9 +11,10 @@ set(CMAKE_CXX_FLAGS
 
 # Dependencies
 add_subdirectory(deps/freetype)
+add_subdirectory(deps/app-framework/src/core)
 
 # Includes
-include_directories(src deps/freetype/include)
+include_directories(src deps/freetype/include deps/app-framework/src)
 
 # for android include native_app_glue
 if(ANDROID)
@@ -21,17 +22,8 @@ if(ANDROID)
 endif()
 
 set(SOURCE_FILES
-        src/Main.cpp
-        src/Game.cpp
-        src/core/BufferObject.cpp
-        src/core/Dimension.h
-        src/core/Log.cpp
-        src/core/OpenGL.cpp
-        src/core/ShaderObject.cpp
-        src/core/ShaderProgram.h
-        src/core/Time.h
-        src/core/Stream.h
-        src/core/StreamFactory.h
+        src/FontPrototype.cpp
+
         src/font/FontAtlas.cpp
         src/font/FontBatchRenderer.cpp
         src/font/FTFont.cpp
@@ -42,29 +34,12 @@ set(SOURCE_FILES
         src/font/BinPacker.h)
 
 if(ANDROID)
-  list(APPEND SOURCE_FILES
-          src/core/android/EGLWindow.cpp
-          src/core/android/Activity.cpp
-          src/core/android/AndroidStreamFactory.h
-          src/core/android/AssetStream.cpp
-          src/core/android/AssetStream.h
-    $ENV{ANDROID_NDK_HOME}/sources/android/native_app_glue/android_native_app_glue.c)
-
   add_library(freetype_sample SHARED ${SOURCE_FILES})
-  target_link_libraries(freetype_sample freetype log android EGL GLESv2 z)
+  target_link_libraries(freetype_sample app_framework_library freetype log android EGL GLESv2 z)
   set_target_properties(freetype_sample PROPERTIES COMPILE_DEFINITIONS "ANDROID")
 
   android_create_apk(freetype_sample "org.discordia.prototype.freetype" "${CMAKE_BINARY_DIR}/apk" "${CMAKE_SOURCE_DIR}/libs" "${CMAKE_SOURCE_DIR}/android" "${CMAKE_SOURCE_DIR}/assets")
 else()
-  list(APPEND SOURCE_FILES
-          src/core/desktop/GLWindow.cpp
-          src/core/desktop/GLWindow.h
-          src/core/desktop/Application.cpp
-          src/core/desktop/Application.h
-          src/core/desktop/FileStream.h
-          src/core/desktop/FileStream.cpp
-          src/core/desktop/DesktopStreamFactory.h)
-
   # GLFW
   find_package(PkgConfig REQUIRED)
   pkg_search_module(GLFW REQUIRED glfw3)
@@ -75,7 +50,7 @@ else()
 
 
   add_executable(freetype_sample ${SOURCE_FILES})
-  target_link_libraries(freetype_sample ${GLEW_SHARED_LIBRARY} freetype ${GLFW_STATIC_LIBRARIES})
+  target_link_libraries(freetype_sample app_framework_library ${GLEW_SHARED_LIBRARY} freetype ${GLFW_STATIC_LIBRARIES})
 
   # Copy assets
   add_custom_command(TARGET freetype_sample PRE_BUILD

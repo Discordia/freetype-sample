@@ -1,4 +1,4 @@
-#include <Game.h>
+#include <FontPrototype.h>
 #include <core/BufferObject.h>
 #include <core/ShaderProgram.h>
 #include <font/FontAtlas.h>
@@ -7,12 +7,17 @@
 
 #define LOG_TAG "Game"
 
-Game::Game(shared_ptr<StreamFactory> streamFactory)
+FontPrototype::FontPrototype(shared_ptr<StreamFactory> streamFactory)
     : streamFactory(streamFactory), renderer(new FontBatchRenderer())
+{
+    linkIssueFix();
+}
+
+FontPrototype::~FontPrototype()
 {
 }
 
-void Game::init(const Dimension& windowSize)
+void FontPrototype::init(const Dimension& windowSize)
 {
     glClearColor(1.0f, 0.20f, 0.60f, 1.0f);
 
@@ -27,10 +32,14 @@ void Game::init(const Dimension& windowSize)
     foxText = fontPtr->calcVertices(10, 100, "The quick brown fox jumped over the lazy dog.", 0x000000, 1.0f);
 }
 
-void Game::render()
+void FontPrototype::render()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
     renderer->render(neonText);
     renderer->render(foxText);
+}
+
+App* createApp(shared_ptr<StreamFactory> streamFactory) {
+    return new FontPrototype(streamFactory);
 }

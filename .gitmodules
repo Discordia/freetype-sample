@@ -1,3 +1,6 @@
 [submodule "deps/freetype"]
 	path = deps/freetype
 	url = https://github.com/Discordia/freetype.git
+[submodule "deps/app-framework"]
+	path = deps/app-framework
+	url = git@github.com:Discordia/app-framework.git

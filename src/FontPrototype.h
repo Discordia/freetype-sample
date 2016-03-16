@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <core/App.h>
 #include <core/Dimension.h>
 #include <font/FontGeometry.h>
 
@@ -13,14 +14,19 @@ class FontAtlas;
 class StreamFactory;
 class FontBatchRenderer;
 
-class Game
+class FontPrototype : public App
 {
 public:
 
     //!
     //!
     //!
-    Game(shared_ptr<StreamFactory> streamFactory);
+    FontPrototype(shared_ptr<StreamFactory> streamFactory);
+
+    //!
+    //!
+    //!
+    ~FontPrototype();
 
     //!
     //!
