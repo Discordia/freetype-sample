@@ -32,6 +32,11 @@ public:
     //!
     //!
     //!
+    void destroy();
+
+    //!
+    //!
+    //!
     void render(shared_ptr<FontGeometry> fontGeometry);
 
 private:

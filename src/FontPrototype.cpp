@@ -10,7 +10,7 @@
 FontPrototype::FontPrototype(shared_ptr<StreamFactory> streamFactory)
     : streamFactory(streamFactory), renderer(new FontBatchRenderer())
 {
-    linkIssueFix();
+    appDummy();
 }
 
 FontPrototype::~FontPrototype()
@@ -32,7 +32,16 @@ void FontPrototype::init(const Dimension& windowSize)
     foxText = fontPtr->calcVertices(10, 100, "The quick brown fox jumped over the lazy dog.", 0x000000, 1.0f);
 }
 
-void FontPrototype::render()
+void FontPrototype::destroy()
+{
+    neonText.reset();
+    foxText.reset();
+    fontAtlas.reset();
+
+    renderer->destroy();
+}
+
+void FontPrototype::render(float frameTime)
 {
     glClear(GL_COLOR_BUFFER_BIT);
 

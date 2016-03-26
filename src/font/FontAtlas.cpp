@@ -18,7 +18,7 @@
 
 using std::sort;
 
-#define LOG_TAG "FontAtlas"
+static const Logger LOGGER = Logger::create("FontAtlas");
 
 FontAtlas::FontAtlas(shared_ptr<StreamFactory> streamFactory, int width, int height)
     : streamFactory(streamFactory)
@@ -28,7 +28,7 @@ FontAtlas::FontAtlas(shared_ptr<StreamFactory> streamFactory, int width, int hei
 
     if (FT_Init_FreeType(&library))
     {
-        LOGE("Error initializing Freetype2");
+        LOGGER.logf(LOG_ERROR, "Error initializing Freetype2");
     }
 
     glGenTextures(1, &textureId);
@@ -63,7 +63,7 @@ weak_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size, c
 
     if (FT_Error error = FT_New_Memory_Face(library, (FT_Byte*) fontData, fontFile->size(), 0, &face))
     {
-        LOGE("Failed to load font.");
+        LOGGER.logf(LOG_ERROR, "Failed to load font.");
         return shared_ptr<FTFont>();
     }
 
@@ -87,20 +87,20 @@ weak_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size, c
         ixGlyph = FT_Get_Char_Index(face, c);
         if (ixGlyph == 0)
         {
-            LOGE("character doesn't exist in font: %c", c);
+            LOGGER.logf(LOG_ERROR, "character doesn't exist in font: %c", c);
             return shared_ptr<FTFont>();
         }
 
         if (FT_Load_Glyph(face, ixGlyph, FT_LOAD_RENDER))
         {
-            LOGE("Failed to load the glyph for char c=%c.", c);
+            LOGGER.logf(LOG_ERROR, "Failed to load the glyph for char c=%c.", c);
             return shared_ptr<FTFont>();
         }
 
         // Move The Face's Glyph Into A Glyph Object.
         if (FT_Get_Glyph(face->glyph, &pGlyph))
         {
-            LOGE("Failed to load the glyph object for char c=%c.", c);
+            LOGGER.logf(LOG_ERROR, "Failed to load the glyph object for char c=%c.", c);
             return shared_ptr<FTFont>();
         }
 
@@ -132,7 +132,7 @@ void FontAtlas::create()
     BinPacker binPacker(Dimension(width, height));
     if (!binPacker.pack(fontCharList))
     {
-        LOGE("Failed to render glyphs to texture. Glyphs did not fit.");
+        LOGGER.logf(LOG_ERROR, "Failed to render glyphs to texture. Glyphs did not fit.");
     }
 
     unsigned char* data = new unsigned char[width * height];
@@ -154,7 +154,7 @@ void FontAtlas::create()
     int err = glGetError();
     if (err != GL_NO_ERROR)
     {
-        LOGE("Error in glTexImage2D: %i", err);
+        LOGGER.logf(LOG_ERROR, "Error in glTexImage2D: %i", err);
     }
 
     // clean up memory

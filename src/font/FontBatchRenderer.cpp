@@ -7,7 +7,7 @@
 
 #include <cassert>
 
-#define LOG_TAG "FontBatchRenderer"
+static const Logger LOGGER = Logger::create("FontBatchRenderer");
 
 const int VERTEX_STRIDE = 4;
 
@@ -74,15 +74,15 @@ void FontBatchRenderer::init(const Dimension& windowSize)
     shader = ShaderProgram::create();
 
     shared_ptr<ShaderObject> vertexShader = ShaderObject::create(GL_VERTEX_SHADER, texVertexShader);
-    if (!vertexShader->isCompiled()) LOGE("Vertext shader failed to compile.");
+    if (!vertexShader->isCompiled()) LOGGER.logf(LOG_ERROR, "Vertext shader failed to compile.");
     shader->attachShader(vertexShader);
 
     shared_ptr<ShaderObject> fragmentShader = ShaderObject::create(GL_FRAGMENT_SHADER, texFragShader);
-    if (!fragmentShader->isCompiled()) LOGE("Fragment shader failed to compile.");
+    if (!fragmentShader->isCompiled()) LOGGER.logf(LOG_ERROR, "Fragment shader failed to compile.");
     shader->attachShader(fragmentShader);
 
     shader->link();
-    if (!shader->isLinked()) LOGE("Shader failed to link");
+    if (!shader->isLinked()) LOGGER.logf(LOG_ERROR, "Shader failed to link");
 
     // Bind vPosition to attribute 0
     glBindAttribLocation(shader->getProgramId(), 0, "position");
@@ -105,6 +105,13 @@ void FontBatchRenderer::init(const Dimension& windowSize)
     glUniformMatrix4fv(projectionLoc, 1, 0, ortho);
 }
 
+void FontBatchRenderer::destroy()
+{
+    shader.reset();
+    indexBuffer.reset();
+    vertexBuffer.reset();
+}
+
 void FontBatchRenderer::render(shared_ptr<FontGeometry> fontGeometry)
 {
     const unsigned int& textureId = fontGeometry->getTextureId();
@@ -112,7 +119,7 @@ void FontBatchRenderer::render(shared_ptr<FontGeometry> fontGeometry)
     const float& alpha = fontGeometry->getAlpha();
     const int& quads = fontGeometry->getNrQuads();
     TexturedVertex* vertices = fontGeometry->getVertices();
-    
+
     vertexBuffer->fill(0, quads * VERTICES_PER_QUAD * VERTEX_STRIDE * sizeof(float), &vertices[0]);
     if (quads == 0) return;
     assert(quads * INDICES_PER_QUAD < 0xffff);
@@ -156,3 +163,5 @@ void FontBatchRenderer::render(shared_ptr<FontGeometry> fontGeometry)
     // Draw
     glDrawElements(GL_TRIANGLES, (GLsizei)(quads * INDICES_PER_QUAD), GL_UNSIGNED_BYTE, 0);
 }
+
+

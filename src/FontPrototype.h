@@ -31,12 +31,17 @@ public:
     //!
     //!
     //!
-    void init(const Dimension& windowSize);
+    void init(const Dimension& windowSize) override;
 
     //!
     //!
     //!
-    void render();
+    void destroy() override;
+
+    //!
+    //!
+    //!
+    void render(float frameTime) override;
 
 private:
 
