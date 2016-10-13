@@ -7,7 +7,7 @@ endif()
 
 # compiler flags
 set(CMAKE_CXX_FLAGS
-  "-std=c++11 -ffor-scope -fno-exceptions -pipe -ffunction-sections -fdata-sections -ffast-math -pedantic -Werror -Wnon-virtual-dtor -Wsign-promo -fvisibility=hidden -fvisibility-inlines-hidden -Wstrict-null-sentinel -Os -funroll-all-loops -fpeel-loops -ftree-vectorize")
+        "-std=c++11 -ffor-scope -fno-exceptions -pipe -ffunction-sections -fdata-sections -ffast-math -pedantic -Werror -Wnon-virtual-dtor -Wsign-promo -fvisibility=hidden -fvisibility-inlines-hidden -Os -ftree-vectorize")
 
 # Dependencies
 add_subdirectory(deps/freetype)
@@ -23,7 +23,6 @@ endif()
 
 set(SOURCE_FILES
         src/FontPrototype.cpp
-
         src/font/FontAtlas.cpp
         src/font/FontBatchRenderer.cpp
         src/font/FTFont.cpp
@@ -39,6 +38,18 @@ if(ANDROID)
   set_target_properties(freetype_sample PROPERTIES COMPILE_DEFINITIONS "ANDROID")
 
   android_create_apk(freetype_sample "org.discordia.prototype.freetype" "${CMAKE_BINARY_DIR}/apk" "${CMAKE_SOURCE_DIR}/libs" "${CMAKE_SOURCE_DIR}/android" "${CMAKE_SOURCE_DIR}/assets")
+elseif(APPLE)
+  # GLFW
+  find_package(glfw3 REQUIRED)
+  include_directories(${GLFW_INCLUDE_DIRS})
+
+  find_package(GLEW REQUIRED)
+  include_directories(${GLEW_INCLUDE_DIRS})
+
+  # app_framework executable
+  add_executable(freetype_sample ${SOURCE_FILES})
+  target_link_libraries(freetype_sample app_framework_library freetype ${GLEW_LIBRARY} glfw3)
+  target_link_libraries(freetype_sample "-framework OpenGL")
 else()
   # GLFW
   find_package(PkgConfig REQUIRED)
@@ -48,10 +59,11 @@ else()
   # GLEW
   set(GLEW_SHARED_LIBRARY "/usr/lib/x86_64-linux-gnu/libGLEW.so")
 
-
   add_executable(freetype_sample ${SOURCE_FILES})
   target_link_libraries(freetype_sample app_framework_library ${GLEW_SHARED_LIBRARY} freetype ${GLFW_STATIC_LIBRARIES})
+endif()
 
+if (NOT ANDROID)
   # Copy assets
   add_custom_command(TARGET freetype_sample PRE_BUILD
     COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_BINARY_DIR}/assets")
