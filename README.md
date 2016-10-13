@@ -13,26 +13,25 @@ Can read font and draw text.
 Building
 ========================================================
 
-Build instructions using cmake on various platforms. Note that I'm developing 
-on Linux Mint and the instruction do probably have to change a bit if using 
-Windows or OSX but should be similar.
+Build instructions using cmake on various platforms. Note that it only builds on Linux Mint and OS X today. I have not
+tried to build it on Windows. On OS X it runs but at the moment does not render font.
 
 Directly after clone do:
 
 * git submodule init
 * git submodule update
 
-To clone freetype2 into the submodule under deps/
+To clone app-framework and freetype2 into the submodule under deps/
 
 **Desktop**
 
-I have only built it on Linux Mint but should be trivial to build on Windows and OSX 
+I have only built it on Linux Mint and OS X but should be trivial to build on Windows
 since I'm using GLFW3 and GLEW to abstract away OS differences. But that might be 
 famous last words.
 
 To get it to build you need binaries of GLEW and GLFW3 and make sure that they are 
 declared with correct paths in CMakeLists.txt. Right now they are setup where they 
-install from the package manager on Linux Mint.
+install from the apt package manager on Linux Mint and homebrew on OS X.
 
 To build do (after clone):
 
