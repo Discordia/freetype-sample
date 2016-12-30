@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <font/VertexTypes.h>
 
 struct FT_GlyphRec_;
@@ -75,14 +76,14 @@ private:
     void initTexCoords(int texWidth, int texHeight);
 
 private:
-    int x;
-    int y;
+    uint32_t x;
+    uint32_t y;
     int charCode;
-    int width;
-    int height;
-    int xOffset;
-    int yOffset;
-    int xAdvance;
+    uint32_t width;
+    uint32_t height;
+    int32_t xOffset;
+    int32_t yOffset;
+    int32_t xAdvance;
 
     float texCoords[VERTICES_PER_QUAD * COMP_VERT_POS];
 

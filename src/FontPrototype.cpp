@@ -8,7 +8,7 @@
 #define LOG_TAG "Game"
 
 FontPrototype::FontPrototype(shared_ptr<StreamFactory> streamFactory)
-    : streamFactory(streamFactory), renderer(new FontBatchRenderer())
+    : renderer(new FontBatchRenderer()), streamFactory(streamFactory)
 {
     appDummy();
 }

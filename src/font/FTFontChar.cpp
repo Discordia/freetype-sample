@@ -4,7 +4,7 @@
 #include <ftglyph.h>
 
 FTFontChar::FTFontChar(char charCode, int width, int height, int xOffset, int yOffset, int xAdvance, FT_GlyphRec_* glyph)
-    : charCode(charCode), x(0), y(0), width(width), height(height), xOffset(xOffset), yOffset(yOffset), xAdvance(xAdvance), glyph(glyph)
+    : x(0), y(0), charCode(charCode), width(width), height(height), xOffset(xOffset), yOffset(yOffset), xAdvance(xAdvance), glyph(glyph)
 {
 }
 
@@ -56,7 +56,7 @@ void FTFontChar::drawToBitmap(unsigned char* data, int texWidth, int texHeight)
     assert(bitmap.width == width);
     assert(bitmap.rows == height);
 
-    int x, y = 0;
+    uint32_t x, y = 0;
     int index;
 
     for (y = 0; y < bitmap.rows; y++)

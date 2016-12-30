@@ -61,7 +61,8 @@ weak_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size, c
     char* fontData = new char[fontFile->size()];
     fontFile->read(fontData, fontFile->size());
 
-    if (FT_Error error = FT_New_Memory_Face(library, (FT_Byte*) fontData, fontFile->size(), 0, &face))
+    FT_Error error = FT_New_Memory_Face(library, (FT_Byte*) fontData, fontFile->size(), 0, &face);
+    if (error)
     {
         LOGGER.logf(LOG_ERROR, "Failed to load font.");
         return shared_ptr<FTFont>();
@@ -76,7 +77,7 @@ weak_ptr<FTFont> FontAtlas::addFont(const string& fontName, unsigned int size, c
     FT_Glyph pGlyph;
     unsigned int ixGlyph;
 
-    for (int n = 0; n < letters.size(); n++)
+    for (uint32_t n = 0; n < letters.size(); n++)
     {
         uint32_t c = static_cast<uint32_t>(letters[n]);
         if (font->getChar(c) != nullptr)

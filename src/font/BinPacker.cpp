@@ -32,12 +32,12 @@ bool BinPacker::pack(vector<FTFontChar*> fontCharList)
 ///////////////////////////////////////////////////////////////
 
 BinPackNode::BinPackNode()
-    : leaf1(nullptr), leaf2(nullptr), x(0), y(0), width(0), height(0)
+    : x(0), y(0), width(0), height(0), leaf1(nullptr), leaf2(nullptr)
 {
 }
 
 BinPackNode::BinPackNode(int x, int y, int width, int height)
-        : leaf1(nullptr), leaf2(nullptr), x(x), y(y), width(width), height(height)
+        : x(x), y(y), width(width), height(height), leaf1(nullptr), leaf2(nullptr)
 {
 }
 
